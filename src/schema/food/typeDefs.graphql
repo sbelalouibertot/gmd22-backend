@@ -1,0 +1,25 @@
+type Food {
+  id: String
+  name: String
+  type: FoodType
+}
+
+enum FoodType {
+  MEET
+}
+
+type Query {
+  foodItems: foodItemsOutput
+}
+
+type foodItemsOutput {
+  foodItems: [Food!]!
+}
+
+type Mutation {
+  deleteFood(id: String!): foodOutput
+}
+
+type foodOutput {
+  food: Food
+}

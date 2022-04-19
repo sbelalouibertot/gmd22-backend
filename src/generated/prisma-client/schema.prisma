@@ -1,0 +1,168 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../src/generated/prisma-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Recipe ---
+model Recipe {
+  id                  String              @id @default(cuid()) @db.VarChar(30)
+  name                String              @db.VarChar(150)
+  preparationDuration Int                 @map("preparation_duration")
+  cookingDuration     Int                 @map("cooking_duration")
+  recipeEvents        RecipeEvent[]
+  recipeInstructions  RecipeInstruction[]
+
+  @@map("recipes")
+}
+
+model RecipeInstructionFood {
+  id                  String            @id @default(cuid()) @db.VarChar(30)
+  recipeInstructionId String            @map("recipe_instruction_id") @db.VarChar(30)
+  foodId              String            @map("food_id") @db.VarChar(30)
+  quantity            Int
+  quantityUnit        String            @map("quantity_unit") @db.VarChar(30)
+  recipeInstruction   RecipeInstruction @relation(fields: [recipeInstructionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  food                Food              @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("recipes_instructions_food")
+}
+
+model RecipeEvent {
+  id         String   @id @default(cuid()) @db.VarChar(30)
+  recipeId   String   @map("recipe_id") @db.VarChar(30)
+  eventId    String   @map("event_id") @db.VarChar(30)
+  finishedAt DateTime @map("finished_at")
+  recipe     Recipe   @relation(fields: [recipeId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  event      Event    @relation(fields: [eventId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("recipes_events")
+}
+
+model RecipeInstruction {
+  id                     String                  @id @default(cuid()) @db.VarChar(30)
+  description            String                  @db.VarChar(500)
+  recipeId               String                  @map("recipe_id") @db.VarChar(30)
+  duration               Int
+  recipe                 Recipe                  @relation(fields: [recipeId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  recipeInstructionFoods RecipeInstructionFood[]
+
+  @@map("recipes_instructions")
+}
+
+// Shopping list ---
+model ShoppingList {
+  id                 String              @id @default(cuid()) @db.VarChar(30)
+  name               String              @db.VarChar(150)
+  createdAt          DateTime            @default(now()) @map("created_at")
+  shoppingListEvents ShoppingListEvent[]
+  shoppingListFoods  ShoppingListFood[]
+
+  @@map("shopping_lists")
+}
+
+model ShoppingListEvent {
+  id             String       @id @default(cuid()) @db.VarChar(30)
+  shoppingListId String       @map("shopping_list_id") @db.VarChar(30)
+  eventId        String       @map("event_id") @db.VarChar(30)
+  finishedAt     DateTime     @map("finished_at")
+  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  event          Event        @relation(fields: [eventId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("shopping_lists_events")
+}
+
+model ShoppingListFood {
+  id             String       @id @default(cuid()) @db.VarChar(30)
+  shoppingListId String       @map("shopping_list_id") @db.VarChar(30)
+  foodId         String       @map("food_id") @db.VarChar(30)
+  isChecked      Boolean      @map("is_checked")
+  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  food           Food         @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("shopping_lists_food")
+}
+
+// Food ---
+model Food {
+  id                         String                  @id @default(cuid()) @db.VarChar(30)
+  name                       String                  @db.VarChar(100)
+  type                       FoodType
+  recipeInstructionFoodItems RecipeInstructionFood[]
+  shoppingListFoodItems      ShoppingListFood[]
+
+  @@map("food")
+}
+
+// Quantity ---
+model QuantityUnit {
+  type         String           @id @db.VarChar(30)
+  standardUnit StandardUnitType @map("standard_unit")
+  value        Float
+
+  @@map("quantity_units")
+}
+
+// Event ---
+model Event {
+  id                 String              @id @default(cuid()) @db.VarChar(30)
+  type               EventType
+  userId             String              @map("user_id") @db.VarChar(30)
+  date               DateTime
+  user               User                @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  recipeEvents       RecipeEvent[]
+  shoppingListEvents ShoppingListEvent[]
+
+  @@map("events")
+}
+
+// User ---
+model User {
+  id              String           @id @default(cuid()) @db.VarChar(30)
+  username        String           @db.VarChar(30)
+  firstName       String           @map("first_name") @db.VarChar(50)
+  events          Event[]
+  userPreferences UserPreference[]
+
+  @@map("users")
+}
+
+model UserPreference {
+  id     String             @id @default(cuid()) @db.VarChar(30)
+  userId String             @map("user_id") @db.VarChar(30)
+  type   UserPreferenceType
+  value  Int
+  user   User               @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("users_preferences")
+}
+
+// Enums ---
+enum UserPreferenceType {
+  MAX_RECIPES_PER_WEEK
+  SHOPPING_WEEKS_INTERVAL
+}
+
+enum EventType {
+  SHOPPING
+  PREPARATION
+}
+
+enum FoodType {
+  MEET
+}
+
+enum StandardUnitType {
+  g
+  mg
+  kg
+  L
+  mL
+}
