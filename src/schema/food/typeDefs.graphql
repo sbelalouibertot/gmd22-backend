@@ -17,7 +17,7 @@ type foodItemsOutput {
 }
 
 type Mutation {
-  deleteFood(id: String!): foodOutput
+  deleteFoodItem(id: String!): foodOutput
 }
 
 type foodOutput {

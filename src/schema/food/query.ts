@@ -8,7 +8,9 @@ export default {
       {},
       ctx: GraphqlContext
     ): Promise<{ foodItems: Food[] }> => {
-      const foodItems = await ctx.prisma.food.findMany();
+      //const foodItems = await ctx.prisma.food.findMany();
+      const foodItems = (await ctx.prisma.$queryRaw`SELECT * from food`) as Food[];
+      console.log('foodItems = ', foodItems)
       return { foodItems };
     },
   },

@@ -13,7 +13,7 @@ const schema = makeExecutableSchema({
   resolvers: getResolvers(),
 });
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ log: [{ emit: "event", level: "query" }] });
 
 const server = new ApolloServer({
   schema,
@@ -21,8 +21,10 @@ const server = new ApolloServer({
     ...request,
     prisma,
   }),
+  debug : true,
+  introspection: true,
   plugins: [
-    process.env.NODE_ENV === "production"
+    false /*process.env.NODE_ENV === "production"*/
       ? ApolloServerPluginLandingPageDisabled()
       : ApolloServerPluginLandingPageGraphQLPlayground(),
   ],
