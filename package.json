@@ -7,7 +7,7 @@
     "commit": "cz",
     "start": "dotenv -- nodemon -e ts,graphql -x ts-node src/index.ts",
     "debug": "dotenv -- nodemon -e ts,graphql -x ts-node --inspect src/index.ts",
-    "build": "rm -rf dist  && rimraf dist && tsc -p tsconfig.prod.json && copyfiles --up 1 'src/**/*.{graphql,json,pdf,prisma}' dist && copyfiles --up 1 'prisma/rpi-builds/*' dist",
+    "build": "rm -rf dist  && rimraf dist && tsc -p tsconfig.prod.json && copyfiles --up 1 'src/**/*.{graphql,json,pdf,prisma}' dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
