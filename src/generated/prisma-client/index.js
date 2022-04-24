@@ -225,18 +225,9 @@ const config = {
       "fromEnvVar": null
     },
     "config": {
-      "engineType": "binary"
+      "engineType": "library"
     },
-    "binaryTargets": [
-      {
-        "fromEnvVar": null,
-        "value": "darwin-arm64"
-      },
-      {
-        "fromEnvVar": null,
-        "value": "darwin-arm64"
-      }
-    ],
+    "binaryTargets": [],
     "previewFeatures": [],
     "isCustomOutput": true
   },
@@ -268,7 +259,7 @@ const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
-path.join(__dirname, "query-engine-darwin-arm64");
-path.join(process.cwd(), "src/generated/prisma-client/query-engine-darwin-arm64")
+path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
+path.join(process.cwd(), "src/generated/prisma-client/libquery_engine-darwin-arm64.dylib.node")
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma-client/schema.prisma")
