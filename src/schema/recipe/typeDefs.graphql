@@ -1,0 +1,158 @@
+# Recipe
+type Recipe {
+  id: String
+  name: String
+  preparationDuration: Int
+  cookingDuration: Int
+}
+
+type RecipeOutput {
+  recipe: Recipe
+}
+
+type RecipesOutput {
+  recipes: Recipe[]
+}
+
+input RecipeInput {
+  recipe: Recipe
+}
+
+type Query {
+  nextRecipe(userId: ID!): RecipeOutput
+  recipes: RecipesOutput
+  recipe(id: ID!): RecipeOutput
+}
+
+type Mutation {
+  newRecipe(recipeInput: RecipeInput): RecipeOutput
+  replaceRecipe(id: ID!, eventId: ID!): RecipeOutput
+}
+
+# Shopping list
+type ShoppingList {
+  id: String
+  name: String
+}
+
+type ShoppingListOutput {
+  shoppingList: ShoppingList
+}
+
+type ShoppingListsOutput {
+  shoppingLists: ShoppingList[]
+}
+
+type Query {
+shoppingList(id: ID!): ShoppingListOutput
+shoppingLists(userId: ID!): ShoppingListsOutput
+nextShoppingList(userId: ID!): ShoppingListOutput
+}
+
+# User
+enum UserPreferenceType {
+  MAX_RECIPES_PER_WEEK
+  SHOPPING_WEEKS_INTERVAL
+}
+
+type UserPreference {
+  id: String
+  userId: String
+  type: UserPreferenceType
+  value: Int
+}
+
+type UserPreferencesOutput {
+  userPreferences: UserPreference[]
+}
+
+input UserPreferencesInput {
+  userPreferences: UserPreference[]
+}
+
+type Query {
+userPreferences(userId: ID): UserPreferencesOutput
+}
+
+type Mutation {
+  updateUserPreferences(userPreferencesInput: UserPreferencesInput): UserPreferencesOutput
+}
+
+# Event
+enum EventType {
+  SHOPPING
+  PREPARATION
+}
+
+type Event {
+  id: String
+  type: EventType
+  userId: String
+  date: DateTime
+}
+
+type EventsOutput {
+  events: Event[]
+}
+
+type EventOutput {
+  event: Event
+}
+
+input EventInput {
+  event: Event
+}
+
+type Query {
+events(userId: ID) : EventsOutput
+event(id: ID): EventOutput
+nextEvent(userId: ID): EventOutput
+}
+type Mutation {
+updateEvent(id: ID, eventInput: EventInput ): EventOutput
+}
+
+# Food
+type Food {
+  id: String
+  name: String
+  type: FoodType
+}
+
+enum FoodType {
+  CEREALS_AND_DERIVED
+  FRUIT
+  INGREDIENT
+  VEGETABLE
+  LEGUME
+  FATS
+  OILS
+  NUTS_AND_SEEDS
+  FISH
+  POTATOES
+  AGRICULTURAL_PRODUCTS
+  DAIRY_PRODUCTS
+  SAUCES
+  DRESSING
+  SODAS
+  DRINKS
+  JUICES
+  MEATS
+}
+
+type Query {
+  foodItems: FoodItemsOutput
+}
+
+type FoodItemsOutput {
+  foodItems: [Food!]!
+}
+
+type Mutation {
+  deleteFoodItem(id: String!): FoodOutput
+  toggleCheckShoppingListFood(id: ID): FoodOutput
+}
+
+type FoodOutput {
+  food: Food
+}

@@ -2,8 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider      = "prisma-client-js"
-  output        = "../src/generated/prisma-client"
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma-client"
 }
 
 datasource db {
@@ -156,7 +156,24 @@ enum EventType {
 }
 
 enum FoodType {
-  MEET
+  CEREALS_AND_DERIVED
+  FRUIT
+  INGREDIENT
+  VEGETABLE
+  LEGUME
+  FATS
+  OILS
+  NUTS_AND_SEEDS
+  FISH
+  POTATOES
+  AGRICULTURAL_PRODUCTS
+  DAIRY_PRODUCTS
+  SAUCES
+  DRESSING
+  SODAS
+  DRINKS
+  JUICES
+  MEATS
 }
 
 enum StandardUnitType {

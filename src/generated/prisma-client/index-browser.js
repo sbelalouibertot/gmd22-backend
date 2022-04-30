@@ -167,7 +167,24 @@ exports.Prisma.QueryMode = makeEnum({
   insensitive: 'insensitive'
 });
 exports.FoodType = makeEnum({
-  MEET: 'MEET'
+  CEREALS_AND_DERIVED: 'CEREALS_AND_DERIVED',
+  FRUIT: 'FRUIT',
+  INGREDIENT: 'INGREDIENT',
+  VEGETABLE: 'VEGETABLE',
+  LEGUME: 'LEGUME',
+  FATS: 'FATS',
+  OILS: 'OILS',
+  NUTS_AND_SEEDS: 'NUTS_AND_SEEDS',
+  FISH: 'FISH',
+  POTATOES: 'POTATOES',
+  AGRICULTURAL_PRODUCTS: 'AGRICULTURAL_PRODUCTS',
+  DAIRY_PRODUCTS: 'DAIRY_PRODUCTS',
+  SAUCES: 'SAUCES',
+  DRESSING: 'DRESSING',
+  SODAS: 'SODAS',
+  DRINKS: 'DRINKS',
+  JUICES: 'JUICES',
+  MEATS: 'MEATS'
 });
 
 exports.StandardUnitType = makeEnum({

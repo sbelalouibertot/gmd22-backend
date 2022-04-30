@@ -150,7 +150,24 @@ export type UserPreference = {
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
 export const FoodType: {
-  MEET: 'MEET'
+  CEREALS_AND_DERIVED: 'CEREALS_AND_DERIVED',
+  FRUIT: 'FRUIT',
+  INGREDIENT: 'INGREDIENT',
+  VEGETABLE: 'VEGETABLE',
+  LEGUME: 'LEGUME',
+  FATS: 'FATS',
+  OILS: 'OILS',
+  NUTS_AND_SEEDS: 'NUTS_AND_SEEDS',
+  FISH: 'FISH',
+  POTATOES: 'POTATOES',
+  AGRICULTURAL_PRODUCTS: 'AGRICULTURAL_PRODUCTS',
+  DAIRY_PRODUCTS: 'DAIRY_PRODUCTS',
+  SAUCES: 'SAUCES',
+  DRESSING: 'DRESSING',
+  SODAS: 'SODAS',
+  DRINKS: 'DRINKS',
+  JUICES: 'JUICES',
+  MEATS: 'MEATS'
 };
 
 export type FoodType = (typeof FoodType)[keyof typeof FoodType]
