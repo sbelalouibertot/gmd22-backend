@@ -23,3 +23,7 @@ EOSSH
 
 # If crashed : 
 #sudo docker stop $(sudo docker ps -q  --filter ancestor=$TARGET_DOCKER_IMAGE_NAME)
+
+# Locally run database : 
+# brew services start postgresql
+# brew services stop postgresql

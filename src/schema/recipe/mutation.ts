@@ -6,10 +6,10 @@ export default {
   Mutation: {
     newRecipe: async (
       _: unknown,
-      { recipeInput }: { recipeInput: Recipe },
+      { recipeInput }: { recipeInput: {recipe: Recipe} },
       ctx: GraphqlContext
     ): Promise<{ recipe: Recipe }> => {
-      const recipe = await ctx.prisma.recipe.create({data: recipeInput})
+      const recipe = await ctx.prisma.recipe.create({data: recipeInput.recipe})
       return { recipe };
     },
     replaceRecipe: async (

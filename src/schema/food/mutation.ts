@@ -1,4 +1,5 @@
-import { Food } from "@prisma/client";
+
+import { Food } from "generated/prisma-client";
 import { GraphqlContext } from ".././types";
 
 export default {

@@ -1,5 +1,21 @@
 # Recipe
+type RecipeInstruction {
+  id: ID
+  description: String
+  recipeId: ID
+  duration: Int
+  foodItems: [Food]
+}
+
 type Recipe {
+  id: String
+  name: String
+  preparationDuration: Int
+  cookingDuration: Int
+  recipeInstructions: [RecipeInstruction]
+}
+
+input RecipeInput {
   id: String
   name: String
   preparationDuration: Int
@@ -11,11 +27,7 @@ type RecipeOutput {
 }
 
 type RecipesOutput {
-  recipes: Recipe[]
-}
-
-input RecipeInput {
-  recipe: Recipe
+  recipes: [Recipe]
 }
 
 type Query {
@@ -40,7 +52,7 @@ type ShoppingListOutput {
 }
 
 type ShoppingListsOutput {
-  shoppingLists: ShoppingList[]
+  shoppingLists: [ShoppingList]
 }
 
 type Query {
@@ -62,20 +74,24 @@ type UserPreference {
   value: Int
 }
 
-type UserPreferencesOutput {
-  userPreferences: UserPreference[]
+input UserPreferenceInput{
+  id: String
+  userId: String
+  type: UserPreferenceType
+  value: Int
 }
 
-input UserPreferencesInput {
-  userPreferences: UserPreference[]
+
+type UserPreferencesOutput {
+  userPreferences: [UserPreference]
 }
 
 type Query {
-userPreferences(userId: ID): UserPreferencesOutput
+userPreferences(userId: ID): [UserPreferencesOutput]
 }
 
 type Mutation {
-  updateUserPreferences(userPreferencesInput: UserPreferencesInput): UserPreferencesOutput
+  updateUserPreferences(userPreferencesInput: [UserPreferenceInput]): UserPreferencesOutput
 }
 
 # Event
@@ -91,17 +107,21 @@ type Event {
   date: DateTime
 }
 
+input EventInput {
+  id: String
+  type: EventType
+  userId: String
+  date: DateTime
+}
+
 type EventsOutput {
-  events: Event[]
+  events: [Event]
 }
 
 type EventOutput {
   event: Event
 }
 
-input EventInput {
-  event: Event
-}
 
 type Query {
 events(userId: ID) : EventsOutput

@@ -26,7 +26,12 @@ enum FoodType {
 }
 
 type Query {
-  foodItems: foodItemsOutput
+  foodItem(id: ID!) : FoodItemOutput
+  foodItems: FoodItemsOutput
+}
+
+type FoodItemOutput {
+  foodItem: Food
 }
 
 type FoodItemsOutput {
@@ -37,6 +42,3 @@ type Mutation {
   deleteFoodItem(id: String!): FoodOutput
 }
 
-type FoodOutput {
-  food: Food
-}
