@@ -30,15 +30,23 @@ export default {
           },
         })
       )?.recipe ?? null;
-  
+
       return { recipe };
     },
     recipes: async (
       _: unknown,
-      {},
+      { },
       ctx: GraphqlContext
     ): Promise<{ recipes: Recipe[] | null }> => {
       const recipes = await ctx.prisma.recipe.findMany();
+      return { recipes };
+    },
+    foodRecipes: async (
+      _: unknown,
+      { foodId }: { foodId: string },
+      ctx: GraphqlContext
+    ): Promise<{ recipes: Recipe[] | null }> => {
+      const recipes = await ctx.prisma.recipe.findMany({ where: { recipeInstructions: { some: { recipeInstructionFoods: { some: { foodId } } } } } });
       return { recipes };
     },
   },

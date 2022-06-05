@@ -10,5 +10,5 @@ export default {
         ): Promise<RecipeInstruction[]> =>
           ctx.prisma.recipeInstruction.findMany({
             where: { recipeId: parent.id },
-          }),
+          }), //TODO: remove findMany
       }}

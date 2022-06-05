@@ -16,7 +16,6 @@ type Recipe {
 }
 
 input RecipeInput {
-  id: String
   name: String
   preparationDuration: Int
   cookingDuration: Int
@@ -32,8 +31,9 @@ type RecipesOutput {
 
 type Query {
   nextRecipe(userId: ID!): RecipeOutput
-  recipes: RecipesOutput
   recipe(id: ID!): RecipeOutput
+  recipes: RecipesOutput
+  foodRecipes(foodId: ID!): RecipesOutput
 }
 
 type Mutation {
@@ -87,7 +87,7 @@ type UserPreferencesOutput {
 }
 
 type Query {
-userPreferences(userId: ID): [UserPreferencesOutput]
+userPreferences(userId: ID): UserPreferencesOutput
 }
 
 type Mutation {

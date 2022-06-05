@@ -1,6 +1,5 @@
 import { Request } from "express";
-
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "generated/prisma-client";
 
 export type GraphqlContext = {
   prisma: PrismaClient;
