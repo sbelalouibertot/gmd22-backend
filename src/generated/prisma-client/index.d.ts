@@ -43,7 +43,7 @@ export type RecipeEvent = {
   id: string
   recipeId: string
   eventId: string
-  finishedAt: Date
+  finishedAt: Date | null
 }
 
 /**
@@ -75,7 +75,7 @@ export type ShoppingListEvent = {
   id: string
   shoppingListId: string
   eventId: string
-  finishedAt: Date
+  finishedAt: Date | null
 }
 
 /**
@@ -186,7 +186,9 @@ export type StandardUnitType = (typeof StandardUnitType)[keyof typeof StandardUn
 
 export const EventType: {
   SHOPPING: 'SHOPPING',
-  PREPARATION: 'PREPARATION'
+  PREPARATION: 'PREPARATION',
+  PERIOD_START: 'PERIOD_START',
+  PERIOD_END: 'PERIOD_END'
 };
 
 export type EventType = (typeof EventType)[keyof typeof EventType]
@@ -3294,7 +3296,7 @@ export namespace Prisma {
     id: string
     recipeId: string
     eventId: string
-    finishedAt: Date
+    finishedAt: Date | null
     _count: RecipeEventCountAggregateOutputType | null
     _min: RecipeEventMinAggregateOutputType | null
     _max: RecipeEventMaxAggregateOutputType | null
@@ -5914,7 +5916,7 @@ export namespace Prisma {
     id: string
     shoppingListId: string
     eventId: string
-    finishedAt: Date
+    finishedAt: Date | null
     _count: ShoppingListEventCountAggregateOutputType | null
     _min: ShoppingListEventMinAggregateOutputType | null
     _max: ShoppingListEventMaxAggregateOutputType | null
@@ -12061,7 +12063,7 @@ export namespace Prisma {
     id?: StringFilter | string
     recipeId?: StringFilter | string
     eventId?: StringFilter | string
-    finishedAt?: DateTimeFilter | Date | string
+    finishedAt?: DateTimeNullableFilter | Date | string | null
     recipe?: XOR<RecipeRelationFilter, RecipeWhereInput>
     event?: XOR<EventRelationFilter, EventWhereInput>
   }
@@ -12096,7 +12098,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     recipeId?: StringWithAggregatesFilter | string
     eventId?: StringWithAggregatesFilter | string
-    finishedAt?: DateTimeWithAggregatesFilter | Date | string
+    finishedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type RecipeInstructionWhereInput = {
@@ -12194,7 +12196,7 @@ export namespace Prisma {
     id?: StringFilter | string
     shoppingListId?: StringFilter | string
     eventId?: StringFilter | string
-    finishedAt?: DateTimeFilter | Date | string
+    finishedAt?: DateTimeNullableFilter | Date | string | null
     shoppingList?: XOR<ShoppingListRelationFilter, ShoppingListWhereInput>
     event?: XOR<EventRelationFilter, EventWhereInput>
   }
@@ -12229,7 +12231,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     shoppingListId?: StringWithAggregatesFilter | string
     eventId?: StringWithAggregatesFilter | string
-    finishedAt?: DateTimeWithAggregatesFilter | Date | string
+    finishedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type ShoppingListFoodWhereInput = {
@@ -12603,7 +12605,7 @@ export namespace Prisma {
 
   export type RecipeEventCreateInput = {
     id?: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
     recipe: RecipeCreateNestedOneWithoutRecipeEventsInput
     event: EventCreateNestedOneWithoutRecipeEventsInput
   }
@@ -12612,12 +12614,12 @@ export namespace Prisma {
     id?: string
     recipeId: string
     eventId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type RecipeEventUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     recipe?: RecipeUpdateOneRequiredWithoutRecipeEventsInput
     event?: EventUpdateOneRequiredWithoutRecipeEventsInput
   }
@@ -12626,26 +12628,26 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     recipeId?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type RecipeEventCreateManyInput = {
     id?: string
     recipeId: string
     eventId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type RecipeEventUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type RecipeEventUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipeId?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type RecipeInstructionCreateInput = {
@@ -12752,7 +12754,7 @@ export namespace Prisma {
 
   export type ShoppingListEventCreateInput = {
     id?: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
     shoppingList: ShoppingListCreateNestedOneWithoutShoppingListEventsInput
     event: EventCreateNestedOneWithoutShoppingListEventsInput
   }
@@ -12761,12 +12763,12 @@ export namespace Prisma {
     id?: string
     shoppingListId: string
     eventId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type ShoppingListEventUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shoppingList?: ShoppingListUpdateOneRequiredWithoutShoppingListEventsInput
     event?: EventUpdateOneRequiredWithoutShoppingListEventsInput
   }
@@ -12775,26 +12777,26 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shoppingListId?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ShoppingListEventCreateManyInput = {
     id?: string
     shoppingListId: string
     eventId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type ShoppingListEventUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ShoppingListEventUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     shoppingListId?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ShoppingListFoodCreateInput = {
@@ -13243,15 +13245,15 @@ export namespace Prisma {
     quantity?: SortOrder
   }
 
-  export type DateTimeFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
+  export type DateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
     lt?: Date | string
     lte?: Date | string
     gt?: Date | string
     gte?: Date | string
-    not?: NestedDateTimeFilter | Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
   export type RecipeRelationFilter = {
@@ -13285,18 +13287,18 @@ export namespace Prisma {
     finishedAt?: SortOrder
   }
 
-  export type DateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
+  export type DateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
     lt?: Date | string
     lte?: Date | string
     gt?: Date | string
     gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
   }
 
   export type RecipeInstructionFoodListRelationFilter = {
@@ -13338,6 +13340,17 @@ export namespace Prisma {
     duration?: SortOrder
   }
 
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
   export type ShoppingListEventListRelationFilter = {
     every?: ShoppingListEventWhereInput
     some?: ShoppingListEventWhereInput
@@ -13374,6 +13387,20 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
   }
 
   export type ShoppingListRelationFilter = {
@@ -13804,8 +13831,8 @@ export namespace Prisma {
     connect?: EventWhereUniqueInput
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type RecipeUpdateOneRequiredWithoutRecipeEventsInput = {
@@ -13906,6 +13933,10 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<ShoppingListFoodCreateOrConnectWithoutShoppingListInput>
     createMany?: ShoppingListFoodCreateManyShoppingListInputEnvelope
     connect?: Enumerable<ShoppingListFoodWhereUniqueInput>
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type ShoppingListEventUpdateManyWithoutShoppingListInput = {
@@ -14397,6 +14428,42 @@ export namespace Prisma {
     not?: NestedFloatFilter | number
   }
 
+  export type NestedDateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
+  }
+
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
   export type NestedDateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -14521,14 +14588,14 @@ export namespace Prisma {
 
   export type RecipeEventCreateWithoutRecipeInput = {
     id?: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
     event: EventCreateNestedOneWithoutRecipeEventsInput
   }
 
   export type RecipeEventUncheckedCreateWithoutRecipeInput = {
     id?: string
     eventId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type RecipeEventCreateOrConnectWithoutRecipeInput = {
@@ -14588,7 +14655,7 @@ export namespace Prisma {
     id?: StringFilter | string
     recipeId?: StringFilter | string
     eventId?: StringFilter | string
-    finishedAt?: DateTimeFilter | Date | string
+    finishedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type RecipeInstructionUpsertWithWhereUniqueWithoutRecipeInput = {
@@ -14872,14 +14939,14 @@ export namespace Prisma {
 
   export type ShoppingListEventCreateWithoutShoppingListInput = {
     id?: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
     event: EventCreateNestedOneWithoutShoppingListEventsInput
   }
 
   export type ShoppingListEventUncheckedCreateWithoutShoppingListInput = {
     id?: string
     eventId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type ShoppingListEventCreateOrConnectWithoutShoppingListInput = {
@@ -14937,7 +15004,7 @@ export namespace Prisma {
     id?: StringFilter | string
     shoppingListId?: StringFilter | string
     eventId?: StringFilter | string
-    finishedAt?: DateTimeFilter | Date | string
+    finishedAt?: DateTimeNullableFilter | Date | string | null
   }
 
   export type ShoppingListFoodUpsertWithWhereUniqueWithoutShoppingListInput = {
@@ -15221,14 +15288,14 @@ export namespace Prisma {
 
   export type RecipeEventCreateWithoutEventInput = {
     id?: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
     recipe: RecipeCreateNestedOneWithoutRecipeEventsInput
   }
 
   export type RecipeEventUncheckedCreateWithoutEventInput = {
     id?: string
     recipeId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type RecipeEventCreateOrConnectWithoutEventInput = {
@@ -15243,14 +15310,14 @@ export namespace Prisma {
 
   export type ShoppingListEventCreateWithoutEventInput = {
     id?: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
     shoppingList: ShoppingListCreateNestedOneWithoutShoppingListEventsInput
   }
 
   export type ShoppingListEventUncheckedCreateWithoutEventInput = {
     id?: string
     shoppingListId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type ShoppingListEventCreateOrConnectWithoutEventInput = {
@@ -15455,7 +15522,7 @@ export namespace Prisma {
   export type RecipeEventCreateManyRecipeInput = {
     id?: string
     eventId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type RecipeInstructionCreateManyRecipeInput = {
@@ -15466,20 +15533,20 @@ export namespace Prisma {
 
   export type RecipeEventUpdateWithoutRecipeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     event?: EventUpdateOneRequiredWithoutRecipeEventsInput
   }
 
   export type RecipeEventUncheckedUpdateWithoutRecipeInput = {
     id?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type RecipeEventUncheckedUpdateManyWithoutRecipeEventsInput = {
     id?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type RecipeInstructionUpdateWithoutRecipeInput = {
@@ -15533,7 +15600,7 @@ export namespace Prisma {
   export type ShoppingListEventCreateManyShoppingListInput = {
     id?: string
     eventId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type ShoppingListFoodCreateManyShoppingListInput = {
@@ -15544,20 +15611,20 @@ export namespace Prisma {
 
   export type ShoppingListEventUpdateWithoutShoppingListInput = {
     id?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     event?: EventUpdateOneRequiredWithoutShoppingListEventsInput
   }
 
   export type ShoppingListEventUncheckedUpdateWithoutShoppingListInput = {
     id?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ShoppingListEventUncheckedUpdateManyWithoutShoppingListEventsInput = {
     id?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ShoppingListFoodUpdateWithoutShoppingListInput = {
@@ -15633,37 +15700,37 @@ export namespace Prisma {
   export type RecipeEventCreateManyEventInput = {
     id?: string
     recipeId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type ShoppingListEventCreateManyEventInput = {
     id?: string
     shoppingListId: string
-    finishedAt: Date | string
+    finishedAt?: Date | string | null
   }
 
   export type RecipeEventUpdateWithoutEventInput = {
     id?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     recipe?: RecipeUpdateOneRequiredWithoutRecipeEventsInput
   }
 
   export type RecipeEventUncheckedUpdateWithoutEventInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipeId?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ShoppingListEventUpdateWithoutEventInput = {
     id?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shoppingList?: ShoppingListUpdateOneRequiredWithoutShoppingListEventsInput
   }
 
   export type ShoppingListEventUncheckedUpdateWithoutEventInput = {
     id?: StringFieldUpdateOperationsInput | string
     shoppingListId?: StringFieldUpdateOperationsInput | string
-    finishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EventCreateManyUserInput = {

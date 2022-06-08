@@ -1,0 +1,35 @@
+# Event
+enum EventType {
+  SHOPPING
+  PREPARATION
+  PERIOD_START
+  PERIOD_END
+}
+
+type Event {
+  id: String
+  type: EventType
+  userId: String
+  date: DateTime
+  nextRecipe: Recipe
+  recipes: [Recipe]
+  shoppingList: ShoppingList
+}
+
+type EventsOutput {
+  events: [Event]
+}
+
+type EventOutput {
+  event: Event
+}
+
+type Query {
+event(id: ID): EventOutput
+events(userId: ID, date: DateTime, onlyCurrentPeriod: Boolean, type: EventType): EventsOutput
+nextEvent(userId: ID, type: EventType): EventOutput
+}
+
+type Mutation {
+updateEventDate(id: ID, date: DateTime ): EventOutput
+}

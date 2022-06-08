@@ -1,0 +1,46 @@
+# Shopping list
+type ShoppingList {
+  id: String
+  name: String
+}
+
+type ShoppingListEvent {
+    id: String
+    shoppingListId: String
+    eventId: String
+    finishedAt: DateTime
+    event: Event
+    shoppingList: ShoppingList
+}
+
+type ShoppingListFood {
+    id: ID
+    shoppingListId: ID
+    foodId: ID
+    isChecked: Boolean
+}
+
+type ShoppingListOutput {
+  shoppingList: ShoppingList
+}
+
+type ShoppingListEventOutput {
+  shoppingListEvent: ShoppingListEvent
+}
+
+type ShoppingListFoodOutput {
+  shoppingListFood: ShoppingListFood
+}
+
+type ShoppingListsOutput {
+  shoppingLists: [ShoppingList]
+}
+
+type Query {
+shoppingList(id: ID!): ShoppingListOutput
+shoppingLists(userId: ID!): ShoppingListsOutput
+}
+
+type Mutation {
+  toggleCheckShoppingListFood(id: ID): ShoppingListFoodOutput
+}

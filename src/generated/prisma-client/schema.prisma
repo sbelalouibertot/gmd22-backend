@@ -39,7 +39,7 @@ model RecipeEvent {
   id         String   @id @default(cuid()) @db.VarChar(30)
   recipeId   String   @map("recipe_id") @db.VarChar(30)
   eventId    String   @map("event_id") @db.VarChar(30)
-  finishedAt DateTime @map("finished_at")
+  finishedAt DateTime? @map("finished_at")
   recipe     Recipe   @relation(fields: [recipeId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event      Event    @relation(fields: [eventId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
@@ -72,7 +72,7 @@ model ShoppingListEvent {
   id             String       @id @default(cuid()) @db.VarChar(30)
   shoppingListId String       @map("shopping_list_id") @db.VarChar(30)
   eventId        String       @map("event_id") @db.VarChar(30)
-  finishedAt     DateTime     @map("finished_at")
+  finishedAt     DateTime?     @map("finished_at")
   shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event          Event        @relation(fields: [eventId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
@@ -153,6 +153,8 @@ enum UserPreferenceType {
 enum EventType {
   SHOPPING
   PREPARATION
+  PERIOD_START
+  PERIOD_END
 }
 
 enum FoodType {

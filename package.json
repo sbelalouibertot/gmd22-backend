@@ -9,6 +9,9 @@
     "debug": "dotenv -- nodemon -e ts,graphql -x ts-node --inspect src/index.ts",
     "build": "rm -rf dist  && rimraf dist && tsc -p tsconfig.prod.json && copyfiles --up 1 'src/**/*.{graphql,json,pdf}' dist",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate-dev": "prisma migrate dev --create-only",
+    "migrate-deploy": "prisma migrate deploy",
+    "generate": "prisma generate",
     "deploy": "envsub --env-file .env deploy.sh deploy-out.sh --syntax dollar-basic; bash ./deploy-out.sh; rm ./deploy-out.sh"
   },
   "repository": {

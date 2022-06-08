@@ -9,32 +9,33 @@ export default {
       { recipeInput }: { recipeInput: Recipe },
       ctx: GraphqlContext
     ): Promise<{ recipe: Recipe }> => {
-      const recipe = await ctx.prisma.recipe.create({data: recipeInput})
+      const recipe = await ctx.prisma.recipe.create({ data: recipeInput })
       return { recipe };
     },
     replaceRecipe: async (
       _: unknown,
-      { id, eventId }: { id: string, eventId: string },
+      { recipeEventId }: { recipeEventId: string },
       ctx: GraphqlContext
-    ): Promise<{ recipe: RecipeEvent }> => {
-      // remplacer la recette d'un évènement par une autre au hasard qui n'existe pas déjà dans l'interval en cours
-      // intervalle en cours: pas encore géré
+    ): Promise<{ recipeEvent: RecipeEvent | null }> => {
+      const [periodStartDate, periodEndDate] = await Promise.all(
+        [(await ctx.prisma.event.findFirst({ where: { type: 'PERIOD_START', date: { lte: new Date() } }, orderBy: { date: 'desc' } }))?.date, (await ctx.prisma.event.findFirst({ where: { type: 'PERIOD_END', date: { gte: new Date() } }, orderBy: { date: 'asc' } }))?.date]
+      )
+      const recipeIdsToSkip = (await ctx.prisma.recipeEvent.findMany({
+        select: { recipeId: true }, where: {
+          event: {
+            date: {
+              gte: periodStartDate,
+              lte: periodEndDate
+            }
+          }
+        }
+      })).map(({ recipeId }) => recipeId)
 
-      //todo: gérer le hasard
-      const newRecipeId = (await ctx.prisma.recipe.findFirst({
-        where : {
-          /*recipeEvents : {
-            every : {recipeId : {not: id}, eventId}
-          }*/id: {not : id}
-        },
-      }))?.id
+      const newRecipeId = (await ctx.prisma.recipe.findFirst({ where: { id: { notIn: recipeIdsToSkip } } }))?.id
+      if (!newRecipeId) return { recipeEvent: null }
+      const recipeEvent = await ctx.prisma.recipeEvent.update({ data: { recipeId: newRecipeId }, where: { id: recipeEventId } })
 
-      const recipe = await ctx.prisma.recipeEvent.update({data : {
-        eventId,
-        recipeId: newRecipeId
-      }, include : {event: true}, where : {}})
-
-      return { recipe };
+      return { recipeEvent };
     },
   },
 };

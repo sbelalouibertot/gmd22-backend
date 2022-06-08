@@ -35,7 +35,7 @@ export default {
     },
     recipes: async (
       _: unknown,
-      { },
+      {},
       ctx: GraphqlContext
     ): Promise<{ recipes: Recipe[] | null }> => {
       const recipes = await ctx.prisma.recipe.findMany();

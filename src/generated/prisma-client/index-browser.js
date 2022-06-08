@@ -197,7 +197,9 @@ exports.StandardUnitType = makeEnum({
 
 exports.EventType = makeEnum({
   SHOPPING: 'SHOPPING',
-  PREPARATION: 'PREPARATION'
+  PREPARATION: 'PREPARATION',
+  PERIOD_START: 'PERIOD_START',
+  PERIOD_END: 'PERIOD_END'
 });
 
 exports.UserPreferenceType = makeEnum({

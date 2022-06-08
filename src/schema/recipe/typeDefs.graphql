@@ -29,6 +29,17 @@ type RecipesOutput {
   recipes: [Recipe]
 }
 
+type RecipeEvent {
+  id: ID
+  recipeId: ID
+  eventId: ID
+  finishedAt: DateTime
+}
+
+type RecipeEventOutput {
+  recipeEvent: RecipeEvent
+}
+
 type Query {
   nextRecipe(userId: ID!): RecipeOutput
   recipe(id: ID!): RecipeOutput
@@ -38,27 +49,7 @@ type Query {
 
 type Mutation {
   newRecipe(recipeInput: RecipeInput): RecipeOutput
-  replaceRecipe(id: ID!, eventId: ID!): RecipeOutput
-}
-
-# Shopping list
-type ShoppingList {
-  id: String
-  name: String
-}
-
-type ShoppingListOutput {
-  shoppingList: ShoppingList
-}
-
-type ShoppingListsOutput {
-  shoppingLists: [ShoppingList]
-}
-
-type Query {
-shoppingList(id: ID!): ShoppingListOutput
-shoppingLists(userId: ID!): ShoppingListsOutput
-nextShoppingList(userId: ID!): ShoppingListOutput
+  replaceRecipe(recipeEventId: ID!): RecipeEventOutput
 }
 
 # User
@@ -94,43 +85,6 @@ type Mutation {
   updateUserPreferences(userPreferencesInput: [UserPreferenceInput]): UserPreferencesOutput
 }
 
-# Event
-enum EventType {
-  SHOPPING
-  PREPARATION
-}
-
-type Event {
-  id: String
-  type: EventType
-  userId: String
-  date: DateTime
-}
-
-input EventInput {
-  id: String
-  type: EventType
-  userId: String
-  date: DateTime
-}
-
-type EventsOutput {
-  events: [Event]
-}
-
-type EventOutput {
-  event: Event
-}
-
-
-type Query {
-events(userId: ID) : EventsOutput
-event(id: ID): EventOutput
-nextEvent(userId: ID): EventOutput
-}
-type Mutation {
-updateEvent(id: ID, eventInput: EventInput ): EventOutput
-}
 
 # Food
 type Food {
@@ -170,7 +124,6 @@ type FoodItemsOutput {
 
 type Mutation {
   deleteFoodItem(id: String!): FoodOutput
-  toggleCheckShoppingListFood(id: ID): FoodOutput
 }
 
 type FoodOutput {
