@@ -1,4 +1,6 @@
 import { Recipe } from "generated/prisma-client";
+import { TFoodRecipesInput, getFoodRecipes } from "service/recipe/getFoodRecipes";
+import { TNextRecipeInput, getNextRecipe } from "service/recipe/getNextRecipe";
 import { GraphqlContext } from ".././types";
 
 export default {
@@ -13,29 +15,12 @@ export default {
     },
     nextRecipe: async (
       _: unknown,
-      { userId },
+      nextRecipeInput: TNextRecipeInput,
       ctx: GraphqlContext
-    ): Promise<{ recipe: Recipe | null }> => {
-      const recipe = (
-        await ctx.prisma.recipeEvent.findFirst({
-          where: {
-            event: { userId },
-          },
-          include: {
-            event: true,
-            recipe: true,
-          },
-          orderBy: {
-            event: { date: "desc" },
-          },
-        })
-      )?.recipe ?? null;
-
-      return { recipe };
-    },
+    ): Promise<{ recipe: Recipe | null }> => getNextRecipe(ctx.prisma, nextRecipeInput),
     recipes: async (
       _: unknown,
-      {},
+      { },
       ctx: GraphqlContext
     ): Promise<{ recipes: Recipe[] | null }> => {
       const recipes = await ctx.prisma.recipe.findMany();
@@ -43,11 +28,8 @@ export default {
     },
     foodRecipes: async (
       _: unknown,
-      { foodId }: { foodId: string },
+      foodRecipesInput: TFoodRecipesInput,
       ctx: GraphqlContext
-    ): Promise<{ recipes: Recipe[] | null }> => {
-      const recipes = await ctx.prisma.recipe.findMany({ where: { recipeInstructions: { some: { recipeInstructionFoods: { some: { foodId } } } } } });
-      return { recipes };
-    },
+    ): Promise<{ recipes: Recipe[] | null }> => getFoodRecipes(ctx.prisma, foodRecipesInput),
   },
 };

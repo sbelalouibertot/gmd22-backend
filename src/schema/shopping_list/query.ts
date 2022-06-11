@@ -1,5 +1,6 @@
 
-import { ShoppingList, ShoppingListEvent } from "generated/prisma-client";
+import { ShoppingList } from "generated/prisma-client";
+import { TShoppingListsInput, getShoppingLists } from "service/shoppingList/getShoppingLists";
 import { GraphqlContext } from ".././types";
 
 export default {
@@ -14,11 +15,8 @@ export default {
         },
         shoppingLists: async (
             _: unknown,
-            { userId }: { userId: string },
+            shoppingListsInput: TShoppingListsInput,
             ctx: GraphqlContext
-        ): Promise<{ shoppingLists: ShoppingList[] | null }> => {
-            const shoppingLists = await ctx.prisma.shoppingList.findMany({ where: { shoppingListEvents: { some: { event: { userId } } } } });
-            return { shoppingLists };
-        },
+        ): Promise<{ shoppingLists: ShoppingList[] | null }> => getShoppingLists(ctx.prisma, shoppingListsInput),
     },
 };

@@ -1,21 +1,14 @@
 
 import { ShoppingListFood } from "generated/prisma-client";
+import { toggleCheckShoppingListFood, TToggleCheckShoppingListFoodInput } from "service/shoppingList/toggleCheckShoppingListFood";
 import { GraphqlContext } from ".././types";
 
 export default {
     Mutation: {
         toggleCheckShoppingListFood: async (
             _: unknown,
-            { id }: { id: string },
+            toggleCheckShoppingListFoodInput: TToggleCheckShoppingListFoodInput,
             ctx: GraphqlContext
-        ): Promise<{ shoppingListFood: ShoppingListFood }> => {
-            const previousShoppingListFoodCheckState = (await ctx.prisma.shoppingListFood.findUnique({ where: { id } }))?.isChecked
-            const shoppingListFood = await ctx.prisma.shoppingListFood.update({
-                data: {
-                    isChecked: !previousShoppingListFoodCheckState
-                }, where: { id }
-            });
-            return { shoppingListFood };
-        },
+        ): Promise<{ shoppingListFood: ShoppingListFood }> => toggleCheckShoppingListFood(ctx.prisma, toggleCheckShoppingListFoodInput),
     },
 };

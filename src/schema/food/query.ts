@@ -1,5 +1,6 @@
 
 import { Food } from "generated/prisma-client";
+import { getFoodItems } from "service/food/getFoodItems";
 import { GraphqlContext } from ".././types";
 
 type TFoodItem = {
@@ -10,19 +11,16 @@ export default {
   Query: {
     foodItem: async (
       _: unknown,
-      {id} : TFoodItem,
+      { id }: TFoodItem,
       ctx: GraphqlContext
     ): Promise<{ foodItem: Food | null }> => {
-      const foodItem = await ctx.prisma.food.findUnique({where : {id}});
+      const foodItem = await ctx.prisma.food.findUnique({ where: { id } });
       return { foodItem };
     },
     foodItems: async (
       _: unknown,
-      {},
+      { },
       ctx: GraphqlContext
-    ): Promise<{ foodItems: Food[] }> => {
-      const foodItems = await ctx.prisma.food.findMany();
-      return { foodItems };
-    },
+    ): Promise<{ foodItems: Food[] }> => getFoodItems(ctx.prisma),
   },
 };

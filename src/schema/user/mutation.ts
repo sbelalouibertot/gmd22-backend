@@ -1,21 +1,14 @@
 
 import { UserPreference } from "generated/prisma-client";
+import { TUpdateUserPreferencesInput, updateUserPreferences } from "service/user/updateUserPreferences";
 import { GraphqlContext } from ".././types";
 
 export default {
     Mutation: {
         updateUserPreferences: async (
             _: unknown,
-            { userPreferencesInput }: { userPreferencesInput: UserPreference[] },
+            userPreferencesInput: TUpdateUserPreferencesInput,
             ctx: GraphqlContext
-        ): Promise<{ userPreferences: UserPreference[] }> => {
-            const userPreferences = await Promise.all(userPreferencesInput.map(
-                userPreference => ctx.prisma.userPreference.update({
-                    data: userPreference,
-                    where: { id: userPreference.id }
-                })
-            ));
-            return { userPreferences };
-        },
+        ): Promise<{ userPreferences: UserPreference[] }> => updateUserPreferences(ctx.prisma, userPreferencesInput),
     },
 };

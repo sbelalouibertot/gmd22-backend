@@ -13,7 +13,7 @@
     "generate": "prisma generate",
     "test": "npm run test:unit",
     "test:unit": "jest --config .jest.unit.js",
-    "test:integration": "dotenv -- jest --config .jest.integration.js",
+    "test:integration": "dotenv -- jest --runInBand --config .jest.integration.js",
     "deploy": "envsub --env-file .env deploy.sh deploy-out.sh --syntax dollar-basic; bash ./deploy-out.sh; rm ./deploy-out.sh"
   },
   "repository": {
@@ -53,8 +53,10 @@
     "@prisma/client": "^3.14.0",
     "apollo-server": "^3.6.7",
     "apollo-server-core": "^3.6.7",
+    "dayjs": "^1.11.3",
     "graphql": "^16.5.0",
-    "graphql-yoga": "1.18.3"
+    "graphql-yoga": "1.18.3",
+    "lodash": "^4.17.21"
   },
   "prisma": {
     "schema": "prisma/schema.prisma"
