@@ -1,5 +1,5 @@
 import { PrismaClient } from '../../src/generated/prisma-client'
-import { shutdown, clear } from '../../prisma/seed'
+import { shutdown, clear, seedFood } from '../../prisma/seed/seed'
 
 describe('synchronization', () => {
   let prisma: PrismaClient
@@ -17,10 +17,10 @@ describe('synchronization', () => {
 
   describe('Test description', () => {
     test('Test food creation', async () => {
-      await prisma.food.create({ data: { name: 'Nourriture de test', type: 'FRUIT' } })
+      await seedFood(prisma, { name: 'Pomme', type : 'FRUIT' })
       const allFood = await prisma.food.findMany({})
       expect(allFood.length).toBe(1)
-      expect(allFood[0].name).toBe('Nourriture de test')
+      expect(allFood[0].name).toBe('Pomme')
       expect(allFood[0].type).toBe('FRUIT')
     })
   })
