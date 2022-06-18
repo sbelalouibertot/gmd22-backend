@@ -1,5 +1,5 @@
-import { Recipe, RecipeInstruction } from "generated/prisma-client";
-import { GraphqlContext } from "schema/types";
+import { Recipe, RecipeInstruction } from 'generated/prisma-client'
+import { GraphqlContext } from 'schema/types'
 
 export default {
   Recipe: {
@@ -8,8 +8,11 @@ export default {
       _: unknown,
       ctx: GraphqlContext,
     ): Promise<RecipeInstruction[]> => {
-      const parentRecipe = await ctx.prisma.recipe.findUnique({ where: { id: parent.id }, include: { recipeInstructions: true } })
+      const parentRecipe = await ctx.prisma.recipe.findUnique({
+        where: { id: parent.id },
+        include: { recipeInstructions: true },
+      })
       return parentRecipe?.recipeInstructions ?? []
-    }
-  }
+    },
+  },
 }

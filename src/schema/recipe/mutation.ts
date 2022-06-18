@@ -1,22 +1,23 @@
+import { Recipe, RecipeEvent } from 'generated/prisma-client'
 
-import { Recipe, RecipeEvent } from "generated/prisma-client";
-import { TReplaceRecipeInput, replaceRecipe } from "../../service/recipe/replaceRecipe";
-import { GraphqlContext } from ".././types";
+import { replaceRecipe, TReplaceRecipeInput } from '../../service/recipe/replaceRecipe'
+import { GraphqlContext } from '.././types'
 
 export default {
   Mutation: {
     newRecipe: async (
       _: unknown,
       { recipeInput }: { recipeInput: Recipe },
-      ctx: GraphqlContext
+      ctx: GraphqlContext,
     ): Promise<{ recipe: Recipe }> => {
       const recipe = await ctx.prisma.recipe.create({ data: recipeInput })
-      return { recipe };
+      return { recipe }
     },
     replaceRecipe: async (
       _: unknown,
       replaceRecipeInput: TReplaceRecipeInput,
-      ctx: GraphqlContext
-    ): Promise<{ recipeEvent: RecipeEvent | null }> => replaceRecipe(ctx.prisma, replaceRecipeInput),
+      ctx: GraphqlContext,
+    ): Promise<{ recipeEvent: RecipeEvent | null }> =>
+      replaceRecipe(ctx.prisma, replaceRecipeInput),
   },
-};
+}
