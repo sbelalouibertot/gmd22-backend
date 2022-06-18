@@ -6,10 +6,10 @@ export const toggleCheckShoppingListFood = async (
     prisma: PrismaClient,
     { id }: TToggleCheckShoppingListFoodInput,
 ): Promise<{ shoppingListFood: ShoppingListFood }> => {
-    const previousShoppingListFoodCheckState = (await prisma.shoppingListFood.findUnique({ where: { id } }))?.isChecked
+    const previousShoppingListFood = await prisma.shoppingListFood.findUnique({ where: { id } })
     const shoppingListFood = await prisma.shoppingListFood.update({
         data: {
-            isChecked: !previousShoppingListFoodCheckState
+            isChecked: !previousShoppingListFood?.isChecked
         }, where: { id }
     });
     return { shoppingListFood };

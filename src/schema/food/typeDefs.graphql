@@ -1,3 +1,4 @@
+# Food
 type Food {
   id: String
   name: String
@@ -25,15 +26,13 @@ enum FoodType {
   MEATS
 }
 
-type Query {
-  foodItem(id: ID!) : FoodItemOutput
+type Query {  foodItem(id: ID!) : FoodItemOutput
   foodItems: FoodItemsOutput
 }
 
 type FoodItemOutput {
   foodItem: Food
 }
-
 type FoodItemsOutput {
   foodItems: [Food!]!
 }
@@ -42,3 +41,6 @@ type Mutation {
   deleteFoodItem(id: String!): FoodOutput
 }
 
+type FoodOutput {
+  food: Food
+}

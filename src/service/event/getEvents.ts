@@ -1,4 +1,7 @@
-import { EventType, Event, PrismaClient } from "generated/prisma-client"
+
+import { EventType, Event, PrismaClient, Prisma } from "generated/prisma-client"
+
+import { getStartOfDay, getTomorrowDate } from "../../utils/date"
 
 export type TEventsSearchInput = { userId?: string, date?: Date, type?: EventType, onlyCurrentPeriod?: boolean }
 
@@ -6,24 +9,30 @@ export const getEvents = async (
     prisma: PrismaClient,
     { userId, date, type, onlyCurrentPeriod = false }: TEventsSearchInput,
 ): Promise<{ events: Event[] }> => {
-    const [formattedDay] = !!date ? new Date(date).toISOString().split('T') : []
-    const tomorrowDay = !!formattedDay ? new Date(formattedDay).setDate(new Date(formattedDay).getDate() + 1) : null
-    const [periodStartDate, periodEndDate] = onlyCurrentPeriod ? await Promise.all(
-        [(await prisma.event.findFirst({ where: { type: 'PERIOD_START', date: { lte: new Date() } }, orderBy: { date: 'desc' } }))?.date, (await prisma.event.findFirst({ where: { type: 'PERIOD_END', date: { gte: new Date() } }, orderBy: { date: 'asc' } }))?.date]
-    ) : []
-
-    const events = await prisma.event.findMany({
-        where: {
-            ...(!!userId && { userId }),
-            ...(!!formattedDay && !!tomorrowDay && { date: { gte: new Date(formattedDay), lt: new Date(tomorrowDay) } }),
-            ...(!!periodStartDate && !!periodEndDate && {
-                date: {
-                    gte: periodStartDate,
-                    lte: periodEndDate
-                }
-            }),
-            ...(!!type && { type })
+    const where: Prisma.EventWhereInput = {
+        ...(!!userId && { userId }),
+        ...(!!type && { type })
+    }
+    if (onlyCurrentPeriod) {
+        const [periodStartEvent, periodEndEvent] = await Promise.all([
+            prisma.event.findFirst({ where: { type: 'PERIOD_START', date: { lte: new Date() } }, orderBy: { date: 'desc' } }),
+            prisma.event.findFirst({ where: { type: 'PERIOD_END', date: { gte: new Date() } }, orderBy: { date: 'asc' } })
+        ]
+        )
+        if (!!periodStartEvent?.date && !!periodEndEvent?.date) {
+            where.date = {
+                gte: periodStartEvent.date,
+                lte: periodEndEvent.date
+            }
         }
+    } else if (!!date) {
+        const startOfDay = getStartOfDay(date)
+        const startOfTomorrowDay = getTomorrowDate({ date, startOfDay: true })
+        where.date = { gte: startOfDay, lt: startOfTomorrowDay }
+    }
+    const events = await prisma.event.findMany({
+        where
     });
+
     return { events };
 }

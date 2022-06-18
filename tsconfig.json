@@ -12,6 +12,7 @@
     "sourceMap": true,
     "noUncheckedIndexedAccess": false,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,

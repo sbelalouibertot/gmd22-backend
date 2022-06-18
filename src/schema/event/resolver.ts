@@ -25,14 +25,10 @@ export default {
             _: unknown,
             ctx: GraphqlContext,
         ): Promise<Recipe[] | null> => {
-            const recipeEvents = (await ctx.prisma.recipeEvent.findMany({
-                where: {
-                    eventId: parent.id
-                }
-            }))
-            const recipes = await ctx.prisma.recipe.findMany({
-                where: { id: {in : recipeEvents.map(({recipeId}) => recipeId)} },
-            })
+            const parentEvent = await ctx.prisma.event.findUnique({ where: { id: parent.id }, include: { recipeEvents: { include: { recipe: true } } } })
+            if (!parentEvent) return null
+
+            const recipes = parentEvent.recipeEvents.map(({ recipe }) => recipe)
             return recipes
         },
         shoppingList: async (

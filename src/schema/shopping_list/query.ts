@@ -1,6 +1,6 @@
 
 import { ShoppingList } from "generated/prisma-client";
-import { TShoppingListsInput, getShoppingLists } from "service/shoppingList/getShoppingLists";
+import { TShoppingListsInput, getShoppingLists } from "../../service/shoppingList/getShoppingLists";
 import { GraphqlContext } from ".././types";
 
 export default {

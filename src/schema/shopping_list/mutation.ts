@@ -1,6 +1,6 @@
 
 import { ShoppingListFood } from "generated/prisma-client";
-import { toggleCheckShoppingListFood, TToggleCheckShoppingListFoodInput } from "service/shoppingList/toggleCheckShoppingListFood";
+import { toggleCheckShoppingListFood, TToggleCheckShoppingListFoodInput } from "../../service/shoppingList/toggleCheckShoppingListFood";
 import { GraphqlContext } from ".././types";
 
 export default {

@@ -1,6 +1,6 @@
 
 import { Recipe, RecipeEvent } from "generated/prisma-client";
-import { TReplaceRecipeInput, replaceRecipe } from "service/recipe/replaceRecipe";
+import { TReplaceRecipeInput, replaceRecipe } from "../../service/recipe/replaceRecipe";
 import { GraphqlContext } from ".././types";
 
 export default {

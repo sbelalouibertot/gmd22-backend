@@ -1,0 +1,32 @@
+# User
+enum UserPreferenceType {
+  MAX_RECIPES_PER_WEEK
+  SHOPPING_WEEKS_INTERVAL
+}
+
+type UserPreference {
+  id: String
+  userId: String
+  type: UserPreferenceType
+  value: Int
+}
+
+input UserPreferenceInput{
+  id: String
+  userId: String
+  type: UserPreferenceType
+  value: Int
+}
+
+
+type UserPreferencesOutput {
+  userPreferences: [UserPreference]
+}
+
+type Query {
+userPreferences(userId: ID): UserPreferencesOutput
+}
+
+type Mutation {
+  updateUserPreferences(userPreferencesInput: [UserPreferenceInput]): UserPreferencesOutput
+}

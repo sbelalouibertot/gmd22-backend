@@ -1,7 +1,7 @@
 
-import { Event, EventType } from "generated/prisma-client";
-import { getEvents, TEventsSearchInput } from "service/event/getEvents";
-import { TNextEventInput, getNextEvent } from "service/event/getNextEvent";
+import { Event } from "generated/prisma-client";
+import { getEvents, TEventsSearchInput } from "../../service/event/getEvents";
+import { TNextEventInput, getNextEvent } from "../../service/event/getNextEvent";
 import { GraphqlContext } from ".././types";
 
 export default {

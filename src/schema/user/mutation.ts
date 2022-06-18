@@ -1,6 +1,6 @@
 
 import { UserPreference } from "generated/prisma-client";
-import { TUpdateUserPreferencesInput, updateUserPreferences } from "service/user/updateUserPreferences";
+import { TUpdateUserPreferencesInput, updateUserPreferences } from "../../service/user/updateUserPreferences";
 import { GraphqlContext } from ".././types";
 
 export default {

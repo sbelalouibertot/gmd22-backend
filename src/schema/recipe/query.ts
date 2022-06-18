@@ -1,6 +1,6 @@
 import { Recipe } from "generated/prisma-client";
-import { TFoodRecipesInput, getFoodRecipes } from "service/recipe/getFoodRecipes";
-import { TNextRecipeInput, getNextRecipe } from "service/recipe/getNextRecipe";
+import { TFoodRecipesInput, getFoodRecipes } from "../../service/recipe/getFoodRecipes";
+import { TNextRecipeInput, getNextRecipe } from "../../service/recipe/getNextRecipe";
 import { GraphqlContext } from ".././types";
 
 export default {

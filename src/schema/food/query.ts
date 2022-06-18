@@ -1,6 +1,6 @@
 
 import { Food } from "generated/prisma-client";
-import { getFoodItems } from "service/food/getFoodItems";
+import { getFoodItems } from "../../service/food/getFoodItems";
 import { GraphqlContext } from ".././types";
 
 type TFoodItem = {
