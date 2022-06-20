@@ -1,4 +1,4 @@
-import { Food, RecipeInstruction } from 'generated/prisma-client'
+import { Food, RecipeInstruction, ShoppingListFood } from 'generated/prisma-client'
 import { GraphqlContext } from 'schema/types'
 
 export default {
@@ -18,6 +18,19 @@ export default {
 
       const foodItems = parentRecipeInstruction?.recipeInstructionFoods.map(({ food }) => food)
       return foodItems
+    },
+  },
+  ShoppingListFood: {
+    food: async (
+      parent: ShoppingListFood,
+      _: unknown,
+      ctx: GraphqlContext,
+    ): Promise<Food | null> => {
+      const parentShoppingListFood = await ctx.prisma.shoppingListFood.findUnique({
+        where: { id: parent.id },
+        include: { food: true },
+      })
+      return parentShoppingListFood?.food ?? null
     },
   },
 }

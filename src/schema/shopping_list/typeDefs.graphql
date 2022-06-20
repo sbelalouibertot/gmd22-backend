@@ -2,6 +2,7 @@
 type ShoppingList {
   id: String
   name: String
+  shoppingListItems: [ShoppingListFood]
 }
 
 type ShoppingListEvent {
@@ -18,6 +19,7 @@ type ShoppingListFood {
     shoppingListId: ID
     foodId: ID
     isChecked: Boolean
+    food: Food
 }
 
 type ShoppingListOutput {

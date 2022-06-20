@@ -3,6 +3,7 @@ type Food {
   id: String
   name: String
   type: FoodType
+  recipes: [Recipe]
 }
 
 enum FoodType {

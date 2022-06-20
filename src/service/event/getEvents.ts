@@ -41,6 +41,7 @@ export const getEvents = async (
   }
   const events = await prisma.event.findMany({
     where,
+    orderBy: { date: 'asc' },
   })
 
   return { events }
