@@ -43,6 +43,5 @@ export const getEvents = async (
     where,
     orderBy: { date: 'asc' },
   })
-
   return { events }
 }

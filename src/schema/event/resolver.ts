@@ -37,21 +37,18 @@ export default {
       _: unknown,
       ctx: GraphqlContext,
     ): Promise<ShoppingList | null> => {
-      const shoppingListId = (
-        await ctx.prisma.shoppingListEvent.findFirst({
-          where: {
-            eventId: parent.id,
-          },
-        })
-      )?.id
+      const shoppingListEvent = await ctx.prisma.shoppingListEvent.findFirst({
+        where: {
+          eventId: parent.id,
+        },
+        include: { shoppingList: true },
+      })
 
-      if (!shoppingListId) {
+      if (!shoppingListEvent) {
         return null
       }
-      const shoppingList = ctx.prisma.shoppingList.findUnique({
-        where: { id: shoppingListId },
-      })
-      return shoppingList
+
+      return shoppingListEvent.shoppingList
     },
   },
 }

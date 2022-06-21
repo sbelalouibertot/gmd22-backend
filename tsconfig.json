@@ -23,5 +23,5 @@
     "typeRoots": ["./src/types/", "node_modules/@types/"]
   },
   "exclude": ["node_modules", "coverage", ".vscode", "dist", "_test.ts"],
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "src/bin"]
 }

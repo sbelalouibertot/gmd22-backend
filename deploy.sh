@@ -1,3 +1,10 @@
+read -p "Press enter if production database URL is uncommented in .env ✅" -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    exit 1
+fi
+
 npm run build
 
 npx envsub --env-file .env Dockerfile Dockerfile-out --syntax dollar-basic
@@ -25,5 +32,19 @@ EOSSH
 #sudo docker stop $(sudo docker ps -q  --filter ancestor=$TARGET_DOCKER_IMAGE_NAME)
 
 # Locally run database : 
-# brew services start postgresql
-# brew services stop postgresql
+# brew services start postgresql@13
+# brew services stop postgresql@13
+
+
+# Init DB locally : 
+# brew install postgresql
+# brew services restart postgresql
+# psql postgres
+# CREATE ROLE local_private WITH LOGIN PASSWORD 'password';
+# ALTER ROLE local_private CREATEDB;
+# \q  
+# psql postgres -U local_private
+# CREATE DATABASE gmd22;
+# GRANT ALL PRIVILEGES ON DATABASE gmd22 TO local_private; 
+# \list
+# \q

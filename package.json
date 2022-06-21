@@ -16,7 +16,8 @@
     "test:integration": "dotenv -- jest --runInBand --config .jest.integration.js",
     "deploy": "envsub --env-file .env deploy.sh deploy-out.sh --syntax dollar-basic; bash ./deploy-out.sh; rm ./deploy-out.sh",
     "lint": "eslint ./src --ext .js --ext .ts",
-    "lint:fix": "eslint ./src --ext .js --ext .ts --fix"
+    "lint:fix": "eslint ./src --ext .js --ext .ts --fix",
+    "ts-node": "NODE_PATH=src ts-node --transpile-only"
   },
   "repository": {
     "type": "git",
@@ -39,15 +40,13 @@
     "cz-conventional-changelog": "^3.3.0",
     "dotenv-cli": "1.4.0",
     "envsub": "^4.0.7",
-    "graphql-iso-date": "^3.6.1",
-    "graphql-type-json": "^0.3.2",
     "jest": "^28.1.1",
     "nodemon": "1.19.4",
     "pg": "^8.7.3",
     "prisma": "^3.12.0",
     "rimraf": "2.7.1",
     "ts-jest": "^28.0.4",
-    "ts-node": "^10.7.0",
+    "ts-node": "^10.8.1",
     "typescript": "^4.6.3"
   },
   "dependencies": {
@@ -67,6 +66,8 @@
     "eslint-plugin-simple-import-sort": "7.0.0",
     "eslint-plugin-unused-imports": "1.1.1",
     "graphql": "^16.5.0",
+    "graphql-iso-date": "^3.6.1",
+    "graphql-type-json": "^0.3.2",
     "graphql-yoga": "1.18.3",
     "lodash": "^4.17.21"
   },
