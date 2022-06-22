@@ -15,6 +15,7 @@ dayjs.locale('fr')
 // npm run ts-node ./bin/init/populateNewDatabase.ts
 const main = async (prisma: PrismaClient) => {
   // User & preferences
+  console.log('👨‍👩👨‍💼 Creating users')
   await prisma.user.createMany({
     data: [
       { firstName: 'Samy', username: 'samy' },
@@ -36,20 +37,22 @@ const main = async (prisma: PrismaClient) => {
     skipDuplicates: true,
   })
 
+  // Food
+  console.log('🍎 Creating food')
   await prisma.food.createMany({
     data: foodData,
     skipDuplicates: true,
   })
 
   // Recipes & recipes food
-
+  console.log('🍳 Creating recipes & recipes food')
   const createdRecipes = []
   for (const recipe of recipes) {
     const createdRecipe = await prisma.recipe.create({
       data: {
         name: recipe.name,
-        cookingDuration: recipe.cookingDuration,
-        preparationDuration: recipe.preparationDuration,
+        cookingDuration: recipe.cookingDuration ?? 0,
+        preparationDuration: recipe.preparationDuration ?? 0,
       },
     })
     createdRecipes.push(createdRecipe)
@@ -58,7 +61,7 @@ const main = async (prisma: PrismaClient) => {
       data: recipe.instructions.map(instruction => ({
         recipeId: createdRecipe.id,
         description: instruction.description,
-        duration: instruction.duration,
+        duration: instruction.duration ?? 0,
       })),
     })
 
@@ -89,13 +92,16 @@ const main = async (prisma: PrismaClient) => {
   }
 
   // Shopping list
+  console.log('📝 Creating shopping list')
+  const shoppingListsCount = await prisma.shoppingList.count()
   const shoppingList = await prisma.shoppingList.create({
     data: {
-      name: 'Liste de courses',
+      name: `Liste de courses #${shoppingListsCount + 1}`,
     },
   })
 
   // Events
+  console.log('📆 Creating events')
   const events: Prisma.EventCreateInput[] = [
     {
       type: 'PERIOD_START',
@@ -141,6 +147,31 @@ const main = async (prisma: PrismaClient) => {
 
   // SHopping list food items
   // TODO: Generate shopping list from recipes food
+  console.log('🛒 Creating shopping list food items')
+  const createdRecipeFoodItems = await prisma.recipeFood.findMany({
+    where: {
+      recipe: {
+        recipeEvents: {
+          every: {
+            event: {
+              date: {
+                gte: events.find(event => event.type === 'PERIOD_START')?.date,
+                lt: events.find(event => event.type === 'PERIOD_END')?.date,
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+
+  await prisma.shoppingListFood.createMany({
+    data: createdRecipeFoodItems.map(recipeFood => ({
+      shoppingListId: shoppingList.id,
+      isChecked: false,
+      foodId: recipeFood.foodId,
+    })),
+  })
 
   //TODO: Promises in chunk if needed
 }
