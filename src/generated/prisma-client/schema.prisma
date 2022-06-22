@@ -16,20 +16,21 @@ model Recipe {
   cookingDuration     Int                 @map("cooking_duration")
   recipeEvents        RecipeEvent[]
   recipeInstructions  RecipeInstruction[]
+  recipeFood          RecipeFood[]
 
   @@map("recipes")
 }
 
-model RecipeInstructionFood {
-  id                  String            @id @default(cuid()) @db.VarChar(30)
-  recipeInstructionId String            @map("recipe_instruction_id") @db.VarChar(30)
-  foodId              String            @map("food_id") @db.VarChar(30)
-  quantity            Int
-  quantityUnit        String            @map("quantity_unit") @db.VarChar(30)
-  recipeInstruction   RecipeInstruction @relation(fields: [recipeInstructionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  food                Food              @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+model RecipeFood {
+  id           String  @id @default(cuid()) @db.VarChar(30)
+  recipeId     String  @map("recipe_id") @db.VarChar(30)
+  foodId       String  @map("food_id") @db.VarChar(30)
+  quantity     Int
+  quantityUnit String? @map("quantity_unit") @db.VarChar(30)
+  recipe       Recipe  @relation(fields: [recipeId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  food         Food    @relation(fields: [foodId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
-  @@map("recipes_instructions_food")
+  @@map("recipes_food")
 }
 
 model RecipeEvent {
@@ -44,12 +45,11 @@ model RecipeEvent {
 }
 
 model RecipeInstruction {
-  id                     String                  @id @default(cuid()) @db.VarChar(30)
-  description            String                  @db.VarChar(500)
-  recipeId               String                  @map("recipe_id") @db.VarChar(30)
-  duration               Int
-  recipe                 Recipe                  @relation(fields: [recipeId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  recipeInstructionFoods RecipeInstructionFood[]
+  id          String @id @default(cuid()) @db.VarChar(30)
+  description String @db.VarChar(500)
+  recipeId    String @map("recipe_id") @db.VarChar(30)
+  duration    Int
+  recipe      Recipe @relation(fields: [recipeId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("recipes_instructions")
 }
@@ -89,11 +89,11 @@ model ShoppingListFood {
 
 // Food ---
 model Food {
-  id                         String                  @id @default(cuid()) @db.VarChar(30)
-  name                       String                  @db.VarChar(100)
-  type                       FoodType
-  recipeInstructionFoodItems RecipeInstructionFood[]
-  shoppingListFoodItems      ShoppingListFood[]
+  id                    String             @id @default(cuid()) @db.VarChar(30)
+  name                  String             @db.VarChar(100)
+  type                  FoodType
+  recipeFoodItems       RecipeFood[]
+  shoppingListFoodItems ShoppingListFood[]
 
   @@map("food")
 }

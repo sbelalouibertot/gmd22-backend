@@ -24,15 +24,15 @@ export type Recipe = {
 }
 
 /**
- * Model RecipeInstructionFood
+ * Model RecipeFood
  * 
  */
-export type RecipeInstructionFood = {
+export type RecipeFood = {
   id: string
-  recipeInstructionId: string
+  recipeId: string
   foodId: string
   quantity: number
-  quantityUnit: string
+  quantityUnit: string | null
 }
 
 /**
@@ -353,14 +353,14 @@ export class PrismaClient<
   get recipe(): Prisma.RecipeDelegate<GlobalReject>;
 
   /**
-   * `prisma.recipeInstructionFood`: Exposes CRUD operations for the **RecipeInstructionFood** model.
+   * `prisma.recipeFood`: Exposes CRUD operations for the **RecipeFood** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more RecipeInstructionFoods
-    * const recipeInstructionFoods = await prisma.recipeInstructionFood.findMany()
+    * // Fetch zero or more RecipeFoods
+    * const recipeFoods = await prisma.recipeFood.findMany()
     * ```
     */
-  get recipeInstructionFood(): Prisma.RecipeInstructionFoodDelegate<GlobalReject>;
+  get recipeFood(): Prisma.RecipeFoodDelegate<GlobalReject>;
 
   /**
    * `prisma.recipeEvent`: Exposes CRUD operations for the **RecipeEvent** model.
@@ -878,7 +878,7 @@ export namespace Prisma {
 
   export const ModelName: {
     Recipe: 'Recipe',
-    RecipeInstructionFood: 'RecipeInstructionFood',
+    RecipeFood: 'RecipeFood',
     RecipeEvent: 'RecipeEvent',
     RecipeInstruction: 'RecipeInstruction',
     ShoppingList: 'ShoppingList',
@@ -1054,11 +1054,13 @@ export namespace Prisma {
   export type RecipeCountOutputType = {
     recipeEvents: number
     recipeInstructions: number
+    recipeFood: number
   }
 
   export type RecipeCountOutputTypeSelect = {
     recipeEvents?: boolean
     recipeInstructions?: boolean
+    recipeFood?: boolean
   }
 
   export type RecipeCountOutputTypeGetPayload<
@@ -1093,55 +1095,6 @@ export namespace Prisma {
      * 
     **/
     select?: RecipeCountOutputTypeSelect | null
-  }
-
-
-
-  /**
-   * Count Type RecipeInstructionCountOutputType
-   */
-
-
-  export type RecipeInstructionCountOutputType = {
-    recipeInstructionFoods: number
-  }
-
-  export type RecipeInstructionCountOutputTypeSelect = {
-    recipeInstructionFoods?: boolean
-  }
-
-  export type RecipeInstructionCountOutputTypeGetPayload<
-    S extends boolean | null | undefined | RecipeInstructionCountOutputTypeArgs,
-    U = keyof S
-      > = S extends true
-        ? RecipeInstructionCountOutputType
-    : S extends undefined
-    ? never
-    : S extends RecipeInstructionCountOutputTypeArgs
-    ?'include' extends U
-    ? RecipeInstructionCountOutputType 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]:
-    P extends keyof RecipeInstructionCountOutputType ? RecipeInstructionCountOutputType[P] : never
-  } 
-    : RecipeInstructionCountOutputType
-  : RecipeInstructionCountOutputType
-
-
-
-
-  // Custom InputTypes
-
-  /**
-   * RecipeInstructionCountOutputType without action
-   */
-  export type RecipeInstructionCountOutputTypeArgs = {
-    /**
-     * Select specific fields to fetch from the RecipeInstructionCountOutputType
-     * 
-    **/
-    select?: RecipeInstructionCountOutputTypeSelect | null
   }
 
 
@@ -1203,12 +1156,12 @@ export namespace Prisma {
 
 
   export type FoodCountOutputType = {
-    recipeInstructionFoodItems: number
+    recipeFoodItems: number
     shoppingListFoodItems: number
   }
 
   export type FoodCountOutputTypeSelect = {
-    recipeInstructionFoodItems?: boolean
+    recipeFoodItems?: boolean
     shoppingListFoodItems?: boolean
   }
 
@@ -1557,12 +1510,14 @@ export namespace Prisma {
     cookingDuration?: boolean
     recipeEvents?: boolean | RecipeEventFindManyArgs
     recipeInstructions?: boolean | RecipeInstructionFindManyArgs
+    recipeFood?: boolean | RecipeFoodFindManyArgs
     _count?: boolean | RecipeCountOutputTypeArgs
   }
 
   export type RecipeInclude = {
     recipeEvents?: boolean | RecipeEventFindManyArgs
     recipeInstructions?: boolean | RecipeInstructionFindManyArgs
+    recipeFood?: boolean | RecipeFoodFindManyArgs
     _count?: boolean | RecipeCountOutputTypeArgs
   }
 
@@ -1579,6 +1534,7 @@ export namespace Prisma {
     [P in TrueKeys<S['include']>]:
         P extends 'recipeEvents' ? Array < RecipeEventGetPayload<S['include'][P]>>  :
         P extends 'recipeInstructions' ? Array < RecipeInstructionGetPayload<S['include'][P]>>  :
+        P extends 'recipeFood' ? Array < RecipeFoodGetPayload<S['include'][P]>>  :
         P extends '_count' ? RecipeCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
@@ -1586,6 +1542,7 @@ export namespace Prisma {
     [P in TrueKeys<S['select']>]:
         P extends 'recipeEvents' ? Array < RecipeEventGetPayload<S['select'][P]>>  :
         P extends 'recipeInstructions' ? Array < RecipeInstructionGetPayload<S['select'][P]>>  :
+        P extends 'recipeFood' ? Array < RecipeFoodGetPayload<S['select'][P]>>  :
         P extends '_count' ? RecipeCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Recipe ? Recipe[P] : never
   } 
     : Recipe
@@ -1930,6 +1887,8 @@ export namespace Prisma {
 
     recipeInstructions<T extends RecipeInstructionFindManyArgs = {}>(args?: Subset<T, RecipeInstructionFindManyArgs>): CheckSelect<T, PrismaPromise<Array<RecipeInstruction>>, PrismaPromise<Array<RecipeInstructionGetPayload<T>>>>;
 
+    recipeFood<T extends RecipeFoodFindManyArgs = {}>(args?: Subset<T, RecipeFoodFindManyArgs>): CheckSelect<T, PrismaPromise<Array<RecipeFood>>, PrismaPromise<Array<RecipeFoodGetPayload<T>>>>;
+
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2259,45 +2218,45 @@ export namespace Prisma {
 
 
   /**
-   * Model RecipeInstructionFood
+   * Model RecipeFood
    */
 
 
-  export type AggregateRecipeInstructionFood = {
-    _count: RecipeInstructionFoodCountAggregateOutputType | null
-    _avg: RecipeInstructionFoodAvgAggregateOutputType | null
-    _sum: RecipeInstructionFoodSumAggregateOutputType | null
-    _min: RecipeInstructionFoodMinAggregateOutputType | null
-    _max: RecipeInstructionFoodMaxAggregateOutputType | null
+  export type AggregateRecipeFood = {
+    _count: RecipeFoodCountAggregateOutputType | null
+    _avg: RecipeFoodAvgAggregateOutputType | null
+    _sum: RecipeFoodSumAggregateOutputType | null
+    _min: RecipeFoodMinAggregateOutputType | null
+    _max: RecipeFoodMaxAggregateOutputType | null
   }
 
-  export type RecipeInstructionFoodAvgAggregateOutputType = {
+  export type RecipeFoodAvgAggregateOutputType = {
     quantity: number | null
   }
 
-  export type RecipeInstructionFoodSumAggregateOutputType = {
+  export type RecipeFoodSumAggregateOutputType = {
     quantity: number | null
   }
 
-  export type RecipeInstructionFoodMinAggregateOutputType = {
+  export type RecipeFoodMinAggregateOutputType = {
     id: string | null
-    recipeInstructionId: string | null
+    recipeId: string | null
     foodId: string | null
     quantity: number | null
     quantityUnit: string | null
   }
 
-  export type RecipeInstructionFoodMaxAggregateOutputType = {
+  export type RecipeFoodMaxAggregateOutputType = {
     id: string | null
-    recipeInstructionId: string | null
+    recipeId: string | null
     foodId: string | null
     quantity: number | null
     quantityUnit: string | null
   }
 
-  export type RecipeInstructionFoodCountAggregateOutputType = {
+  export type RecipeFoodCountAggregateOutputType = {
     id: number
-    recipeInstructionId: number
+    recipeId: number
     foodId: number
     quantity: number
     quantityUnit: number
@@ -2305,310 +2264,310 @@ export namespace Prisma {
   }
 
 
-  export type RecipeInstructionFoodAvgAggregateInputType = {
+  export type RecipeFoodAvgAggregateInputType = {
     quantity?: true
   }
 
-  export type RecipeInstructionFoodSumAggregateInputType = {
+  export type RecipeFoodSumAggregateInputType = {
     quantity?: true
   }
 
-  export type RecipeInstructionFoodMinAggregateInputType = {
+  export type RecipeFoodMinAggregateInputType = {
     id?: true
-    recipeInstructionId?: true
+    recipeId?: true
     foodId?: true
     quantity?: true
     quantityUnit?: true
   }
 
-  export type RecipeInstructionFoodMaxAggregateInputType = {
+  export type RecipeFoodMaxAggregateInputType = {
     id?: true
-    recipeInstructionId?: true
+    recipeId?: true
     foodId?: true
     quantity?: true
     quantityUnit?: true
   }
 
-  export type RecipeInstructionFoodCountAggregateInputType = {
+  export type RecipeFoodCountAggregateInputType = {
     id?: true
-    recipeInstructionId?: true
+    recipeId?: true
     foodId?: true
     quantity?: true
     quantityUnit?: true
     _all?: true
   }
 
-  export type RecipeInstructionFoodAggregateArgs = {
+  export type RecipeFoodAggregateArgs = {
     /**
-     * Filter which RecipeInstructionFood to aggregate.
+     * Filter which RecipeFood to aggregate.
      * 
     **/
-    where?: RecipeInstructionFoodWhereInput
+    where?: RecipeFoodWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of RecipeInstructionFoods to fetch.
+     * Determine the order of RecipeFoods to fetch.
      * 
     **/
-    orderBy?: Enumerable<RecipeInstructionFoodOrderByWithRelationInput>
+    orderBy?: Enumerable<RecipeFoodOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      * 
     **/
-    cursor?: RecipeInstructionFoodWhereUniqueInput
+    cursor?: RecipeFoodWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` RecipeInstructionFoods from the position of the cursor.
+     * Take `±n` RecipeFoods from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` RecipeInstructionFoods.
+     * Skip the first `n` RecipeFoods.
      * 
     **/
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned RecipeInstructionFoods
+     * Count returned RecipeFoods
     **/
-    _count?: true | RecipeInstructionFoodCountAggregateInputType
+    _count?: true | RecipeFoodCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: RecipeInstructionFoodAvgAggregateInputType
+    _avg?: RecipeFoodAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: RecipeInstructionFoodSumAggregateInputType
+    _sum?: RecipeFoodSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: RecipeInstructionFoodMinAggregateInputType
+    _min?: RecipeFoodMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: RecipeInstructionFoodMaxAggregateInputType
+    _max?: RecipeFoodMaxAggregateInputType
   }
 
-  export type GetRecipeInstructionFoodAggregateType<T extends RecipeInstructionFoodAggregateArgs> = {
-        [P in keyof T & keyof AggregateRecipeInstructionFood]: P extends '_count' | 'count'
+  export type GetRecipeFoodAggregateType<T extends RecipeFoodAggregateArgs> = {
+        [P in keyof T & keyof AggregateRecipeFood]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateRecipeInstructionFood[P]>
-      : GetScalarType<T[P], AggregateRecipeInstructionFood[P]>
+        : GetScalarType<T[P], AggregateRecipeFood[P]>
+      : GetScalarType<T[P], AggregateRecipeFood[P]>
   }
 
 
 
 
-  export type RecipeInstructionFoodGroupByArgs = {
-    where?: RecipeInstructionFoodWhereInput
-    orderBy?: Enumerable<RecipeInstructionFoodOrderByWithAggregationInput>
-    by: Array<RecipeInstructionFoodScalarFieldEnum>
-    having?: RecipeInstructionFoodScalarWhereWithAggregatesInput
+  export type RecipeFoodGroupByArgs = {
+    where?: RecipeFoodWhereInput
+    orderBy?: Enumerable<RecipeFoodOrderByWithAggregationInput>
+    by: Array<RecipeFoodScalarFieldEnum>
+    having?: RecipeFoodScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: RecipeInstructionFoodCountAggregateInputType | true
-    _avg?: RecipeInstructionFoodAvgAggregateInputType
-    _sum?: RecipeInstructionFoodSumAggregateInputType
-    _min?: RecipeInstructionFoodMinAggregateInputType
-    _max?: RecipeInstructionFoodMaxAggregateInputType
+    _count?: RecipeFoodCountAggregateInputType | true
+    _avg?: RecipeFoodAvgAggregateInputType
+    _sum?: RecipeFoodSumAggregateInputType
+    _min?: RecipeFoodMinAggregateInputType
+    _max?: RecipeFoodMaxAggregateInputType
   }
 
 
-  export type RecipeInstructionFoodGroupByOutputType = {
+  export type RecipeFoodGroupByOutputType = {
     id: string
-    recipeInstructionId: string
+    recipeId: string
     foodId: string
     quantity: number
-    quantityUnit: string
-    _count: RecipeInstructionFoodCountAggregateOutputType | null
-    _avg: RecipeInstructionFoodAvgAggregateOutputType | null
-    _sum: RecipeInstructionFoodSumAggregateOutputType | null
-    _min: RecipeInstructionFoodMinAggregateOutputType | null
-    _max: RecipeInstructionFoodMaxAggregateOutputType | null
+    quantityUnit: string | null
+    _count: RecipeFoodCountAggregateOutputType | null
+    _avg: RecipeFoodAvgAggregateOutputType | null
+    _sum: RecipeFoodSumAggregateOutputType | null
+    _min: RecipeFoodMinAggregateOutputType | null
+    _max: RecipeFoodMaxAggregateOutputType | null
   }
 
-  type GetRecipeInstructionFoodGroupByPayload<T extends RecipeInstructionFoodGroupByArgs> = PrismaPromise<
+  type GetRecipeFoodGroupByPayload<T extends RecipeFoodGroupByArgs> = PrismaPromise<
     Array<
-      PickArray<RecipeInstructionFoodGroupByOutputType, T['by']> &
+      PickArray<RecipeFoodGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof RecipeInstructionFoodGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof RecipeFoodGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], RecipeInstructionFoodGroupByOutputType[P]>
-            : GetScalarType<T[P], RecipeInstructionFoodGroupByOutputType[P]>
+              : GetScalarType<T[P], RecipeFoodGroupByOutputType[P]>
+            : GetScalarType<T[P], RecipeFoodGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type RecipeInstructionFoodSelect = {
+  export type RecipeFoodSelect = {
     id?: boolean
-    recipeInstructionId?: boolean
+    recipeId?: boolean
     foodId?: boolean
     quantity?: boolean
     quantityUnit?: boolean
-    recipeInstruction?: boolean | RecipeInstructionArgs
+    recipe?: boolean | RecipeArgs
     food?: boolean | FoodArgs
   }
 
-  export type RecipeInstructionFoodInclude = {
-    recipeInstruction?: boolean | RecipeInstructionArgs
+  export type RecipeFoodInclude = {
+    recipe?: boolean | RecipeArgs
     food?: boolean | FoodArgs
   }
 
-  export type RecipeInstructionFoodGetPayload<
-    S extends boolean | null | undefined | RecipeInstructionFoodArgs,
+  export type RecipeFoodGetPayload<
+    S extends boolean | null | undefined | RecipeFoodArgs,
     U = keyof S
       > = S extends true
-        ? RecipeInstructionFood
+        ? RecipeFood
     : S extends undefined
     ? never
-    : S extends RecipeInstructionFoodArgs | RecipeInstructionFoodFindManyArgs
+    : S extends RecipeFoodArgs | RecipeFoodFindManyArgs
     ?'include' extends U
-    ? RecipeInstructionFood  & {
+    ? RecipeFood  & {
     [P in TrueKeys<S['include']>]:
-        P extends 'recipeInstruction' ? RecipeInstructionGetPayload<S['include'][P]> :
+        P extends 'recipe' ? RecipeGetPayload<S['include'][P]> :
         P extends 'food' ? FoodGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-        P extends 'recipeInstruction' ? RecipeInstructionGetPayload<S['select'][P]> :
-        P extends 'food' ? FoodGetPayload<S['select'][P]> :  P extends keyof RecipeInstructionFood ? RecipeInstructionFood[P] : never
+        P extends 'recipe' ? RecipeGetPayload<S['select'][P]> :
+        P extends 'food' ? FoodGetPayload<S['select'][P]> :  P extends keyof RecipeFood ? RecipeFood[P] : never
   } 
-    : RecipeInstructionFood
-  : RecipeInstructionFood
+    : RecipeFood
+  : RecipeFood
 
 
-  type RecipeInstructionFoodCountArgs = Merge<
-    Omit<RecipeInstructionFoodFindManyArgs, 'select' | 'include'> & {
-      select?: RecipeInstructionFoodCountAggregateInputType | true
+  type RecipeFoodCountArgs = Merge<
+    Omit<RecipeFoodFindManyArgs, 'select' | 'include'> & {
+      select?: RecipeFoodCountAggregateInputType | true
     }
   >
 
-  export interface RecipeInstructionFoodDelegate<GlobalRejectSettings> {
+  export interface RecipeFoodDelegate<GlobalRejectSettings> {
     /**
-     * Find zero or one RecipeInstructionFood that matches the filter.
-     * @param {RecipeInstructionFoodFindUniqueArgs} args - Arguments to find a RecipeInstructionFood
+     * Find zero or one RecipeFood that matches the filter.
+     * @param {RecipeFoodFindUniqueArgs} args - Arguments to find a RecipeFood
      * @example
-     * // Get one RecipeInstructionFood
-     * const recipeInstructionFood = await prisma.recipeInstructionFood.findUnique({
+     * // Get one RecipeFood
+     * const recipeFood = await prisma.recipeFood.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends RecipeInstructionFoodFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, RecipeInstructionFoodFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'RecipeInstructionFood'> extends True ? CheckSelect<T, Prisma__RecipeInstructionFoodClient<RecipeInstructionFood>, Prisma__RecipeInstructionFoodClient<RecipeInstructionFoodGetPayload<T>>> : CheckSelect<T, Prisma__RecipeInstructionFoodClient<RecipeInstructionFood | null >, Prisma__RecipeInstructionFoodClient<RecipeInstructionFoodGetPayload<T> | null >>
+    findUnique<T extends RecipeFoodFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, RecipeFoodFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'RecipeFood'> extends True ? CheckSelect<T, Prisma__RecipeFoodClient<RecipeFood>, Prisma__RecipeFoodClient<RecipeFoodGetPayload<T>>> : CheckSelect<T, Prisma__RecipeFoodClient<RecipeFood | null >, Prisma__RecipeFoodClient<RecipeFoodGetPayload<T> | null >>
 
     /**
-     * Find the first RecipeInstructionFood that matches the filter.
+     * Find the first RecipeFood that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RecipeInstructionFoodFindFirstArgs} args - Arguments to find a RecipeInstructionFood
+     * @param {RecipeFoodFindFirstArgs} args - Arguments to find a RecipeFood
      * @example
-     * // Get one RecipeInstructionFood
-     * const recipeInstructionFood = await prisma.recipeInstructionFood.findFirst({
+     * // Get one RecipeFood
+     * const recipeFood = await prisma.recipeFood.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends RecipeInstructionFoodFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, RecipeInstructionFoodFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'RecipeInstructionFood'> extends True ? CheckSelect<T, Prisma__RecipeInstructionFoodClient<RecipeInstructionFood>, Prisma__RecipeInstructionFoodClient<RecipeInstructionFoodGetPayload<T>>> : CheckSelect<T, Prisma__RecipeInstructionFoodClient<RecipeInstructionFood | null >, Prisma__RecipeInstructionFoodClient<RecipeInstructionFoodGetPayload<T> | null >>
+    findFirst<T extends RecipeFoodFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, RecipeFoodFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'RecipeFood'> extends True ? CheckSelect<T, Prisma__RecipeFoodClient<RecipeFood>, Prisma__RecipeFoodClient<RecipeFoodGetPayload<T>>> : CheckSelect<T, Prisma__RecipeFoodClient<RecipeFood | null >, Prisma__RecipeFoodClient<RecipeFoodGetPayload<T> | null >>
 
     /**
-     * Find zero or more RecipeInstructionFoods that matches the filter.
+     * Find zero or more RecipeFoods that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RecipeInstructionFoodFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {RecipeFoodFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all RecipeInstructionFoods
-     * const recipeInstructionFoods = await prisma.recipeInstructionFood.findMany()
+     * // Get all RecipeFoods
+     * const recipeFoods = await prisma.recipeFood.findMany()
      * 
-     * // Get first 10 RecipeInstructionFoods
-     * const recipeInstructionFoods = await prisma.recipeInstructionFood.findMany({ take: 10 })
+     * // Get first 10 RecipeFoods
+     * const recipeFoods = await prisma.recipeFood.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const recipeInstructionFoodWithIdOnly = await prisma.recipeInstructionFood.findMany({ select: { id: true } })
+     * const recipeFoodWithIdOnly = await prisma.recipeFood.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends RecipeInstructionFoodFindManyArgs>(
-      args?: SelectSubset<T, RecipeInstructionFoodFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<RecipeInstructionFood>>, PrismaPromise<Array<RecipeInstructionFoodGetPayload<T>>>>
+    findMany<T extends RecipeFoodFindManyArgs>(
+      args?: SelectSubset<T, RecipeFoodFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<RecipeFood>>, PrismaPromise<Array<RecipeFoodGetPayload<T>>>>
 
     /**
-     * Create a RecipeInstructionFood.
-     * @param {RecipeInstructionFoodCreateArgs} args - Arguments to create a RecipeInstructionFood.
+     * Create a RecipeFood.
+     * @param {RecipeFoodCreateArgs} args - Arguments to create a RecipeFood.
      * @example
-     * // Create one RecipeInstructionFood
-     * const RecipeInstructionFood = await prisma.recipeInstructionFood.create({
+     * // Create one RecipeFood
+     * const RecipeFood = await prisma.recipeFood.create({
      *   data: {
-     *     // ... data to create a RecipeInstructionFood
+     *     // ... data to create a RecipeFood
      *   }
      * })
      * 
     **/
-    create<T extends RecipeInstructionFoodCreateArgs>(
-      args: SelectSubset<T, RecipeInstructionFoodCreateArgs>
-    ): CheckSelect<T, Prisma__RecipeInstructionFoodClient<RecipeInstructionFood>, Prisma__RecipeInstructionFoodClient<RecipeInstructionFoodGetPayload<T>>>
+    create<T extends RecipeFoodCreateArgs>(
+      args: SelectSubset<T, RecipeFoodCreateArgs>
+    ): CheckSelect<T, Prisma__RecipeFoodClient<RecipeFood>, Prisma__RecipeFoodClient<RecipeFoodGetPayload<T>>>
 
     /**
-     * Create many RecipeInstructionFoods.
-     *     @param {RecipeInstructionFoodCreateManyArgs} args - Arguments to create many RecipeInstructionFoods.
+     * Create many RecipeFoods.
+     *     @param {RecipeFoodCreateManyArgs} args - Arguments to create many RecipeFoods.
      *     @example
-     *     // Create many RecipeInstructionFoods
-     *     const recipeInstructionFood = await prisma.recipeInstructionFood.createMany({
+     *     // Create many RecipeFoods
+     *     const recipeFood = await prisma.recipeFood.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends RecipeInstructionFoodCreateManyArgs>(
-      args?: SelectSubset<T, RecipeInstructionFoodCreateManyArgs>
+    createMany<T extends RecipeFoodCreateManyArgs>(
+      args?: SelectSubset<T, RecipeFoodCreateManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Delete a RecipeInstructionFood.
-     * @param {RecipeInstructionFoodDeleteArgs} args - Arguments to delete one RecipeInstructionFood.
+     * Delete a RecipeFood.
+     * @param {RecipeFoodDeleteArgs} args - Arguments to delete one RecipeFood.
      * @example
-     * // Delete one RecipeInstructionFood
-     * const RecipeInstructionFood = await prisma.recipeInstructionFood.delete({
+     * // Delete one RecipeFood
+     * const RecipeFood = await prisma.recipeFood.delete({
      *   where: {
-     *     // ... filter to delete one RecipeInstructionFood
+     *     // ... filter to delete one RecipeFood
      *   }
      * })
      * 
     **/
-    delete<T extends RecipeInstructionFoodDeleteArgs>(
-      args: SelectSubset<T, RecipeInstructionFoodDeleteArgs>
-    ): CheckSelect<T, Prisma__RecipeInstructionFoodClient<RecipeInstructionFood>, Prisma__RecipeInstructionFoodClient<RecipeInstructionFoodGetPayload<T>>>
+    delete<T extends RecipeFoodDeleteArgs>(
+      args: SelectSubset<T, RecipeFoodDeleteArgs>
+    ): CheckSelect<T, Prisma__RecipeFoodClient<RecipeFood>, Prisma__RecipeFoodClient<RecipeFoodGetPayload<T>>>
 
     /**
-     * Update one RecipeInstructionFood.
-     * @param {RecipeInstructionFoodUpdateArgs} args - Arguments to update one RecipeInstructionFood.
+     * Update one RecipeFood.
+     * @param {RecipeFoodUpdateArgs} args - Arguments to update one RecipeFood.
      * @example
-     * // Update one RecipeInstructionFood
-     * const recipeInstructionFood = await prisma.recipeInstructionFood.update({
+     * // Update one RecipeFood
+     * const recipeFood = await prisma.recipeFood.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2618,34 +2577,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends RecipeInstructionFoodUpdateArgs>(
-      args: SelectSubset<T, RecipeInstructionFoodUpdateArgs>
-    ): CheckSelect<T, Prisma__RecipeInstructionFoodClient<RecipeInstructionFood>, Prisma__RecipeInstructionFoodClient<RecipeInstructionFoodGetPayload<T>>>
+    update<T extends RecipeFoodUpdateArgs>(
+      args: SelectSubset<T, RecipeFoodUpdateArgs>
+    ): CheckSelect<T, Prisma__RecipeFoodClient<RecipeFood>, Prisma__RecipeFoodClient<RecipeFoodGetPayload<T>>>
 
     /**
-     * Delete zero or more RecipeInstructionFoods.
-     * @param {RecipeInstructionFoodDeleteManyArgs} args - Arguments to filter RecipeInstructionFoods to delete.
+     * Delete zero or more RecipeFoods.
+     * @param {RecipeFoodDeleteManyArgs} args - Arguments to filter RecipeFoods to delete.
      * @example
-     * // Delete a few RecipeInstructionFoods
-     * const { count } = await prisma.recipeInstructionFood.deleteMany({
+     * // Delete a few RecipeFoods
+     * const { count } = await prisma.recipeFood.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends RecipeInstructionFoodDeleteManyArgs>(
-      args?: SelectSubset<T, RecipeInstructionFoodDeleteManyArgs>
+    deleteMany<T extends RecipeFoodDeleteManyArgs>(
+      args?: SelectSubset<T, RecipeFoodDeleteManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more RecipeInstructionFoods.
+     * Update zero or more RecipeFoods.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RecipeInstructionFoodUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {RecipeFoodUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many RecipeInstructionFoods
-     * const recipeInstructionFood = await prisma.recipeInstructionFood.updateMany({
+     * // Update many RecipeFoods
+     * const recipeFood = await prisma.recipeFood.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2655,59 +2614,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends RecipeInstructionFoodUpdateManyArgs>(
-      args: SelectSubset<T, RecipeInstructionFoodUpdateManyArgs>
+    updateMany<T extends RecipeFoodUpdateManyArgs>(
+      args: SelectSubset<T, RecipeFoodUpdateManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one RecipeInstructionFood.
-     * @param {RecipeInstructionFoodUpsertArgs} args - Arguments to update or create a RecipeInstructionFood.
+     * Create or update one RecipeFood.
+     * @param {RecipeFoodUpsertArgs} args - Arguments to update or create a RecipeFood.
      * @example
-     * // Update or create a RecipeInstructionFood
-     * const recipeInstructionFood = await prisma.recipeInstructionFood.upsert({
+     * // Update or create a RecipeFood
+     * const recipeFood = await prisma.recipeFood.upsert({
      *   create: {
-     *     // ... data to create a RecipeInstructionFood
+     *     // ... data to create a RecipeFood
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the RecipeInstructionFood we want to update
+     *     // ... the filter for the RecipeFood we want to update
      *   }
      * })
     **/
-    upsert<T extends RecipeInstructionFoodUpsertArgs>(
-      args: SelectSubset<T, RecipeInstructionFoodUpsertArgs>
-    ): CheckSelect<T, Prisma__RecipeInstructionFoodClient<RecipeInstructionFood>, Prisma__RecipeInstructionFoodClient<RecipeInstructionFoodGetPayload<T>>>
+    upsert<T extends RecipeFoodUpsertArgs>(
+      args: SelectSubset<T, RecipeFoodUpsertArgs>
+    ): CheckSelect<T, Prisma__RecipeFoodClient<RecipeFood>, Prisma__RecipeFoodClient<RecipeFoodGetPayload<T>>>
 
     /**
-     * Count the number of RecipeInstructionFoods.
+     * Count the number of RecipeFoods.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RecipeInstructionFoodCountArgs} args - Arguments to filter RecipeInstructionFoods to count.
+     * @param {RecipeFoodCountArgs} args - Arguments to filter RecipeFoods to count.
      * @example
-     * // Count the number of RecipeInstructionFoods
-     * const count = await prisma.recipeInstructionFood.count({
+     * // Count the number of RecipeFoods
+     * const count = await prisma.recipeFood.count({
      *   where: {
-     *     // ... the filter for the RecipeInstructionFoods we want to count
+     *     // ... the filter for the RecipeFoods we want to count
      *   }
      * })
     **/
-    count<T extends RecipeInstructionFoodCountArgs>(
-      args?: Subset<T, RecipeInstructionFoodCountArgs>,
+    count<T extends RecipeFoodCountArgs>(
+      args?: Subset<T, RecipeFoodCountArgs>,
     ): PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], RecipeInstructionFoodCountAggregateOutputType>
+          : GetScalarType<T['select'], RecipeFoodCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a RecipeInstructionFood.
+     * Allows you to perform aggregations operations on a RecipeFood.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RecipeInstructionFoodAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {RecipeFoodAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -2727,13 +2686,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends RecipeInstructionFoodAggregateArgs>(args: Subset<T, RecipeInstructionFoodAggregateArgs>): PrismaPromise<GetRecipeInstructionFoodAggregateType<T>>
+    aggregate<T extends RecipeFoodAggregateArgs>(args: Subset<T, RecipeFoodAggregateArgs>): PrismaPromise<GetRecipeFoodAggregateType<T>>
 
     /**
-     * Group by RecipeInstructionFood.
+     * Group by RecipeFood.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {RecipeInstructionFoodGroupByArgs} args - Group by arguments.
+     * @param {RecipeFoodGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -2748,14 +2707,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends RecipeInstructionFoodGroupByArgs,
+      T extends RecipeFoodGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: RecipeInstructionFoodGroupByArgs['orderBy'] }
-        : { orderBy?: RecipeInstructionFoodGroupByArgs['orderBy'] },
+        ? { orderBy: RecipeFoodGroupByArgs['orderBy'] }
+        : { orderBy?: RecipeFoodGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -2804,16 +2763,16 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, RecipeInstructionFoodGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRecipeInstructionFoodGroupByPayload<T> : PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, RecipeFoodGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRecipeFoodGroupByPayload<T> : PrismaPromise<InputErrors>
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for RecipeInstructionFood.
+   * The delegate class that acts as a "Promise-like" for RecipeFood.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__RecipeInstructionFoodClient<T> implements PrismaPromise<T> {
+  export class Prisma__RecipeFoodClient<T> implements PrismaPromise<T> {
     [prisma]: true;
     private readonly _dmmf;
     private readonly _fetcher;
@@ -2830,7 +2789,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-    recipeInstruction<T extends RecipeInstructionArgs = {}>(args?: Subset<T, RecipeInstructionArgs>): CheckSelect<T, Prisma__RecipeInstructionClient<RecipeInstruction | null >, Prisma__RecipeInstructionClient<RecipeInstructionGetPayload<T> | null >>;
+    recipe<T extends RecipeArgs = {}>(args?: Subset<T, RecipeArgs>): CheckSelect<T, Prisma__RecipeClient<Recipe | null >, Prisma__RecipeClient<RecipeGetPayload<T> | null >>;
 
     food<T extends FoodArgs = {}>(args?: Subset<T, FoodArgs>): CheckSelect<T, Prisma__FoodClient<Food | null >, Prisma__FoodClient<FoodGetPayload<T> | null >>;
 
@@ -2860,304 +2819,304 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * RecipeInstructionFood findUnique
+   * RecipeFood findUnique
    */
-  export type RecipeInstructionFoodFindUniqueArgs = {
+  export type RecipeFoodFindUniqueArgs = {
     /**
-     * Select specific fields to fetch from the RecipeInstructionFood
+     * Select specific fields to fetch from the RecipeFood
      * 
     **/
-    select?: RecipeInstructionFoodSelect | null
+    select?: RecipeFoodSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: RecipeInstructionFoodInclude | null
+    include?: RecipeFoodInclude | null
     /**
-     * Throw an Error if a RecipeInstructionFood can't be found
+     * Throw an Error if a RecipeFood can't be found
      * 
     **/
     rejectOnNotFound?: RejectOnNotFound
     /**
-     * Filter, which RecipeInstructionFood to fetch.
+     * Filter, which RecipeFood to fetch.
      * 
     **/
-    where: RecipeInstructionFoodWhereUniqueInput
+    where: RecipeFoodWhereUniqueInput
   }
 
 
   /**
-   * RecipeInstructionFood findFirst
+   * RecipeFood findFirst
    */
-  export type RecipeInstructionFoodFindFirstArgs = {
+  export type RecipeFoodFindFirstArgs = {
     /**
-     * Select specific fields to fetch from the RecipeInstructionFood
+     * Select specific fields to fetch from the RecipeFood
      * 
     **/
-    select?: RecipeInstructionFoodSelect | null
+    select?: RecipeFoodSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: RecipeInstructionFoodInclude | null
+    include?: RecipeFoodInclude | null
     /**
-     * Throw an Error if a RecipeInstructionFood can't be found
+     * Throw an Error if a RecipeFood can't be found
      * 
     **/
     rejectOnNotFound?: RejectOnNotFound
     /**
-     * Filter, which RecipeInstructionFood to fetch.
+     * Filter, which RecipeFood to fetch.
      * 
     **/
-    where?: RecipeInstructionFoodWhereInput
+    where?: RecipeFoodWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of RecipeInstructionFoods to fetch.
+     * Determine the order of RecipeFoods to fetch.
      * 
     **/
-    orderBy?: Enumerable<RecipeInstructionFoodOrderByWithRelationInput>
+    orderBy?: Enumerable<RecipeFoodOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for RecipeInstructionFoods.
+     * Sets the position for searching for RecipeFoods.
      * 
     **/
-    cursor?: RecipeInstructionFoodWhereUniqueInput
+    cursor?: RecipeFoodWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` RecipeInstructionFoods from the position of the cursor.
+     * Take `±n` RecipeFoods from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` RecipeInstructionFoods.
+     * Skip the first `n` RecipeFoods.
      * 
     **/
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of RecipeInstructionFoods.
+     * Filter by unique combinations of RecipeFoods.
      * 
     **/
-    distinct?: Enumerable<RecipeInstructionFoodScalarFieldEnum>
+    distinct?: Enumerable<RecipeFoodScalarFieldEnum>
   }
 
 
   /**
-   * RecipeInstructionFood findMany
+   * RecipeFood findMany
    */
-  export type RecipeInstructionFoodFindManyArgs = {
+  export type RecipeFoodFindManyArgs = {
     /**
-     * Select specific fields to fetch from the RecipeInstructionFood
+     * Select specific fields to fetch from the RecipeFood
      * 
     **/
-    select?: RecipeInstructionFoodSelect | null
+    select?: RecipeFoodSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: RecipeInstructionFoodInclude | null
+    include?: RecipeFoodInclude | null
     /**
-     * Filter, which RecipeInstructionFoods to fetch.
+     * Filter, which RecipeFoods to fetch.
      * 
     **/
-    where?: RecipeInstructionFoodWhereInput
+    where?: RecipeFoodWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of RecipeInstructionFoods to fetch.
+     * Determine the order of RecipeFoods to fetch.
      * 
     **/
-    orderBy?: Enumerable<RecipeInstructionFoodOrderByWithRelationInput>
+    orderBy?: Enumerable<RecipeFoodOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing RecipeInstructionFoods.
+     * Sets the position for listing RecipeFoods.
      * 
     **/
-    cursor?: RecipeInstructionFoodWhereUniqueInput
+    cursor?: RecipeFoodWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` RecipeInstructionFoods from the position of the cursor.
+     * Take `±n` RecipeFoods from the position of the cursor.
      * 
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` RecipeInstructionFoods.
+     * Skip the first `n` RecipeFoods.
      * 
     **/
     skip?: number
-    distinct?: Enumerable<RecipeInstructionFoodScalarFieldEnum>
+    distinct?: Enumerable<RecipeFoodScalarFieldEnum>
   }
 
 
   /**
-   * RecipeInstructionFood create
+   * RecipeFood create
    */
-  export type RecipeInstructionFoodCreateArgs = {
+  export type RecipeFoodCreateArgs = {
     /**
-     * Select specific fields to fetch from the RecipeInstructionFood
+     * Select specific fields to fetch from the RecipeFood
      * 
     **/
-    select?: RecipeInstructionFoodSelect | null
+    select?: RecipeFoodSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: RecipeInstructionFoodInclude | null
+    include?: RecipeFoodInclude | null
     /**
-     * The data needed to create a RecipeInstructionFood.
+     * The data needed to create a RecipeFood.
      * 
     **/
-    data: XOR<RecipeInstructionFoodCreateInput, RecipeInstructionFoodUncheckedCreateInput>
+    data: XOR<RecipeFoodCreateInput, RecipeFoodUncheckedCreateInput>
   }
 
 
   /**
-   * RecipeInstructionFood createMany
+   * RecipeFood createMany
    */
-  export type RecipeInstructionFoodCreateManyArgs = {
+  export type RecipeFoodCreateManyArgs = {
     /**
-     * The data used to create many RecipeInstructionFoods.
+     * The data used to create many RecipeFoods.
      * 
     **/
-    data: Enumerable<RecipeInstructionFoodCreateManyInput>
+    data: Enumerable<RecipeFoodCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * RecipeInstructionFood update
+   * RecipeFood update
    */
-  export type RecipeInstructionFoodUpdateArgs = {
+  export type RecipeFoodUpdateArgs = {
     /**
-     * Select specific fields to fetch from the RecipeInstructionFood
+     * Select specific fields to fetch from the RecipeFood
      * 
     **/
-    select?: RecipeInstructionFoodSelect | null
+    select?: RecipeFoodSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: RecipeInstructionFoodInclude | null
+    include?: RecipeFoodInclude | null
     /**
-     * The data needed to update a RecipeInstructionFood.
+     * The data needed to update a RecipeFood.
      * 
     **/
-    data: XOR<RecipeInstructionFoodUpdateInput, RecipeInstructionFoodUncheckedUpdateInput>
+    data: XOR<RecipeFoodUpdateInput, RecipeFoodUncheckedUpdateInput>
     /**
-     * Choose, which RecipeInstructionFood to update.
+     * Choose, which RecipeFood to update.
      * 
     **/
-    where: RecipeInstructionFoodWhereUniqueInput
+    where: RecipeFoodWhereUniqueInput
   }
 
 
   /**
-   * RecipeInstructionFood updateMany
+   * RecipeFood updateMany
    */
-  export type RecipeInstructionFoodUpdateManyArgs = {
+  export type RecipeFoodUpdateManyArgs = {
     /**
-     * The data used to update RecipeInstructionFoods.
+     * The data used to update RecipeFoods.
      * 
     **/
-    data: XOR<RecipeInstructionFoodUpdateManyMutationInput, RecipeInstructionFoodUncheckedUpdateManyInput>
+    data: XOR<RecipeFoodUpdateManyMutationInput, RecipeFoodUncheckedUpdateManyInput>
     /**
-     * Filter which RecipeInstructionFoods to update
+     * Filter which RecipeFoods to update
      * 
     **/
-    where?: RecipeInstructionFoodWhereInput
+    where?: RecipeFoodWhereInput
   }
 
 
   /**
-   * RecipeInstructionFood upsert
+   * RecipeFood upsert
    */
-  export type RecipeInstructionFoodUpsertArgs = {
+  export type RecipeFoodUpsertArgs = {
     /**
-     * Select specific fields to fetch from the RecipeInstructionFood
+     * Select specific fields to fetch from the RecipeFood
      * 
     **/
-    select?: RecipeInstructionFoodSelect | null
+    select?: RecipeFoodSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: RecipeInstructionFoodInclude | null
+    include?: RecipeFoodInclude | null
     /**
-     * The filter to search for the RecipeInstructionFood to update in case it exists.
+     * The filter to search for the RecipeFood to update in case it exists.
      * 
     **/
-    where: RecipeInstructionFoodWhereUniqueInput
+    where: RecipeFoodWhereUniqueInput
     /**
-     * In case the RecipeInstructionFood found by the `where` argument doesn't exist, create a new RecipeInstructionFood with this data.
+     * In case the RecipeFood found by the `where` argument doesn't exist, create a new RecipeFood with this data.
      * 
     **/
-    create: XOR<RecipeInstructionFoodCreateInput, RecipeInstructionFoodUncheckedCreateInput>
+    create: XOR<RecipeFoodCreateInput, RecipeFoodUncheckedCreateInput>
     /**
-     * In case the RecipeInstructionFood was found with the provided `where` argument, update it with this data.
+     * In case the RecipeFood was found with the provided `where` argument, update it with this data.
      * 
     **/
-    update: XOR<RecipeInstructionFoodUpdateInput, RecipeInstructionFoodUncheckedUpdateInput>
+    update: XOR<RecipeFoodUpdateInput, RecipeFoodUncheckedUpdateInput>
   }
 
 
   /**
-   * RecipeInstructionFood delete
+   * RecipeFood delete
    */
-  export type RecipeInstructionFoodDeleteArgs = {
+  export type RecipeFoodDeleteArgs = {
     /**
-     * Select specific fields to fetch from the RecipeInstructionFood
+     * Select specific fields to fetch from the RecipeFood
      * 
     **/
-    select?: RecipeInstructionFoodSelect | null
+    select?: RecipeFoodSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: RecipeInstructionFoodInclude | null
+    include?: RecipeFoodInclude | null
     /**
-     * Filter which RecipeInstructionFood to delete.
+     * Filter which RecipeFood to delete.
      * 
     **/
-    where: RecipeInstructionFoodWhereUniqueInput
+    where: RecipeFoodWhereUniqueInput
   }
 
 
   /**
-   * RecipeInstructionFood deleteMany
+   * RecipeFood deleteMany
    */
-  export type RecipeInstructionFoodDeleteManyArgs = {
+  export type RecipeFoodDeleteManyArgs = {
     /**
-     * Filter which RecipeInstructionFoods to delete
+     * Filter which RecipeFoods to delete
      * 
     **/
-    where?: RecipeInstructionFoodWhereInput
+    where?: RecipeFoodWhereInput
   }
 
 
   /**
-   * RecipeInstructionFood without action
+   * RecipeFood without action
    */
-  export type RecipeInstructionFoodArgs = {
+  export type RecipeFoodArgs = {
     /**
-     * Select specific fields to fetch from the RecipeInstructionFood
+     * Select specific fields to fetch from the RecipeFood
      * 
     **/
-    select?: RecipeInstructionFoodSelect | null
+    select?: RecipeFoodSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      * 
     **/
-    include?: RecipeInstructionFoodInclude | null
+    include?: RecipeFoodInclude | null
   }
 
 
@@ -4222,14 +4181,10 @@ export namespace Prisma {
     recipeId?: boolean
     duration?: boolean
     recipe?: boolean | RecipeArgs
-    recipeInstructionFoods?: boolean | RecipeInstructionFoodFindManyArgs
-    _count?: boolean | RecipeInstructionCountOutputTypeArgs
   }
 
   export type RecipeInstructionInclude = {
     recipe?: boolean | RecipeArgs
-    recipeInstructionFoods?: boolean | RecipeInstructionFoodFindManyArgs
-    _count?: boolean | RecipeInstructionCountOutputTypeArgs
   }
 
   export type RecipeInstructionGetPayload<
@@ -4243,16 +4198,12 @@ export namespace Prisma {
     ?'include' extends U
     ? RecipeInstruction  & {
     [P in TrueKeys<S['include']>]:
-        P extends 'recipe' ? RecipeGetPayload<S['include'][P]> :
-        P extends 'recipeInstructionFoods' ? Array < RecipeInstructionFoodGetPayload<S['include'][P]>>  :
-        P extends '_count' ? RecipeInstructionCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends 'recipe' ? RecipeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-        P extends 'recipe' ? RecipeGetPayload<S['select'][P]> :
-        P extends 'recipeInstructionFoods' ? Array < RecipeInstructionFoodGetPayload<S['select'][P]>>  :
-        P extends '_count' ? RecipeInstructionCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof RecipeInstruction ? RecipeInstruction[P] : never
+        P extends 'recipe' ? RecipeGetPayload<S['select'][P]> :  P extends keyof RecipeInstruction ? RecipeInstruction[P] : never
   } 
     : RecipeInstruction
   : RecipeInstruction
@@ -4593,8 +4544,6 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     recipe<T extends RecipeArgs = {}>(args?: Subset<T, RecipeArgs>): CheckSelect<T, Prisma__RecipeClient<Recipe | null >, Prisma__RecipeClient<RecipeGetPayload<T> | null >>;
-
-    recipeInstructionFoods<T extends RecipeInstructionFoodFindManyArgs = {}>(args?: Subset<T, RecipeInstructionFoodFindManyArgs>): CheckSelect<T, PrismaPromise<Array<RecipeInstructionFood>>, PrismaPromise<Array<RecipeInstructionFoodGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -7661,13 +7610,13 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     type?: boolean
-    recipeInstructionFoodItems?: boolean | RecipeInstructionFoodFindManyArgs
+    recipeFoodItems?: boolean | RecipeFoodFindManyArgs
     shoppingListFoodItems?: boolean | ShoppingListFoodFindManyArgs
     _count?: boolean | FoodCountOutputTypeArgs
   }
 
   export type FoodInclude = {
-    recipeInstructionFoodItems?: boolean | RecipeInstructionFoodFindManyArgs
+    recipeFoodItems?: boolean | RecipeFoodFindManyArgs
     shoppingListFoodItems?: boolean | ShoppingListFoodFindManyArgs
     _count?: boolean | FoodCountOutputTypeArgs
   }
@@ -7683,14 +7632,14 @@ export namespace Prisma {
     ?'include' extends U
     ? Food  & {
     [P in TrueKeys<S['include']>]:
-        P extends 'recipeInstructionFoodItems' ? Array < RecipeInstructionFoodGetPayload<S['include'][P]>>  :
+        P extends 'recipeFoodItems' ? Array < RecipeFoodGetPayload<S['include'][P]>>  :
         P extends 'shoppingListFoodItems' ? Array < ShoppingListFoodGetPayload<S['include'][P]>>  :
         P extends '_count' ? FoodCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-        P extends 'recipeInstructionFoodItems' ? Array < RecipeInstructionFoodGetPayload<S['select'][P]>>  :
+        P extends 'recipeFoodItems' ? Array < RecipeFoodGetPayload<S['select'][P]>>  :
         P extends 'shoppingListFoodItems' ? Array < ShoppingListFoodGetPayload<S['select'][P]>>  :
         P extends '_count' ? FoodCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Food ? Food[P] : never
   } 
@@ -8032,7 +7981,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-    recipeInstructionFoodItems<T extends RecipeInstructionFoodFindManyArgs = {}>(args?: Subset<T, RecipeInstructionFoodFindManyArgs>): CheckSelect<T, PrismaPromise<Array<RecipeInstructionFood>>, PrismaPromise<Array<RecipeInstructionFoodGetPayload<T>>>>;
+    recipeFoodItems<T extends RecipeFoodFindManyArgs = {}>(args?: Subset<T, RecipeFoodFindManyArgs>): CheckSelect<T, PrismaPromise<Array<RecipeFood>>, PrismaPromise<Array<RecipeFoodGetPayload<T>>>>;
 
     shoppingListFoodItems<T extends ShoppingListFoodFindManyArgs = {}>(args?: Subset<T, ShoppingListFoodFindManyArgs>): CheckSelect<T, PrismaPromise<Array<ShoppingListFood>>, PrismaPromise<Array<ShoppingListFoodGetPayload<T>>>>;
 
@@ -11834,15 +11783,15 @@ export namespace Prisma {
   export type RecipeScalarFieldEnum = (typeof RecipeScalarFieldEnum)[keyof typeof RecipeScalarFieldEnum]
 
 
-  export const RecipeInstructionFoodScalarFieldEnum: {
+  export const RecipeFoodScalarFieldEnum: {
     id: 'id',
-    recipeInstructionId: 'recipeInstructionId',
+    recipeId: 'recipeId',
     foodId: 'foodId',
     quantity: 'quantity',
     quantityUnit: 'quantityUnit'
   };
 
-  export type RecipeInstructionFoodScalarFieldEnum = (typeof RecipeInstructionFoodScalarFieldEnum)[keyof typeof RecipeInstructionFoodScalarFieldEnum]
+  export type RecipeFoodScalarFieldEnum = (typeof RecipeFoodScalarFieldEnum)[keyof typeof RecipeFoodScalarFieldEnum]
 
 
   export const RecipeEventScalarFieldEnum: {
@@ -11972,6 +11921,7 @@ export namespace Prisma {
     cookingDuration?: IntFilter | number
     recipeEvents?: RecipeEventListRelationFilter
     recipeInstructions?: RecipeInstructionListRelationFilter
+    recipeFood?: RecipeFoodListRelationFilter
   }
 
   export type RecipeOrderByWithRelationInput = {
@@ -11981,6 +11931,7 @@ export namespace Prisma {
     cookingDuration?: SortOrder
     recipeEvents?: RecipeEventOrderByRelationAggregateInput
     recipeInstructions?: RecipeInstructionOrderByRelationAggregateInput
+    recipeFood?: RecipeFoodOrderByRelationAggregateInput
   }
 
   export type RecipeWhereUniqueInput = {
@@ -12009,55 +11960,55 @@ export namespace Prisma {
     cookingDuration?: IntWithAggregatesFilter | number
   }
 
-  export type RecipeInstructionFoodWhereInput = {
-    AND?: Enumerable<RecipeInstructionFoodWhereInput>
-    OR?: Enumerable<RecipeInstructionFoodWhereInput>
-    NOT?: Enumerable<RecipeInstructionFoodWhereInput>
+  export type RecipeFoodWhereInput = {
+    AND?: Enumerable<RecipeFoodWhereInput>
+    OR?: Enumerable<RecipeFoodWhereInput>
+    NOT?: Enumerable<RecipeFoodWhereInput>
     id?: StringFilter | string
-    recipeInstructionId?: StringFilter | string
+    recipeId?: StringFilter | string
     foodId?: StringFilter | string
     quantity?: IntFilter | number
-    quantityUnit?: StringFilter | string
-    recipeInstruction?: XOR<RecipeInstructionRelationFilter, RecipeInstructionWhereInput>
+    quantityUnit?: StringNullableFilter | string | null
+    recipe?: XOR<RecipeRelationFilter, RecipeWhereInput>
     food?: XOR<FoodRelationFilter, FoodWhereInput>
   }
 
-  export type RecipeInstructionFoodOrderByWithRelationInput = {
+  export type RecipeFoodOrderByWithRelationInput = {
     id?: SortOrder
-    recipeInstructionId?: SortOrder
+    recipeId?: SortOrder
     foodId?: SortOrder
     quantity?: SortOrder
     quantityUnit?: SortOrder
-    recipeInstruction?: RecipeInstructionOrderByWithRelationInput
+    recipe?: RecipeOrderByWithRelationInput
     food?: FoodOrderByWithRelationInput
   }
 
-  export type RecipeInstructionFoodWhereUniqueInput = {
+  export type RecipeFoodWhereUniqueInput = {
     id?: string
   }
 
-  export type RecipeInstructionFoodOrderByWithAggregationInput = {
+  export type RecipeFoodOrderByWithAggregationInput = {
     id?: SortOrder
-    recipeInstructionId?: SortOrder
+    recipeId?: SortOrder
     foodId?: SortOrder
     quantity?: SortOrder
     quantityUnit?: SortOrder
-    _count?: RecipeInstructionFoodCountOrderByAggregateInput
-    _avg?: RecipeInstructionFoodAvgOrderByAggregateInput
-    _max?: RecipeInstructionFoodMaxOrderByAggregateInput
-    _min?: RecipeInstructionFoodMinOrderByAggregateInput
-    _sum?: RecipeInstructionFoodSumOrderByAggregateInput
+    _count?: RecipeFoodCountOrderByAggregateInput
+    _avg?: RecipeFoodAvgOrderByAggregateInput
+    _max?: RecipeFoodMaxOrderByAggregateInput
+    _min?: RecipeFoodMinOrderByAggregateInput
+    _sum?: RecipeFoodSumOrderByAggregateInput
   }
 
-  export type RecipeInstructionFoodScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<RecipeInstructionFoodScalarWhereWithAggregatesInput>
-    OR?: Enumerable<RecipeInstructionFoodScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<RecipeInstructionFoodScalarWhereWithAggregatesInput>
+  export type RecipeFoodScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<RecipeFoodScalarWhereWithAggregatesInput>
+    OR?: Enumerable<RecipeFoodScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<RecipeFoodScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    recipeInstructionId?: StringWithAggregatesFilter | string
+    recipeId?: StringWithAggregatesFilter | string
     foodId?: StringWithAggregatesFilter | string
     quantity?: IntWithAggregatesFilter | number
-    quantityUnit?: StringWithAggregatesFilter | string
+    quantityUnit?: StringNullableWithAggregatesFilter | string | null
   }
 
   export type RecipeEventWhereInput = {
@@ -12114,7 +12065,6 @@ export namespace Prisma {
     recipeId?: StringFilter | string
     duration?: IntFilter | number
     recipe?: XOR<RecipeRelationFilter, RecipeWhereInput>
-    recipeInstructionFoods?: RecipeInstructionFoodListRelationFilter
   }
 
   export type RecipeInstructionOrderByWithRelationInput = {
@@ -12123,7 +12073,6 @@ export namespace Prisma {
     recipeId?: SortOrder
     duration?: SortOrder
     recipe?: RecipeOrderByWithRelationInput
-    recipeInstructionFoods?: RecipeInstructionFoodOrderByRelationAggregateInput
   }
 
   export type RecipeInstructionWhereUniqueInput = {
@@ -12290,7 +12239,7 @@ export namespace Prisma {
     id?: StringFilter | string
     name?: StringFilter | string
     type?: EnumFoodTypeFilter | FoodType
-    recipeInstructionFoodItems?: RecipeInstructionFoodListRelationFilter
+    recipeFoodItems?: RecipeFoodListRelationFilter
     shoppingListFoodItems?: ShoppingListFoodListRelationFilter
   }
 
@@ -12298,7 +12247,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     type?: SortOrder
-    recipeInstructionFoodItems?: RecipeInstructionFoodOrderByRelationAggregateInput
+    recipeFoodItems?: RecipeFoodOrderByRelationAggregateInput
     shoppingListFoodItems?: ShoppingListFoodOrderByRelationAggregateInput
   }
 
@@ -12503,6 +12452,7 @@ export namespace Prisma {
     cookingDuration: number
     recipeEvents?: RecipeEventCreateNestedManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionCreateNestedManyWithoutRecipeInput
+    recipeFood?: RecipeFoodCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedCreateInput = {
@@ -12512,6 +12462,7 @@ export namespace Prisma {
     cookingDuration: number
     recipeEvents?: RecipeEventUncheckedCreateNestedManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionUncheckedCreateNestedManyWithoutRecipeInput
+    recipeFood?: RecipeFoodUncheckedCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeUpdateInput = {
@@ -12521,6 +12472,7 @@ export namespace Prisma {
     cookingDuration?: IntFieldUpdateOperationsInput | number
     recipeEvents?: RecipeEventUpdateManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionUpdateManyWithoutRecipeInput
+    recipeFood?: RecipeFoodUpdateManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedUpdateInput = {
@@ -12530,6 +12482,7 @@ export namespace Prisma {
     cookingDuration?: IntFieldUpdateOperationsInput | number
     recipeEvents?: RecipeEventUncheckedUpdateManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionUncheckedUpdateManyWithoutRecipeInput
+    recipeFood?: RecipeFoodUncheckedUpdateManyWithoutRecipeInput
   }
 
   export type RecipeCreateManyInput = {
@@ -12553,58 +12506,58 @@ export namespace Prisma {
     cookingDuration?: IntFieldUpdateOperationsInput | number
   }
 
-  export type RecipeInstructionFoodCreateInput = {
+  export type RecipeFoodCreateInput = {
     id?: string
     quantity: number
-    quantityUnit: string
-    recipeInstruction: RecipeInstructionCreateNestedOneWithoutRecipeInstructionFoodsInput
-    food: FoodCreateNestedOneWithoutRecipeInstructionFoodItemsInput
+    quantityUnit?: string | null
+    recipe: RecipeCreateNestedOneWithoutRecipeFoodInput
+    food: FoodCreateNestedOneWithoutRecipeFoodItemsInput
   }
 
-  export type RecipeInstructionFoodUncheckedCreateInput = {
+  export type RecipeFoodUncheckedCreateInput = {
     id?: string
-    recipeInstructionId: string
+    recipeId: string
     foodId: string
     quantity: number
-    quantityUnit: string
+    quantityUnit?: string | null
   }
 
-  export type RecipeInstructionFoodUpdateInput = {
+  export type RecipeFoodUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    quantityUnit?: StringFieldUpdateOperationsInput | string
-    recipeInstruction?: RecipeInstructionUpdateOneRequiredWithoutRecipeInstructionFoodsInput
-    food?: FoodUpdateOneRequiredWithoutRecipeInstructionFoodItemsInput
+    quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
+    recipe?: RecipeUpdateOneRequiredWithoutRecipeFoodInput
+    food?: FoodUpdateOneRequiredWithoutRecipeFoodItemsInput
   }
 
-  export type RecipeInstructionFoodUncheckedUpdateInput = {
+  export type RecipeFoodUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    recipeInstructionId?: StringFieldUpdateOperationsInput | string
+    recipeId?: StringFieldUpdateOperationsInput | string
     foodId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    quantityUnit?: StringFieldUpdateOperationsInput | string
+    quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type RecipeInstructionFoodCreateManyInput = {
+  export type RecipeFoodCreateManyInput = {
     id?: string
-    recipeInstructionId: string
+    recipeId: string
     foodId: string
     quantity: number
-    quantityUnit: string
+    quantityUnit?: string | null
   }
 
-  export type RecipeInstructionFoodUpdateManyMutationInput = {
+  export type RecipeFoodUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    quantityUnit?: StringFieldUpdateOperationsInput | string
+    quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type RecipeInstructionFoodUncheckedUpdateManyInput = {
+  export type RecipeFoodUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    recipeInstructionId?: StringFieldUpdateOperationsInput | string
+    recipeId?: StringFieldUpdateOperationsInput | string
     foodId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    quantityUnit?: StringFieldUpdateOperationsInput | string
+    quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RecipeEventCreateInput = {
@@ -12659,7 +12612,6 @@ export namespace Prisma {
     description: string
     duration: number
     recipe: RecipeCreateNestedOneWithoutRecipeInstructionsInput
-    recipeInstructionFoods?: RecipeInstructionFoodCreateNestedManyWithoutRecipeInstructionInput
   }
 
   export type RecipeInstructionUncheckedCreateInput = {
@@ -12667,7 +12619,6 @@ export namespace Prisma {
     description: string
     recipeId: string
     duration: number
-    recipeInstructionFoods?: RecipeInstructionFoodUncheckedCreateNestedManyWithoutRecipeInstructionInput
   }
 
   export type RecipeInstructionUpdateInput = {
@@ -12675,7 +12626,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     recipe?: RecipeUpdateOneRequiredWithoutRecipeInstructionsInput
-    recipeInstructionFoods?: RecipeInstructionFoodUpdateManyWithoutRecipeInstructionInput
   }
 
   export type RecipeInstructionUncheckedUpdateInput = {
@@ -12683,7 +12633,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     recipeId?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
-    recipeInstructionFoods?: RecipeInstructionFoodUncheckedUpdateManyWithoutRecipeInstructionInput
   }
 
   export type RecipeInstructionCreateManyInput = {
@@ -12854,7 +12803,7 @@ export namespace Prisma {
     id?: string
     name: string
     type: FoodType
-    recipeInstructionFoodItems?: RecipeInstructionFoodCreateNestedManyWithoutFoodInput
+    recipeFoodItems?: RecipeFoodCreateNestedManyWithoutFoodInput
     shoppingListFoodItems?: ShoppingListFoodCreateNestedManyWithoutFoodInput
   }
 
@@ -12862,7 +12811,7 @@ export namespace Prisma {
     id?: string
     name: string
     type: FoodType
-    recipeInstructionFoodItems?: RecipeInstructionFoodUncheckedCreateNestedManyWithoutFoodInput
+    recipeFoodItems?: RecipeFoodUncheckedCreateNestedManyWithoutFoodInput
     shoppingListFoodItems?: ShoppingListFoodUncheckedCreateNestedManyWithoutFoodInput
   }
 
@@ -12870,7 +12819,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
-    recipeInstructionFoodItems?: RecipeInstructionFoodUpdateManyWithoutFoodInput
+    recipeFoodItems?: RecipeFoodUpdateManyWithoutFoodInput
     shoppingListFoodItems?: ShoppingListFoodUpdateManyWithoutFoodInput
   }
 
@@ -12878,7 +12827,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
-    recipeInstructionFoodItems?: RecipeInstructionFoodUncheckedUpdateManyWithoutFoodInput
+    recipeFoodItems?: RecipeFoodUncheckedUpdateManyWithoutFoodInput
     shoppingListFoodItems?: ShoppingListFoodUncheckedUpdateManyWithoutFoodInput
   }
 
@@ -13134,11 +13083,21 @@ export namespace Prisma {
     none?: RecipeInstructionWhereInput
   }
 
+  export type RecipeFoodListRelationFilter = {
+    every?: RecipeFoodWhereInput
+    some?: RecipeFoodWhereInput
+    none?: RecipeFoodWhereInput
+  }
+
   export type RecipeEventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type RecipeInstructionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RecipeFoodOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13207,9 +13166,24 @@ export namespace Prisma {
     _max?: NestedIntFilter
   }
 
-  export type RecipeInstructionRelationFilter = {
-    is?: RecipeInstructionWhereInput
-    isNot?: RecipeInstructionWhereInput
+  export type StringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type RecipeRelationFilter = {
+    is?: RecipeWhereInput
+    isNot?: RecipeWhereInput
   }
 
   export type FoodRelationFilter = {
@@ -13217,36 +13191,54 @@ export namespace Prisma {
     isNot?: FoodWhereInput
   }
 
-  export type RecipeInstructionFoodCountOrderByAggregateInput = {
+  export type RecipeFoodCountOrderByAggregateInput = {
     id?: SortOrder
-    recipeInstructionId?: SortOrder
+    recipeId?: SortOrder
     foodId?: SortOrder
     quantity?: SortOrder
     quantityUnit?: SortOrder
   }
 
-  export type RecipeInstructionFoodAvgOrderByAggregateInput = {
+  export type RecipeFoodAvgOrderByAggregateInput = {
     quantity?: SortOrder
   }
 
-  export type RecipeInstructionFoodMaxOrderByAggregateInput = {
+  export type RecipeFoodMaxOrderByAggregateInput = {
     id?: SortOrder
-    recipeInstructionId?: SortOrder
+    recipeId?: SortOrder
     foodId?: SortOrder
     quantity?: SortOrder
     quantityUnit?: SortOrder
   }
 
-  export type RecipeInstructionFoodMinOrderByAggregateInput = {
+  export type RecipeFoodMinOrderByAggregateInput = {
     id?: SortOrder
-    recipeInstructionId?: SortOrder
+    recipeId?: SortOrder
     foodId?: SortOrder
     quantity?: SortOrder
     quantityUnit?: SortOrder
   }
 
-  export type RecipeInstructionFoodSumOrderByAggregateInput = {
+  export type RecipeFoodSumOrderByAggregateInput = {
     quantity?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
   }
 
   export type DateTimeNullableFilter = {
@@ -13258,11 +13250,6 @@ export namespace Prisma {
     gt?: Date | string
     gte?: Date | string
     not?: NestedDateTimeNullableFilter | Date | string | null
-  }
-
-  export type RecipeRelationFilter = {
-    is?: RecipeWhereInput
-    isNot?: RecipeWhereInput
   }
 
   export type EventRelationFilter = {
@@ -13303,16 +13290,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter
     _min?: NestedDateTimeNullableFilter
     _max?: NestedDateTimeNullableFilter
-  }
-
-  export type RecipeInstructionFoodListRelationFilter = {
-    every?: RecipeInstructionFoodWhereInput
-    some?: RecipeInstructionFoodWhereInput
-    none?: RecipeInstructionFoodWhereInput
-  }
-
-  export type RecipeInstructionFoodOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type RecipeInstructionCountOrderByAggregateInput = {
@@ -13713,6 +13690,13 @@ export namespace Prisma {
     connect?: Enumerable<RecipeInstructionWhereUniqueInput>
   }
 
+  export type RecipeFoodCreateNestedManyWithoutRecipeInput = {
+    create?: XOR<Enumerable<RecipeFoodCreateWithoutRecipeInput>, Enumerable<RecipeFoodUncheckedCreateWithoutRecipeInput>>
+    connectOrCreate?: Enumerable<RecipeFoodCreateOrConnectWithoutRecipeInput>
+    createMany?: RecipeFoodCreateManyRecipeInputEnvelope
+    connect?: Enumerable<RecipeFoodWhereUniqueInput>
+  }
+
   export type RecipeEventUncheckedCreateNestedManyWithoutRecipeInput = {
     create?: XOR<Enumerable<RecipeEventCreateWithoutRecipeInput>, Enumerable<RecipeEventUncheckedCreateWithoutRecipeInput>>
     connectOrCreate?: Enumerable<RecipeEventCreateOrConnectWithoutRecipeInput>
@@ -13725,6 +13709,13 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<RecipeInstructionCreateOrConnectWithoutRecipeInput>
     createMany?: RecipeInstructionCreateManyRecipeInputEnvelope
     connect?: Enumerable<RecipeInstructionWhereUniqueInput>
+  }
+
+  export type RecipeFoodUncheckedCreateNestedManyWithoutRecipeInput = {
+    create?: XOR<Enumerable<RecipeFoodCreateWithoutRecipeInput>, Enumerable<RecipeFoodUncheckedCreateWithoutRecipeInput>>
+    connectOrCreate?: Enumerable<RecipeFoodCreateOrConnectWithoutRecipeInput>
+    createMany?: RecipeFoodCreateManyRecipeInputEnvelope
+    connect?: Enumerable<RecipeFoodWhereUniqueInput>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -13767,6 +13758,20 @@ export namespace Prisma {
     deleteMany?: Enumerable<RecipeInstructionScalarWhereInput>
   }
 
+  export type RecipeFoodUpdateManyWithoutRecipeInput = {
+    create?: XOR<Enumerable<RecipeFoodCreateWithoutRecipeInput>, Enumerable<RecipeFoodUncheckedCreateWithoutRecipeInput>>
+    connectOrCreate?: Enumerable<RecipeFoodCreateOrConnectWithoutRecipeInput>
+    upsert?: Enumerable<RecipeFoodUpsertWithWhereUniqueWithoutRecipeInput>
+    createMany?: RecipeFoodCreateManyRecipeInputEnvelope
+    set?: Enumerable<RecipeFoodWhereUniqueInput>
+    disconnect?: Enumerable<RecipeFoodWhereUniqueInput>
+    delete?: Enumerable<RecipeFoodWhereUniqueInput>
+    connect?: Enumerable<RecipeFoodWhereUniqueInput>
+    update?: Enumerable<RecipeFoodUpdateWithWhereUniqueWithoutRecipeInput>
+    updateMany?: Enumerable<RecipeFoodUpdateManyWithWhereWithoutRecipeInput>
+    deleteMany?: Enumerable<RecipeFoodScalarWhereInput>
+  }
+
   export type RecipeEventUncheckedUpdateManyWithoutRecipeInput = {
     create?: XOR<Enumerable<RecipeEventCreateWithoutRecipeInput>, Enumerable<RecipeEventUncheckedCreateWithoutRecipeInput>>
     connectOrCreate?: Enumerable<RecipeEventCreateOrConnectWithoutRecipeInput>
@@ -13795,32 +13800,50 @@ export namespace Prisma {
     deleteMany?: Enumerable<RecipeInstructionScalarWhereInput>
   }
 
-  export type RecipeInstructionCreateNestedOneWithoutRecipeInstructionFoodsInput = {
-    create?: XOR<RecipeInstructionCreateWithoutRecipeInstructionFoodsInput, RecipeInstructionUncheckedCreateWithoutRecipeInstructionFoodsInput>
-    connectOrCreate?: RecipeInstructionCreateOrConnectWithoutRecipeInstructionFoodsInput
-    connect?: RecipeInstructionWhereUniqueInput
+  export type RecipeFoodUncheckedUpdateManyWithoutRecipeInput = {
+    create?: XOR<Enumerable<RecipeFoodCreateWithoutRecipeInput>, Enumerable<RecipeFoodUncheckedCreateWithoutRecipeInput>>
+    connectOrCreate?: Enumerable<RecipeFoodCreateOrConnectWithoutRecipeInput>
+    upsert?: Enumerable<RecipeFoodUpsertWithWhereUniqueWithoutRecipeInput>
+    createMany?: RecipeFoodCreateManyRecipeInputEnvelope
+    set?: Enumerable<RecipeFoodWhereUniqueInput>
+    disconnect?: Enumerable<RecipeFoodWhereUniqueInput>
+    delete?: Enumerable<RecipeFoodWhereUniqueInput>
+    connect?: Enumerable<RecipeFoodWhereUniqueInput>
+    update?: Enumerable<RecipeFoodUpdateWithWhereUniqueWithoutRecipeInput>
+    updateMany?: Enumerable<RecipeFoodUpdateManyWithWhereWithoutRecipeInput>
+    deleteMany?: Enumerable<RecipeFoodScalarWhereInput>
   }
 
-  export type FoodCreateNestedOneWithoutRecipeInstructionFoodItemsInput = {
-    create?: XOR<FoodCreateWithoutRecipeInstructionFoodItemsInput, FoodUncheckedCreateWithoutRecipeInstructionFoodItemsInput>
-    connectOrCreate?: FoodCreateOrConnectWithoutRecipeInstructionFoodItemsInput
+  export type RecipeCreateNestedOneWithoutRecipeFoodInput = {
+    create?: XOR<RecipeCreateWithoutRecipeFoodInput, RecipeUncheckedCreateWithoutRecipeFoodInput>
+    connectOrCreate?: RecipeCreateOrConnectWithoutRecipeFoodInput
+    connect?: RecipeWhereUniqueInput
+  }
+
+  export type FoodCreateNestedOneWithoutRecipeFoodItemsInput = {
+    create?: XOR<FoodCreateWithoutRecipeFoodItemsInput, FoodUncheckedCreateWithoutRecipeFoodItemsInput>
+    connectOrCreate?: FoodCreateOrConnectWithoutRecipeFoodItemsInput
     connect?: FoodWhereUniqueInput
   }
 
-  export type RecipeInstructionUpdateOneRequiredWithoutRecipeInstructionFoodsInput = {
-    create?: XOR<RecipeInstructionCreateWithoutRecipeInstructionFoodsInput, RecipeInstructionUncheckedCreateWithoutRecipeInstructionFoodsInput>
-    connectOrCreate?: RecipeInstructionCreateOrConnectWithoutRecipeInstructionFoodsInput
-    upsert?: RecipeInstructionUpsertWithoutRecipeInstructionFoodsInput
-    connect?: RecipeInstructionWhereUniqueInput
-    update?: XOR<RecipeInstructionUpdateWithoutRecipeInstructionFoodsInput, RecipeInstructionUncheckedUpdateWithoutRecipeInstructionFoodsInput>
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
-  export type FoodUpdateOneRequiredWithoutRecipeInstructionFoodItemsInput = {
-    create?: XOR<FoodCreateWithoutRecipeInstructionFoodItemsInput, FoodUncheckedCreateWithoutRecipeInstructionFoodItemsInput>
-    connectOrCreate?: FoodCreateOrConnectWithoutRecipeInstructionFoodItemsInput
-    upsert?: FoodUpsertWithoutRecipeInstructionFoodItemsInput
+  export type RecipeUpdateOneRequiredWithoutRecipeFoodInput = {
+    create?: XOR<RecipeCreateWithoutRecipeFoodInput, RecipeUncheckedCreateWithoutRecipeFoodInput>
+    connectOrCreate?: RecipeCreateOrConnectWithoutRecipeFoodInput
+    upsert?: RecipeUpsertWithoutRecipeFoodInput
+    connect?: RecipeWhereUniqueInput
+    update?: XOR<RecipeUpdateWithoutRecipeFoodInput, RecipeUncheckedUpdateWithoutRecipeFoodInput>
+  }
+
+  export type FoodUpdateOneRequiredWithoutRecipeFoodItemsInput = {
+    create?: XOR<FoodCreateWithoutRecipeFoodItemsInput, FoodUncheckedCreateWithoutRecipeFoodItemsInput>
+    connectOrCreate?: FoodCreateOrConnectWithoutRecipeFoodItemsInput
+    upsert?: FoodUpsertWithoutRecipeFoodItemsInput
     connect?: FoodWhereUniqueInput
-    update?: XOR<FoodUpdateWithoutRecipeInstructionFoodItemsInput, FoodUncheckedUpdateWithoutRecipeInstructionFoodItemsInput>
+    update?: XOR<FoodUpdateWithoutRecipeFoodItemsInput, FoodUncheckedUpdateWithoutRecipeFoodItemsInput>
   }
 
   export type RecipeCreateNestedOneWithoutRecipeEventsInput = {
@@ -13861,54 +13884,12 @@ export namespace Prisma {
     connect?: RecipeWhereUniqueInput
   }
 
-  export type RecipeInstructionFoodCreateNestedManyWithoutRecipeInstructionInput = {
-    create?: XOR<Enumerable<RecipeInstructionFoodCreateWithoutRecipeInstructionInput>, Enumerable<RecipeInstructionFoodUncheckedCreateWithoutRecipeInstructionInput>>
-    connectOrCreate?: Enumerable<RecipeInstructionFoodCreateOrConnectWithoutRecipeInstructionInput>
-    createMany?: RecipeInstructionFoodCreateManyRecipeInstructionInputEnvelope
-    connect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-  }
-
-  export type RecipeInstructionFoodUncheckedCreateNestedManyWithoutRecipeInstructionInput = {
-    create?: XOR<Enumerable<RecipeInstructionFoodCreateWithoutRecipeInstructionInput>, Enumerable<RecipeInstructionFoodUncheckedCreateWithoutRecipeInstructionInput>>
-    connectOrCreate?: Enumerable<RecipeInstructionFoodCreateOrConnectWithoutRecipeInstructionInput>
-    createMany?: RecipeInstructionFoodCreateManyRecipeInstructionInputEnvelope
-    connect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-  }
-
   export type RecipeUpdateOneRequiredWithoutRecipeInstructionsInput = {
     create?: XOR<RecipeCreateWithoutRecipeInstructionsInput, RecipeUncheckedCreateWithoutRecipeInstructionsInput>
     connectOrCreate?: RecipeCreateOrConnectWithoutRecipeInstructionsInput
     upsert?: RecipeUpsertWithoutRecipeInstructionsInput
     connect?: RecipeWhereUniqueInput
     update?: XOR<RecipeUpdateWithoutRecipeInstructionsInput, RecipeUncheckedUpdateWithoutRecipeInstructionsInput>
-  }
-
-  export type RecipeInstructionFoodUpdateManyWithoutRecipeInstructionInput = {
-    create?: XOR<Enumerable<RecipeInstructionFoodCreateWithoutRecipeInstructionInput>, Enumerable<RecipeInstructionFoodUncheckedCreateWithoutRecipeInstructionInput>>
-    connectOrCreate?: Enumerable<RecipeInstructionFoodCreateOrConnectWithoutRecipeInstructionInput>
-    upsert?: Enumerable<RecipeInstructionFoodUpsertWithWhereUniqueWithoutRecipeInstructionInput>
-    createMany?: RecipeInstructionFoodCreateManyRecipeInstructionInputEnvelope
-    set?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    disconnect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    delete?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    connect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    update?: Enumerable<RecipeInstructionFoodUpdateWithWhereUniqueWithoutRecipeInstructionInput>
-    updateMany?: Enumerable<RecipeInstructionFoodUpdateManyWithWhereWithoutRecipeInstructionInput>
-    deleteMany?: Enumerable<RecipeInstructionFoodScalarWhereInput>
-  }
-
-  export type RecipeInstructionFoodUncheckedUpdateManyWithoutRecipeInstructionInput = {
-    create?: XOR<Enumerable<RecipeInstructionFoodCreateWithoutRecipeInstructionInput>, Enumerable<RecipeInstructionFoodUncheckedCreateWithoutRecipeInstructionInput>>
-    connectOrCreate?: Enumerable<RecipeInstructionFoodCreateOrConnectWithoutRecipeInstructionInput>
-    upsert?: Enumerable<RecipeInstructionFoodUpsertWithWhereUniqueWithoutRecipeInstructionInput>
-    createMany?: RecipeInstructionFoodCreateManyRecipeInstructionInputEnvelope
-    set?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    disconnect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    delete?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    connect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    update?: Enumerable<RecipeInstructionFoodUpdateWithWhereUniqueWithoutRecipeInstructionInput>
-    updateMany?: Enumerable<RecipeInstructionFoodUpdateManyWithWhereWithoutRecipeInstructionInput>
-    deleteMany?: Enumerable<RecipeInstructionFoodScalarWhereInput>
   }
 
   export type ShoppingListEventCreateNestedManyWithoutShoppingListInput = {
@@ -14059,11 +14040,11 @@ export namespace Prisma {
     update?: XOR<FoodUpdateWithoutShoppingListFoodItemsInput, FoodUncheckedUpdateWithoutShoppingListFoodItemsInput>
   }
 
-  export type RecipeInstructionFoodCreateNestedManyWithoutFoodInput = {
-    create?: XOR<Enumerable<RecipeInstructionFoodCreateWithoutFoodInput>, Enumerable<RecipeInstructionFoodUncheckedCreateWithoutFoodInput>>
-    connectOrCreate?: Enumerable<RecipeInstructionFoodCreateOrConnectWithoutFoodInput>
-    createMany?: RecipeInstructionFoodCreateManyFoodInputEnvelope
-    connect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
+  export type RecipeFoodCreateNestedManyWithoutFoodInput = {
+    create?: XOR<Enumerable<RecipeFoodCreateWithoutFoodInput>, Enumerable<RecipeFoodUncheckedCreateWithoutFoodInput>>
+    connectOrCreate?: Enumerable<RecipeFoodCreateOrConnectWithoutFoodInput>
+    createMany?: RecipeFoodCreateManyFoodInputEnvelope
+    connect?: Enumerable<RecipeFoodWhereUniqueInput>
   }
 
   export type ShoppingListFoodCreateNestedManyWithoutFoodInput = {
@@ -14073,11 +14054,11 @@ export namespace Prisma {
     connect?: Enumerable<ShoppingListFoodWhereUniqueInput>
   }
 
-  export type RecipeInstructionFoodUncheckedCreateNestedManyWithoutFoodInput = {
-    create?: XOR<Enumerable<RecipeInstructionFoodCreateWithoutFoodInput>, Enumerable<RecipeInstructionFoodUncheckedCreateWithoutFoodInput>>
-    connectOrCreate?: Enumerable<RecipeInstructionFoodCreateOrConnectWithoutFoodInput>
-    createMany?: RecipeInstructionFoodCreateManyFoodInputEnvelope
-    connect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
+  export type RecipeFoodUncheckedCreateNestedManyWithoutFoodInput = {
+    create?: XOR<Enumerable<RecipeFoodCreateWithoutFoodInput>, Enumerable<RecipeFoodUncheckedCreateWithoutFoodInput>>
+    connectOrCreate?: Enumerable<RecipeFoodCreateOrConnectWithoutFoodInput>
+    createMany?: RecipeFoodCreateManyFoodInputEnvelope
+    connect?: Enumerable<RecipeFoodWhereUniqueInput>
   }
 
   export type ShoppingListFoodUncheckedCreateNestedManyWithoutFoodInput = {
@@ -14091,18 +14072,18 @@ export namespace Prisma {
     set?: FoodType
   }
 
-  export type RecipeInstructionFoodUpdateManyWithoutFoodInput = {
-    create?: XOR<Enumerable<RecipeInstructionFoodCreateWithoutFoodInput>, Enumerable<RecipeInstructionFoodUncheckedCreateWithoutFoodInput>>
-    connectOrCreate?: Enumerable<RecipeInstructionFoodCreateOrConnectWithoutFoodInput>
-    upsert?: Enumerable<RecipeInstructionFoodUpsertWithWhereUniqueWithoutFoodInput>
-    createMany?: RecipeInstructionFoodCreateManyFoodInputEnvelope
-    set?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    disconnect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    delete?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    connect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    update?: Enumerable<RecipeInstructionFoodUpdateWithWhereUniqueWithoutFoodInput>
-    updateMany?: Enumerable<RecipeInstructionFoodUpdateManyWithWhereWithoutFoodInput>
-    deleteMany?: Enumerable<RecipeInstructionFoodScalarWhereInput>
+  export type RecipeFoodUpdateManyWithoutFoodInput = {
+    create?: XOR<Enumerable<RecipeFoodCreateWithoutFoodInput>, Enumerable<RecipeFoodUncheckedCreateWithoutFoodInput>>
+    connectOrCreate?: Enumerable<RecipeFoodCreateOrConnectWithoutFoodInput>
+    upsert?: Enumerable<RecipeFoodUpsertWithWhereUniqueWithoutFoodInput>
+    createMany?: RecipeFoodCreateManyFoodInputEnvelope
+    set?: Enumerable<RecipeFoodWhereUniqueInput>
+    disconnect?: Enumerable<RecipeFoodWhereUniqueInput>
+    delete?: Enumerable<RecipeFoodWhereUniqueInput>
+    connect?: Enumerable<RecipeFoodWhereUniqueInput>
+    update?: Enumerable<RecipeFoodUpdateWithWhereUniqueWithoutFoodInput>
+    updateMany?: Enumerable<RecipeFoodUpdateManyWithWhereWithoutFoodInput>
+    deleteMany?: Enumerable<RecipeFoodScalarWhereInput>
   }
 
   export type ShoppingListFoodUpdateManyWithoutFoodInput = {
@@ -14119,18 +14100,18 @@ export namespace Prisma {
     deleteMany?: Enumerable<ShoppingListFoodScalarWhereInput>
   }
 
-  export type RecipeInstructionFoodUncheckedUpdateManyWithoutFoodInput = {
-    create?: XOR<Enumerable<RecipeInstructionFoodCreateWithoutFoodInput>, Enumerable<RecipeInstructionFoodUncheckedCreateWithoutFoodInput>>
-    connectOrCreate?: Enumerable<RecipeInstructionFoodCreateOrConnectWithoutFoodInput>
-    upsert?: Enumerable<RecipeInstructionFoodUpsertWithWhereUniqueWithoutFoodInput>
-    createMany?: RecipeInstructionFoodCreateManyFoodInputEnvelope
-    set?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    disconnect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    delete?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    connect?: Enumerable<RecipeInstructionFoodWhereUniqueInput>
-    update?: Enumerable<RecipeInstructionFoodUpdateWithWhereUniqueWithoutFoodInput>
-    updateMany?: Enumerable<RecipeInstructionFoodUpdateManyWithWhereWithoutFoodInput>
-    deleteMany?: Enumerable<RecipeInstructionFoodScalarWhereInput>
+  export type RecipeFoodUncheckedUpdateManyWithoutFoodInput = {
+    create?: XOR<Enumerable<RecipeFoodCreateWithoutFoodInput>, Enumerable<RecipeFoodUncheckedCreateWithoutFoodInput>>
+    connectOrCreate?: Enumerable<RecipeFoodCreateOrConnectWithoutFoodInput>
+    upsert?: Enumerable<RecipeFoodUpsertWithWhereUniqueWithoutFoodInput>
+    createMany?: RecipeFoodCreateManyFoodInputEnvelope
+    set?: Enumerable<RecipeFoodWhereUniqueInput>
+    disconnect?: Enumerable<RecipeFoodWhereUniqueInput>
+    delete?: Enumerable<RecipeFoodWhereUniqueInput>
+    connect?: Enumerable<RecipeFoodWhereUniqueInput>
+    update?: Enumerable<RecipeFoodUpdateWithWhereUniqueWithoutFoodInput>
+    updateMany?: Enumerable<RecipeFoodUpdateManyWithWhereWithoutFoodInput>
+    deleteMany?: Enumerable<RecipeFoodScalarWhereInput>
   }
 
   export type ShoppingListFoodUncheckedUpdateManyWithoutFoodInput = {
@@ -14432,6 +14413,48 @@ export namespace Prisma {
     not?: NestedFloatFilter | number
   }
 
+  export type NestedStringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
+  }
+
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
   export type NestedDateTimeNullableFilter = {
     equals?: Date | string | null
     in?: Enumerable<Date> | Enumerable<string> | null
@@ -14455,17 +14478,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter
     _min?: NestedDateTimeNullableFilter
     _max?: NestedDateTimeNullableFilter
-  }
-
-  export type NestedIntNullableFilter = {
-    equals?: number | null
-    in?: Enumerable<number> | null
-    notIn?: Enumerable<number> | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntNullableFilter | number | null
   }
 
   export type NestedDateTimeFilter = {
@@ -14616,14 +14628,12 @@ export namespace Prisma {
     id?: string
     description: string
     duration: number
-    recipeInstructionFoods?: RecipeInstructionFoodCreateNestedManyWithoutRecipeInstructionInput
   }
 
   export type RecipeInstructionUncheckedCreateWithoutRecipeInput = {
     id?: string
     description: string
     duration: number
-    recipeInstructionFoods?: RecipeInstructionFoodUncheckedCreateNestedManyWithoutRecipeInstructionInput
   }
 
   export type RecipeInstructionCreateOrConnectWithoutRecipeInput = {
@@ -14633,6 +14643,30 @@ export namespace Prisma {
 
   export type RecipeInstructionCreateManyRecipeInputEnvelope = {
     data: Enumerable<RecipeInstructionCreateManyRecipeInput>
+    skipDuplicates?: boolean
+  }
+
+  export type RecipeFoodCreateWithoutRecipeInput = {
+    id?: string
+    quantity: number
+    quantityUnit?: string | null
+    food: FoodCreateNestedOneWithoutRecipeFoodItemsInput
+  }
+
+  export type RecipeFoodUncheckedCreateWithoutRecipeInput = {
+    id?: string
+    foodId: string
+    quantity: number
+    quantityUnit?: string | null
+  }
+
+  export type RecipeFoodCreateOrConnectWithoutRecipeInput = {
+    where: RecipeFoodWhereUniqueInput
+    create: XOR<RecipeFoodCreateWithoutRecipeInput, RecipeFoodUncheckedCreateWithoutRecipeInput>
+  }
+
+  export type RecipeFoodCreateManyRecipeInputEnvelope = {
+    data: Enumerable<RecipeFoodCreateManyRecipeInput>
     skipDuplicates?: boolean
   }
 
@@ -14688,76 +14722,111 @@ export namespace Prisma {
     duration?: IntFilter | number
   }
 
-  export type RecipeInstructionCreateWithoutRecipeInstructionFoodsInput = {
+  export type RecipeFoodUpsertWithWhereUniqueWithoutRecipeInput = {
+    where: RecipeFoodWhereUniqueInput
+    update: XOR<RecipeFoodUpdateWithoutRecipeInput, RecipeFoodUncheckedUpdateWithoutRecipeInput>
+    create: XOR<RecipeFoodCreateWithoutRecipeInput, RecipeFoodUncheckedCreateWithoutRecipeInput>
+  }
+
+  export type RecipeFoodUpdateWithWhereUniqueWithoutRecipeInput = {
+    where: RecipeFoodWhereUniqueInput
+    data: XOR<RecipeFoodUpdateWithoutRecipeInput, RecipeFoodUncheckedUpdateWithoutRecipeInput>
+  }
+
+  export type RecipeFoodUpdateManyWithWhereWithoutRecipeInput = {
+    where: RecipeFoodScalarWhereInput
+    data: XOR<RecipeFoodUpdateManyMutationInput, RecipeFoodUncheckedUpdateManyWithoutRecipeFoodInput>
+  }
+
+  export type RecipeFoodScalarWhereInput = {
+    AND?: Enumerable<RecipeFoodScalarWhereInput>
+    OR?: Enumerable<RecipeFoodScalarWhereInput>
+    NOT?: Enumerable<RecipeFoodScalarWhereInput>
+    id?: StringFilter | string
+    recipeId?: StringFilter | string
+    foodId?: StringFilter | string
+    quantity?: IntFilter | number
+    quantityUnit?: StringNullableFilter | string | null
+  }
+
+  export type RecipeCreateWithoutRecipeFoodInput = {
     id?: string
-    description: string
-    duration: number
-    recipe: RecipeCreateNestedOneWithoutRecipeInstructionsInput
+    name: string
+    preparationDuration: number
+    cookingDuration: number
+    recipeEvents?: RecipeEventCreateNestedManyWithoutRecipeInput
+    recipeInstructions?: RecipeInstructionCreateNestedManyWithoutRecipeInput
   }
 
-  export type RecipeInstructionUncheckedCreateWithoutRecipeInstructionFoodsInput = {
+  export type RecipeUncheckedCreateWithoutRecipeFoodInput = {
     id?: string
-    description: string
-    recipeId: string
-    duration: number
+    name: string
+    preparationDuration: number
+    cookingDuration: number
+    recipeEvents?: RecipeEventUncheckedCreateNestedManyWithoutRecipeInput
+    recipeInstructions?: RecipeInstructionUncheckedCreateNestedManyWithoutRecipeInput
   }
 
-  export type RecipeInstructionCreateOrConnectWithoutRecipeInstructionFoodsInput = {
-    where: RecipeInstructionWhereUniqueInput
-    create: XOR<RecipeInstructionCreateWithoutRecipeInstructionFoodsInput, RecipeInstructionUncheckedCreateWithoutRecipeInstructionFoodsInput>
+  export type RecipeCreateOrConnectWithoutRecipeFoodInput = {
+    where: RecipeWhereUniqueInput
+    create: XOR<RecipeCreateWithoutRecipeFoodInput, RecipeUncheckedCreateWithoutRecipeFoodInput>
   }
 
-  export type FoodCreateWithoutRecipeInstructionFoodItemsInput = {
+  export type FoodCreateWithoutRecipeFoodItemsInput = {
     id?: string
     name: string
     type: FoodType
     shoppingListFoodItems?: ShoppingListFoodCreateNestedManyWithoutFoodInput
   }
 
-  export type FoodUncheckedCreateWithoutRecipeInstructionFoodItemsInput = {
+  export type FoodUncheckedCreateWithoutRecipeFoodItemsInput = {
     id?: string
     name: string
     type: FoodType
     shoppingListFoodItems?: ShoppingListFoodUncheckedCreateNestedManyWithoutFoodInput
   }
 
-  export type FoodCreateOrConnectWithoutRecipeInstructionFoodItemsInput = {
+  export type FoodCreateOrConnectWithoutRecipeFoodItemsInput = {
     where: FoodWhereUniqueInput
-    create: XOR<FoodCreateWithoutRecipeInstructionFoodItemsInput, FoodUncheckedCreateWithoutRecipeInstructionFoodItemsInput>
+    create: XOR<FoodCreateWithoutRecipeFoodItemsInput, FoodUncheckedCreateWithoutRecipeFoodItemsInput>
   }
 
-  export type RecipeInstructionUpsertWithoutRecipeInstructionFoodsInput = {
-    update: XOR<RecipeInstructionUpdateWithoutRecipeInstructionFoodsInput, RecipeInstructionUncheckedUpdateWithoutRecipeInstructionFoodsInput>
-    create: XOR<RecipeInstructionCreateWithoutRecipeInstructionFoodsInput, RecipeInstructionUncheckedCreateWithoutRecipeInstructionFoodsInput>
+  export type RecipeUpsertWithoutRecipeFoodInput = {
+    update: XOR<RecipeUpdateWithoutRecipeFoodInput, RecipeUncheckedUpdateWithoutRecipeFoodInput>
+    create: XOR<RecipeCreateWithoutRecipeFoodInput, RecipeUncheckedCreateWithoutRecipeFoodInput>
   }
 
-  export type RecipeInstructionUpdateWithoutRecipeInstructionFoodsInput = {
+  export type RecipeUpdateWithoutRecipeFoodInput = {
     id?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    recipe?: RecipeUpdateOneRequiredWithoutRecipeInstructionsInput
+    name?: StringFieldUpdateOperationsInput | string
+    preparationDuration?: IntFieldUpdateOperationsInput | number
+    cookingDuration?: IntFieldUpdateOperationsInput | number
+    recipeEvents?: RecipeEventUpdateManyWithoutRecipeInput
+    recipeInstructions?: RecipeInstructionUpdateManyWithoutRecipeInput
   }
 
-  export type RecipeInstructionUncheckedUpdateWithoutRecipeInstructionFoodsInput = {
+  export type RecipeUncheckedUpdateWithoutRecipeFoodInput = {
     id?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    recipeId?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    preparationDuration?: IntFieldUpdateOperationsInput | number
+    cookingDuration?: IntFieldUpdateOperationsInput | number
+    recipeEvents?: RecipeEventUncheckedUpdateManyWithoutRecipeInput
+    recipeInstructions?: RecipeInstructionUncheckedUpdateManyWithoutRecipeInput
   }
 
-  export type FoodUpsertWithoutRecipeInstructionFoodItemsInput = {
-    update: XOR<FoodUpdateWithoutRecipeInstructionFoodItemsInput, FoodUncheckedUpdateWithoutRecipeInstructionFoodItemsInput>
-    create: XOR<FoodCreateWithoutRecipeInstructionFoodItemsInput, FoodUncheckedCreateWithoutRecipeInstructionFoodItemsInput>
+  export type FoodUpsertWithoutRecipeFoodItemsInput = {
+    update: XOR<FoodUpdateWithoutRecipeFoodItemsInput, FoodUncheckedUpdateWithoutRecipeFoodItemsInput>
+    create: XOR<FoodCreateWithoutRecipeFoodItemsInput, FoodUncheckedCreateWithoutRecipeFoodItemsInput>
   }
 
-  export type FoodUpdateWithoutRecipeInstructionFoodItemsInput = {
+  export type FoodUpdateWithoutRecipeFoodItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
     shoppingListFoodItems?: ShoppingListFoodUpdateManyWithoutFoodInput
   }
 
-  export type FoodUncheckedUpdateWithoutRecipeInstructionFoodItemsInput = {
+  export type FoodUncheckedUpdateWithoutRecipeFoodItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
@@ -14770,6 +14839,7 @@ export namespace Prisma {
     preparationDuration: number
     cookingDuration: number
     recipeInstructions?: RecipeInstructionCreateNestedManyWithoutRecipeInput
+    recipeFood?: RecipeFoodCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedCreateWithoutRecipeEventsInput = {
@@ -14778,6 +14848,7 @@ export namespace Prisma {
     preparationDuration: number
     cookingDuration: number
     recipeInstructions?: RecipeInstructionUncheckedCreateNestedManyWithoutRecipeInput
+    recipeFood?: RecipeFoodUncheckedCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeCreateOrConnectWithoutRecipeEventsInput = {
@@ -14817,6 +14888,7 @@ export namespace Prisma {
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
     recipeInstructions?: RecipeInstructionUpdateManyWithoutRecipeInput
+    recipeFood?: RecipeFoodUpdateManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedUpdateWithoutRecipeEventsInput = {
@@ -14825,6 +14897,7 @@ export namespace Prisma {
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
     recipeInstructions?: RecipeInstructionUncheckedUpdateManyWithoutRecipeInput
+    recipeFood?: RecipeFoodUncheckedUpdateManyWithoutRecipeInput
   }
 
   export type EventUpsertWithoutRecipeEventsInput = {
@@ -14854,6 +14927,7 @@ export namespace Prisma {
     preparationDuration: number
     cookingDuration: number
     recipeEvents?: RecipeEventCreateNestedManyWithoutRecipeInput
+    recipeFood?: RecipeFoodCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedCreateWithoutRecipeInstructionsInput = {
@@ -14862,35 +14936,12 @@ export namespace Prisma {
     preparationDuration: number
     cookingDuration: number
     recipeEvents?: RecipeEventUncheckedCreateNestedManyWithoutRecipeInput
+    recipeFood?: RecipeFoodUncheckedCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeCreateOrConnectWithoutRecipeInstructionsInput = {
     where: RecipeWhereUniqueInput
     create: XOR<RecipeCreateWithoutRecipeInstructionsInput, RecipeUncheckedCreateWithoutRecipeInstructionsInput>
-  }
-
-  export type RecipeInstructionFoodCreateWithoutRecipeInstructionInput = {
-    id?: string
-    quantity: number
-    quantityUnit: string
-    food: FoodCreateNestedOneWithoutRecipeInstructionFoodItemsInput
-  }
-
-  export type RecipeInstructionFoodUncheckedCreateWithoutRecipeInstructionInput = {
-    id?: string
-    foodId: string
-    quantity: number
-    quantityUnit: string
-  }
-
-  export type RecipeInstructionFoodCreateOrConnectWithoutRecipeInstructionInput = {
-    where: RecipeInstructionFoodWhereUniqueInput
-    create: XOR<RecipeInstructionFoodCreateWithoutRecipeInstructionInput, RecipeInstructionFoodUncheckedCreateWithoutRecipeInstructionInput>
-  }
-
-  export type RecipeInstructionFoodCreateManyRecipeInstructionInputEnvelope = {
-    data: Enumerable<RecipeInstructionFoodCreateManyRecipeInstructionInput>
-    skipDuplicates?: boolean
   }
 
   export type RecipeUpsertWithoutRecipeInstructionsInput = {
@@ -14904,6 +14955,7 @@ export namespace Prisma {
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
     recipeEvents?: RecipeEventUpdateManyWithoutRecipeInput
+    recipeFood?: RecipeFoodUpdateManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedUpdateWithoutRecipeInstructionsInput = {
@@ -14912,33 +14964,7 @@ export namespace Prisma {
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
     recipeEvents?: RecipeEventUncheckedUpdateManyWithoutRecipeInput
-  }
-
-  export type RecipeInstructionFoodUpsertWithWhereUniqueWithoutRecipeInstructionInput = {
-    where: RecipeInstructionFoodWhereUniqueInput
-    update: XOR<RecipeInstructionFoodUpdateWithoutRecipeInstructionInput, RecipeInstructionFoodUncheckedUpdateWithoutRecipeInstructionInput>
-    create: XOR<RecipeInstructionFoodCreateWithoutRecipeInstructionInput, RecipeInstructionFoodUncheckedCreateWithoutRecipeInstructionInput>
-  }
-
-  export type RecipeInstructionFoodUpdateWithWhereUniqueWithoutRecipeInstructionInput = {
-    where: RecipeInstructionFoodWhereUniqueInput
-    data: XOR<RecipeInstructionFoodUpdateWithoutRecipeInstructionInput, RecipeInstructionFoodUncheckedUpdateWithoutRecipeInstructionInput>
-  }
-
-  export type RecipeInstructionFoodUpdateManyWithWhereWithoutRecipeInstructionInput = {
-    where: RecipeInstructionFoodScalarWhereInput
-    data: XOR<RecipeInstructionFoodUpdateManyMutationInput, RecipeInstructionFoodUncheckedUpdateManyWithoutRecipeInstructionFoodsInput>
-  }
-
-  export type RecipeInstructionFoodScalarWhereInput = {
-    AND?: Enumerable<RecipeInstructionFoodScalarWhereInput>
-    OR?: Enumerable<RecipeInstructionFoodScalarWhereInput>
-    NOT?: Enumerable<RecipeInstructionFoodScalarWhereInput>
-    id?: StringFilter | string
-    recipeInstructionId?: StringFilter | string
-    foodId?: StringFilter | string
-    quantity?: IntFilter | number
-    quantityUnit?: StringFilter | string
+    recipeFood?: RecipeFoodUncheckedUpdateManyWithoutRecipeInput
   }
 
   export type ShoppingListEventCreateWithoutShoppingListInput = {
@@ -15140,14 +15166,14 @@ export namespace Prisma {
     id?: string
     name: string
     type: FoodType
-    recipeInstructionFoodItems?: RecipeInstructionFoodCreateNestedManyWithoutFoodInput
+    recipeFoodItems?: RecipeFoodCreateNestedManyWithoutFoodInput
   }
 
   export type FoodUncheckedCreateWithoutShoppingListFoodItemsInput = {
     id?: string
     name: string
     type: FoodType
-    recipeInstructionFoodItems?: RecipeInstructionFoodUncheckedCreateNestedManyWithoutFoodInput
+    recipeFoodItems?: RecipeFoodUncheckedCreateNestedManyWithoutFoodInput
   }
 
   export type FoodCreateOrConnectWithoutShoppingListFoodItemsInput = {
@@ -15183,37 +15209,37 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
-    recipeInstructionFoodItems?: RecipeInstructionFoodUpdateManyWithoutFoodInput
+    recipeFoodItems?: RecipeFoodUpdateManyWithoutFoodInput
   }
 
   export type FoodUncheckedUpdateWithoutShoppingListFoodItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
-    recipeInstructionFoodItems?: RecipeInstructionFoodUncheckedUpdateManyWithoutFoodInput
+    recipeFoodItems?: RecipeFoodUncheckedUpdateManyWithoutFoodInput
   }
 
-  export type RecipeInstructionFoodCreateWithoutFoodInput = {
+  export type RecipeFoodCreateWithoutFoodInput = {
     id?: string
     quantity: number
-    quantityUnit: string
-    recipeInstruction: RecipeInstructionCreateNestedOneWithoutRecipeInstructionFoodsInput
+    quantityUnit?: string | null
+    recipe: RecipeCreateNestedOneWithoutRecipeFoodInput
   }
 
-  export type RecipeInstructionFoodUncheckedCreateWithoutFoodInput = {
+  export type RecipeFoodUncheckedCreateWithoutFoodInput = {
     id?: string
-    recipeInstructionId: string
+    recipeId: string
     quantity: number
-    quantityUnit: string
+    quantityUnit?: string | null
   }
 
-  export type RecipeInstructionFoodCreateOrConnectWithoutFoodInput = {
-    where: RecipeInstructionFoodWhereUniqueInput
-    create: XOR<RecipeInstructionFoodCreateWithoutFoodInput, RecipeInstructionFoodUncheckedCreateWithoutFoodInput>
+  export type RecipeFoodCreateOrConnectWithoutFoodInput = {
+    where: RecipeFoodWhereUniqueInput
+    create: XOR<RecipeFoodCreateWithoutFoodInput, RecipeFoodUncheckedCreateWithoutFoodInput>
   }
 
-  export type RecipeInstructionFoodCreateManyFoodInputEnvelope = {
-    data: Enumerable<RecipeInstructionFoodCreateManyFoodInput>
+  export type RecipeFoodCreateManyFoodInputEnvelope = {
+    data: Enumerable<RecipeFoodCreateManyFoodInput>
     skipDuplicates?: boolean
   }
 
@@ -15239,20 +15265,20 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type RecipeInstructionFoodUpsertWithWhereUniqueWithoutFoodInput = {
-    where: RecipeInstructionFoodWhereUniqueInput
-    update: XOR<RecipeInstructionFoodUpdateWithoutFoodInput, RecipeInstructionFoodUncheckedUpdateWithoutFoodInput>
-    create: XOR<RecipeInstructionFoodCreateWithoutFoodInput, RecipeInstructionFoodUncheckedCreateWithoutFoodInput>
+  export type RecipeFoodUpsertWithWhereUniqueWithoutFoodInput = {
+    where: RecipeFoodWhereUniqueInput
+    update: XOR<RecipeFoodUpdateWithoutFoodInput, RecipeFoodUncheckedUpdateWithoutFoodInput>
+    create: XOR<RecipeFoodCreateWithoutFoodInput, RecipeFoodUncheckedCreateWithoutFoodInput>
   }
 
-  export type RecipeInstructionFoodUpdateWithWhereUniqueWithoutFoodInput = {
-    where: RecipeInstructionFoodWhereUniqueInput
-    data: XOR<RecipeInstructionFoodUpdateWithoutFoodInput, RecipeInstructionFoodUncheckedUpdateWithoutFoodInput>
+  export type RecipeFoodUpdateWithWhereUniqueWithoutFoodInput = {
+    where: RecipeFoodWhereUniqueInput
+    data: XOR<RecipeFoodUpdateWithoutFoodInput, RecipeFoodUncheckedUpdateWithoutFoodInput>
   }
 
-  export type RecipeInstructionFoodUpdateManyWithWhereWithoutFoodInput = {
-    where: RecipeInstructionFoodScalarWhereInput
-    data: XOR<RecipeInstructionFoodUpdateManyMutationInput, RecipeInstructionFoodUncheckedUpdateManyWithoutRecipeInstructionFoodItemsInput>
+  export type RecipeFoodUpdateManyWithWhereWithoutFoodInput = {
+    where: RecipeFoodScalarWhereInput
+    data: XOR<RecipeFoodUpdateManyMutationInput, RecipeFoodUncheckedUpdateManyWithoutRecipeFoodItemsInput>
   }
 
   export type ShoppingListFoodUpsertWithWhereUniqueWithoutFoodInput = {
@@ -15535,6 +15561,13 @@ export namespace Prisma {
     duration: number
   }
 
+  export type RecipeFoodCreateManyRecipeInput = {
+    id?: string
+    foodId: string
+    quantity: number
+    quantityUnit?: string | null
+  }
+
   export type RecipeEventUpdateWithoutRecipeInput = {
     id?: StringFieldUpdateOperationsInput | string
     finishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15557,14 +15590,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
-    recipeInstructionFoods?: RecipeInstructionFoodUpdateManyWithoutRecipeInstructionInput
   }
 
   export type RecipeInstructionUncheckedUpdateWithoutRecipeInput = {
     id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
-    recipeInstructionFoods?: RecipeInstructionFoodUncheckedUpdateManyWithoutRecipeInstructionInput
   }
 
   export type RecipeInstructionUncheckedUpdateManyWithoutRecipeInstructionsInput = {
@@ -15573,32 +15604,25 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
   }
 
-  export type RecipeInstructionFoodCreateManyRecipeInstructionInput = {
-    id?: string
-    foodId: string
-    quantity: number
-    quantityUnit: string
-  }
-
-  export type RecipeInstructionFoodUpdateWithoutRecipeInstructionInput = {
+  export type RecipeFoodUpdateWithoutRecipeInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    quantityUnit?: StringFieldUpdateOperationsInput | string
-    food?: FoodUpdateOneRequiredWithoutRecipeInstructionFoodItemsInput
+    quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
+    food?: FoodUpdateOneRequiredWithoutRecipeFoodItemsInput
   }
 
-  export type RecipeInstructionFoodUncheckedUpdateWithoutRecipeInstructionInput = {
+  export type RecipeFoodUncheckedUpdateWithoutRecipeInput = {
     id?: StringFieldUpdateOperationsInput | string
     foodId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    quantityUnit?: StringFieldUpdateOperationsInput | string
+    quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type RecipeInstructionFoodUncheckedUpdateManyWithoutRecipeInstructionFoodsInput = {
+  export type RecipeFoodUncheckedUpdateManyWithoutRecipeFoodInput = {
     id?: StringFieldUpdateOperationsInput | string
     foodId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    quantityUnit?: StringFieldUpdateOperationsInput | string
+    quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ShoppingListEventCreateManyShoppingListInput = {
@@ -15649,11 +15673,11 @@ export namespace Prisma {
     isChecked?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type RecipeInstructionFoodCreateManyFoodInput = {
+  export type RecipeFoodCreateManyFoodInput = {
     id?: string
-    recipeInstructionId: string
+    recipeId: string
     quantity: number
-    quantityUnit: string
+    quantityUnit?: string | null
   }
 
   export type ShoppingListFoodCreateManyFoodInput = {
@@ -15662,25 +15686,25 @@ export namespace Prisma {
     isChecked: boolean
   }
 
-  export type RecipeInstructionFoodUpdateWithoutFoodInput = {
+  export type RecipeFoodUpdateWithoutFoodInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    quantityUnit?: StringFieldUpdateOperationsInput | string
-    recipeInstruction?: RecipeInstructionUpdateOneRequiredWithoutRecipeInstructionFoodsInput
+    quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
+    recipe?: RecipeUpdateOneRequiredWithoutRecipeFoodInput
   }
 
-  export type RecipeInstructionFoodUncheckedUpdateWithoutFoodInput = {
+  export type RecipeFoodUncheckedUpdateWithoutFoodInput = {
     id?: StringFieldUpdateOperationsInput | string
-    recipeInstructionId?: StringFieldUpdateOperationsInput | string
+    recipeId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    quantityUnit?: StringFieldUpdateOperationsInput | string
+    quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type RecipeInstructionFoodUncheckedUpdateManyWithoutRecipeInstructionFoodItemsInput = {
+  export type RecipeFoodUncheckedUpdateManyWithoutRecipeFoodItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    recipeInstructionId?: StringFieldUpdateOperationsInput | string
+    recipeId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    quantityUnit?: StringFieldUpdateOperationsInput | string
+    quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ShoppingListFoodUpdateWithoutFoodInput = {

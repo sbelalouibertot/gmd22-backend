@@ -15,6 +15,5 @@ module.exports = async () => {
       await client.query(`DROP SCHEMA IF EXISTS "${schema_name}" CASCADE;`)
     }
     await client.end()
-  } catch (error) {
-  }
+  } catch (error) {}
 }

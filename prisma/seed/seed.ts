@@ -1,12 +1,13 @@
 import { PrismaClient } from '@prisma/client'
+
 import { tables } from './constants'
 import { seedEvent } from './seedEvent'
 import { seedFood } from './seedFood'
 import { seedQuantityUnit } from './seedQuantityUnit'
 import { seedRecipe } from './seedRecipe'
 import { seedRecipeEvent } from './seedRecipeEvent'
+import { seedRecipeFood } from './seedRecipeFood'
 import { seedRecipeInstruction } from './seedRecipeInstruction'
-import { seedRecipeInstructionFood } from './seedRecipeInstructionFood'
 import { seedShoppingList } from './seedShoppingList'
 import { seedShoppingListEvent } from './seedShoppingListEvent'
 import { seedShoppingListFood } from './seedShoppingListFood'
@@ -59,11 +60,11 @@ export {
   seedQuantityUnit,
   seedRecipe,
   seedRecipeEvent,
+  seedRecipeFood,
   seedRecipeInstruction,
-  seedRecipeInstructionFood,
   seedShoppingList,
   seedShoppingListEvent,
   seedShoppingListFood,
   seedUser,
-  seedUserPreference
+  seedUserPreference,
 }

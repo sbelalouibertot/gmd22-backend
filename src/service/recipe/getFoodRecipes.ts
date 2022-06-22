@@ -7,7 +7,7 @@ export const getFoodRecipes = async (
   { foodId }: TFoodRecipesInput,
 ): Promise<{ recipes: Recipe[] }> => {
   const recipes = await prisma.recipe.findMany({
-    where: { recipeInstructions: { some: { recipeInstructionFoods: { some: { foodId } } } } },
+    where: { recipeFood: { every: { foodId } } },
   })
   return { recipes }
 }

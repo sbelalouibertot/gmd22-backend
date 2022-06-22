@@ -1,287 +1,129 @@
-// import { Prisma } from '../../src/generated/prisma-client'
+import { Food, Recipe, RecipeFood, RecipeInstruction } from '../../src/generated/prisma-client'
 
-// type CustomFoodItem = {
-//   name: string
-// } & Pick<Prisma.RecipeInstructionFoodCreateInput, 'quantity' | 'quantityUnit'>
+type InputCustomRecipeInstruction = (Pick<
+  Recipe,
+  'name' | 'cookingDuration' | 'preparationDuration'
+> & {
+  foodItems: [Food['name'], RecipeFood['quantity'], RecipeFood['quantityUnit']?][]
+  instructions: [RecipeInstruction['description'], RecipeInstruction['duration']?][]
+})[]
 
-// type CustomRecipeInstruction = Pick<
-//   Prisma.RecipeInstructionCreateInput,
-//   'description' | 'duration'
-// > & { foodItems: CustomFoodItem[] }
+type OutputCustomRecipeInstruction = (Pick<
+  Recipe,
+  'name' | 'cookingDuration' | 'preparationDuration'
+> & {
+  foodItems: {
+    name: Food['name']
+    quantity: RecipeFood['quantity']
+    quantityUnit?: RecipeFood['quantityUnit']
+  }[]
+  instructions: {
+    description: RecipeInstruction['description']
+    duration?: RecipeInstruction['duration']
+  }[]
+})[]
 
-// export const recipeInstructions: CustomRecipeInstruction[] = [
-//   {
-//     description: 'Faire cuire le quinoa comme indiqué sur la paquet.',
-//     duration: 0,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-//   {
-//     description: 'Pendant ce temps, coupez les betteraves en petits dés.',
-//     duration: 0,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-//   {
-//     description: "Dans un saladier, mélangez l'huile et le jus de citron.",
-//     duration: 0,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-//   {
-//     description: 'Ajoutez les betteraves et le quinoa cuit.',
-//     duration: 0,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-//   {
-//     description: 'Ajoutez les graines et les fruits secs, salez, poivrez et remuez bien.',
-//     duration: 0,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-//   {
-//     description: 'Servez tiède ou froid selon votre convenance.',
-//     duration: 0,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-// ]
+const inputRecipes: InputCustomRecipeInstruction = [
+  {
+    name: 'Taboulé de quinoa vitaminé',
+    cookingDuration: 15,
+    preparationDuration: 15,
+    foodItems: [
+      ['Quinoa', 200, 'g'],
+      ['Betterave', 1],
+      ['Huile', 1, 'cuillère à soupe'],
+      ['Jus de citron', 1, 'cuillère à soupe'],
+      ['Graines', 100, 'g'],
+      ['Fruits secs', 100, 'g'],
+      ['Sel', 1, 'pincée'],
+      ['Poivre', 1, 'pincée'],
+    ],
+    instructions: [
+      ['Faire cuire le quinoa comme indiqué sur la paquet.', 10],
+      ['Pendant ce temps, coupez les betteraves en petits dés.'],
+      ["Dans un saladier, mélangez l'huile et le jus de citron.", 1],
+      ['Ajoutez les betteraves et le quinoa cuit.'],
+      ['Ajoutez les graines et les fruits secs, salez, poivrez et remuez bien.'],
+      ['Servez tiède ou froid selon votre convenance.'],
+    ],
+  },
+  {
+    name: 'Galettes de brocolis',
+    cookingDuration: 20,
+    preparationDuration: 20,
+    foodItems: [
+      ['Brocolis', 200, 'g'],
+      ['Oeuf', 4],
+      ['Fromage blanc', 150, 'g'],
+      ['Curcuma', 1, 'pincée'],
+      ['Parmesan', 1, 'pincée'],
+    ],
+    instructions: [
+      ['Préchauffez le four à 180°C (th. 6).', 10],
+      [
+        'Dans un saladier, battez les oeufs avec la fécule, le fromage blanc, le curcuma et le parmesan.',
+      ],
+      ['Égouttez et écrasez le brocoli en purée.', 1],
+      ['Ajoutez-le dans le saladier et mélangez bien le tout.', 1],
+      ['Sur une plaque de cuisson sulfurisée, faites des petits tas de cette pâte.'],
+      ['Enfournez en vérifiant la cuisson et en la prolongeant si nécessaire'],
+    ],
+  },
+  {
+    name: 'Curry de chou-fleur et pois chiches',
+    cookingDuration: 20,
+    preparationDuration: 10,
+    foodItems: [],
+    instructions: [],
+  },
+  {
+    name: 'Lentilles aux épinards et au tofu',
+    cookingDuration: 30,
+    preparationDuration: 15,
+    foodItems: [],
+    instructions: [],
+  },
+  {
+    name: 'Salade de chou rouge et mâche au miel',
+    cookingDuration: 0,
+    preparationDuration: 10,
+    foodItems: [],
+    instructions: [],
+  },
+  {
+    name: 'Flan de poisson aux légumes',
+    cookingDuration: 30,
+    preparationDuration: 15,
+    foodItems: [],
+    instructions: [],
+  },
+  {
+    name: 'Tarte aux tomates cerise, aux épinards et à la ricotta',
+    cookingDuration: 30,
+    preparationDuration: 15,
+    foodItems: [],
+    instructions: [],
+  },
+  {
+    name: "Terrine de saumon à l'oseille",
+    cookingDuration: 60,
+    preparationDuration: 20,
+    foodItems: [],
+    instructions: [],
+  },
+]
 
-// export const recipeInstructions2: CustomRecipeInstruction[] = [
-//   {
-//     description: 'Préchauffez le four à 180°C (th. 6).',
-//     duration: 0,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-//   {
-//     description: "Découpez et faites cuire le brocoli dans de l'eau bouillante.",
-//     duration: 10,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-//   {
-//     description:
-//       'Dans un saladier, battez les oeufs avec la fécule, le fromage blanc, le curcuma et le parmesan.',
-//     duration: 0,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-//   {
-//     description: 'Égouttez et écrasez le brocoli en purée.',
-//     duration: 0,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-//   {
-//     description: 'Ajoutez-le dans le saladier et mélangez bien le tout.',
-//     duration: 0,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-//   {
-//     description: 'Sur une plaque de cuisson sulfurisée, faites des petits tas de cette pâte.',
-//     duration: 0,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-//   {
-//     description: 'Enfournez en vérifiant la cuisson et en la prolongeant si nécessaire',
-//     duration: 10,
-//     foodItems: [
-//       {
-//         name: 'Quinoa',
-//         quantity: null,
-//         quantityUnit: null,
-//       },
-//     ],
-//   },
-// ]
-
-// export const recipes: (Prisma.RecipeCreateInput & {
-//   recipeInstructionsToCreate: CustomRecipeInstruction[]
-// })[] = [
-//   {
-//     name: 'Taboulé de quinoa vitaminé',
-//     cookingDuration: 15,
-//     preparationDuration: 15,
-//     recipeInstructionsToCreate: [
-//       {
-//         description: 'Faire cuire le quinoa comme indiqué sur la paquet.',
-//         duration: 0,
-//         foodItems: [
-//           {
-//             name: 'Quinoa',
-//             quantity: null,
-//             quantityUnit: null,
-//           },
-//         ],
-//       },
-//       {
-//         description: 'Pendant ce temps, coupez les betteraves en petits dés.',
-//         duration: 0,
-//         foodItems: [
-//           {
-//             name: 'Quinoa',
-//             quantity: null,
-//             quantityUnit: null,
-//           },
-//         ],
-//       },
-//       {
-//         description: "Dans un saladier, mélangez l'huile et le jus de citron.",
-//         duration: 0,
-//         foodItems: [
-//           {
-//             name: 'Quinoa',
-//             quantity: null,
-//             quantityUnit: null,
-//           },
-//         ],
-//       },
-//       {
-//         description: 'Ajoutez les betteraves et le quinoa cuit.',
-//         duration: 0,
-//         foodItems: [
-//           {
-//             name: 'Quinoa',
-//             quantity: null,
-//             quantityUnit: null,
-//           },
-//         ],
-//       },
-//       {
-//         description: 'Ajoutez les graines et les fruits secs, salez, poivrez et remuez bien.',
-//         duration: 0,
-//         foodItems: [
-//           {
-//             name: 'Quinoa',
-//             quantity: null,
-//             quantityUnit: null,
-//           },
-//         ],
-//       },
-//       {
-//         description: 'Servez tiède ou froid selon votre convenance.',
-//         duration: 0,
-//         foodItems: [
-//           {
-//             name: 'Quinoa',
-//             quantity: null,
-//             quantityUnit: null,
-//           },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     name: 'Galettes de brocolis',
-//     cookingDuration: 20,
-//     preparationDuration: 20,
-//     recipeInstructions: {
-//       createMany: {
-//         data: [
-//           { description: 'Préchauffez le four à 180°C (th. 6).', duration: 0 },
-//           {
-//             description: "Découpez et faites cuire le brocoli dans de l'eau bouillante.",
-//             duration: 10,
-//           },
-//           {
-//             description:
-//               'Dans un saladier, battez les oeufs avec la fécule, le fromage blanc, le curcuma et le parmesan.',
-//             duration: 0,
-//           },
-//           { description: 'Égouttez et écrasez le brocoli en purée.', duration: 0 },
-//           {
-//             description: 'Ajoutez-le dans le saladier et mélangez bien le tout.',
-//             duration: 0,
-//           },
-//           {
-//             description:
-//               'Sur une plaque de cuisson sulfurisée, faites des petits tas de cette pâte.',
-//             duration: 0,
-//           },
-//           {
-//             description: 'Enfournez en vérifiant la cuisson et en la prolongeant si nécessaire',
-//             duration: 10,
-//           },
-//         ],
-//       },
-//     },
-//   },
-//   { name: 'Curry de chou-fleur et pois chiches', cookingDuration: 20, preparationDuration: 10 },
-//   { name: 'Lentilles aux épinards et au tofu', cookingDuration: 30, preparationDuration: 15 },
-//   {
-//     name: 'Salade de chou rouge et mâche au miel',
-//     cookingDuration: 0,
-//     preparationDuration: 10,
-//   },
-//   { name: 'Flan de poisson aux légumes', cookingDuration: 30, preparationDuration: 15 },
-//   {
-//     name: 'Tarte aux tomates cerise, aux épinards et à la ricotta',
-//     cookingDuration: 30,
-//     preparationDuration: 15,
-//   },
-//   { name: "Terrine de saumon à l'oseille", cookingDuration: 60, preparationDuration: 20 },
-// ]
+export const recipes: OutputCustomRecipeInstruction = inputRecipes.map(recipe => ({
+  name: recipe.name,
+  cookingDuration: recipe.cookingDuration,
+  preparationDuration: recipe.preparationDuration,
+  foodItems: recipe.foodItems.map(foodItem => ({
+    name: foodItem[0],
+    quantity: foodItem[1],
+    ...(foodItem.length === 3 && { quantityUnit: foodItem[2] }),
+  })),
+  instructions: recipe.instructions.map(instruction => ({
+    description: instruction[0],
+    ...(instruction.length === 2 && { duration: instruction[1] }),
+  })),
+}))

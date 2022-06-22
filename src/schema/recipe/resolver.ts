@@ -20,18 +20,14 @@ export default {
       const parentFood = await ctx.prisma.food.findUnique({
         where: { id: parent.id },
         include: {
-          recipeInstructionFoodItems: {
-            include: { recipeInstruction: { include: { recipe: true } } },
-          },
+          recipeFoodItems: { include: { recipe: true } },
         },
       })
       if (!parentFood) {
         return []
       }
 
-      const recipes = parentFood?.recipeInstructionFoodItems.map(
-        foodItem => foodItem.recipeInstruction.recipe,
-      )
+      const recipes = parentFood?.recipeFoodItems.map(foodItem => foodItem.recipe)
       const recipesWithoutDupplicates = recipes.filter(
         (v, i, a) => a.findIndex(v2 => v2.id === v.id) === i,
       )
