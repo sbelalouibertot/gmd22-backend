@@ -1,6 +1,6 @@
 import { Recipe, RecipeEvent } from 'generated/prisma-client'
 
-import { replaceRecipe, TReplaceRecipeInput } from '../../service/recipe/replaceRecipe'
+import { replaceRecipe } from '../../service/recipe/replaceRecipe'
 import { GraphqlContext } from '.././types'
 
 export default {
@@ -15,9 +15,14 @@ export default {
     },
     replaceRecipe: async (
       _: unknown,
-      replaceRecipeInput: TReplaceRecipeInput,
+      { recipeId, eventId }: { recipeId: string; eventId: string },
       ctx: GraphqlContext,
-    ): Promise<{ recipeEvent: RecipeEvent | null }> =>
-      replaceRecipe(ctx.prisma, replaceRecipeInput),
+    ): Promise<{ recipeEvent: RecipeEvent | null }> => {
+      const recipeEvent = await ctx.prisma.recipeEvent.findFirst({ where: { recipeId, eventId } })
+      if (!recipeEvent) {
+        return { recipeEvent: null }
+      }
+      return replaceRecipe(ctx.prisma, { recipeEventId: recipeEvent.id })
+    },
   },
 }

@@ -8,10 +8,10 @@ type RecipeInstruction {
 }
 
 type Recipe {
-  id: String
-  name: String
-  preparationDuration: Int
-  cookingDuration: Int
+  id: String!
+  name: String!
+  preparationDuration: Int!
+  cookingDuration: Int!
   recipeInstructions: [RecipeInstruction]
 }
 
@@ -49,5 +49,5 @@ type Query {
 
 type Mutation {
   newRecipe(recipeInput: RecipeInput): RecipeOutput
-  replaceRecipe(recipeEventId: ID!): RecipeEventOutput
+  replaceRecipe(recipeId: ID!, eventId: ID!): RecipeEventOutput
 }

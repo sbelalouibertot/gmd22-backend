@@ -1,8 +1,8 @@
 # Shopping list
 type ShoppingList {
-  id: String
-  name: String
-  shoppingListItems: [ShoppingListFood]
+  id: String!
+  name: String!
+  shoppingListItems: [ShoppingListFood]!
 }
 
 type ShoppingListEvent {

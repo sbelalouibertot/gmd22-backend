@@ -7,17 +7,17 @@ enum EventType {
 }
 
 type Event {
-  id: String
-  type: EventType
+  id: String!
+  type: EventType!
   userId: String
-  date: DateTime
+  date: DateTime!
   nextRecipe: Recipe
-  recipes: [Recipe]
+  recipes: [Recipe!]
   shoppingList: ShoppingList
 }
 
 type EventsOutput {
-  events: [Event]
+  events: [Event!]!
 }
 
 type EventOutput {
@@ -26,7 +26,7 @@ type EventOutput {
 
 type Query {
 event(id: ID): EventOutput
-events(userId: ID, date: DateTime, onlyCurrentPeriod: Boolean, type: EventType): EventsOutput
+events(userId: ID, date: DateTime, onlyCurrentPeriod: Boolean, type: EventType): EventsOutput!
 nextEvent(userId: ID, type: EventType): EventOutput
 }
 

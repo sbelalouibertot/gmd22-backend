@@ -2,9 +2,7 @@ read -p "Press enter if production database URL is uncommented in .env ✅" -n 1
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
-    exit 1
-fi
-
+    
 npm run build
 
 npx envsub --env-file .env Dockerfile Dockerfile-out --syntax dollar-basic
@@ -24,6 +22,8 @@ curl -X POST https://alertzy.app/send -H "Content-Type: application/x-www-form-u
 echo "\n --- [end] $(date -u) ---"
 ' >> $TARGET_PROJECT_ROOT_PATH/$TARGET_REPOSITORY_NAME/logs/deployments.log 2>&1 &
 EOSSH
+
+fi
 
 # Logs : 
 #sudo docker logs --tail 50 --follow --timestamps $(sudo docker ps -q  --filter ancestor=$TARGET_DOCKER_IMAGE_NAME)
