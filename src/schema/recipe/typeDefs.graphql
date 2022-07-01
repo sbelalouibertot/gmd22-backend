@@ -1,7 +1,7 @@
 # Recipe
 type RecipeInstruction {
-  id: ID
-  description: String
+  id: ID!
+  description: String!
   recipeId: ID
   duration: Int
   foodItems: [Food]
