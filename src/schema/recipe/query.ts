@@ -15,8 +15,27 @@ export default {
       nextRecipeInput: TNextRecipeInput,
       ctx: GraphqlContext,
     ): Promise<{ recipe: Recipe | null }> => getNextRecipe(ctx.prisma, nextRecipeInput),
-    recipes: async (_: unknown, {}, ctx: GraphqlContext): Promise<{ recipes: Recipe[] | null }> => {
-      const recipes = await ctx.prisma.recipe.findMany()
+    recipes: async (
+      _: unknown,
+      { filters }: { filters: { searchQuery?: string } },
+      ctx: GraphqlContext,
+    ): Promise<{ recipes: Recipe[] | null }> => {
+      if (!filters?.searchQuery) {
+        const recipes = await ctx.prisma.recipe.findMany()
+        return { recipes }
+      }
+      const recipes = await ctx.prisma.recipe.findMany({
+        where: {
+          OR: [
+            { name: { contains: filters?.searchQuery, mode: 'insensitive' } },
+            {
+              recipeFood: {
+                some: { food: { name: { contains: filters?.searchQuery, mode: 'insensitive' } } },
+              },
+            },
+          ],
+        },
+      })
       return { recipes }
     },
     foodRecipes: async (

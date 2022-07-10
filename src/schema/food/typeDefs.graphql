@@ -4,6 +4,8 @@ type Food {
   name: String
   type: FoodType
   recipes: [Recipe]
+  currentRecipes: [Recipe]
+  currentRecipeFoodItems: [RecipeFood]
 }
 
 enum FoodType {

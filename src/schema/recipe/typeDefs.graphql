@@ -13,6 +13,7 @@ type Recipe {
   preparationDuration: Int!
   cookingDuration: Int!
   recipeInstructions: [RecipeInstruction]
+  recipeFoodItems: [RecipeFood]
 }
 
 input RecipeInput {
@@ -21,12 +22,26 @@ input RecipeInput {
   cookingDuration: Int
 }
 
+input RecipeFiltersInput {
+  searchQuery: String
+}
+
 type RecipeOutput {
   recipe: Recipe
 }
 
 type RecipesOutput {
   recipes: [Recipe]
+}
+
+type RecipeFood {
+  id: ID
+  recipeId: ID
+  foodId: ID
+  quantity: Int
+  quantityUnit: String
+  food: Food
+  recipe: Recipe
 }
 
 type RecipeEvent {
@@ -43,7 +58,7 @@ type RecipeEventOutput {
 type Query {
   nextRecipe(userId: ID!): RecipeOutput
   recipe(id: ID!): RecipeOutput
-  recipes: RecipesOutput
+  recipes(filters: RecipeFiltersInput): RecipesOutput
   foodRecipes(foodId: ID!): RecipesOutput
 }
 
