@@ -172,8 +172,6 @@ const main = async (prisma: PrismaClient) => {
       foodId: recipeFood.foodId,
     })),
   })
-
-  //TODO: Promises in chunk if needed
 }
 
 prismaInjector(main)

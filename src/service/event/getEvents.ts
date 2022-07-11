@@ -25,7 +25,7 @@ export const getEvents = async (
       }),
       prisma.event.findFirst({
         where: { type: 'PERIOD_END', date: { gte: new Date() } },
-        orderBy: { date: 'asc' },
+        orderBy: { date: 'desc' },
       }),
     ])
     if (!!periodStartEvent?.date && !!periodEndEvent?.date) {
