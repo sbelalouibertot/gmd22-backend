@@ -4,6 +4,8 @@ import 'dayjs/locale/fr'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
+import { pushNotification } from 'utils/pushNotification'
+
 import { Prisma, PrismaClient, Recipe } from '../../../src/generated/prisma-client'
 import { prismaInjector } from '../../../src/utils/libs/prisma/prismaInjector'
 
@@ -12,7 +14,7 @@ dayjs.locale('fr')
 
 // Round generator
 // Run by CRON every day
-// npm run ts-node /src/bin/round-generator/roundGenerator.ts
+// npm run ts-node ./src/bin/round-generator/roundGenerator.ts
 const main = async (prisma: PrismaClient) => {
   try {
     const lastPeriodEndEvent = await prisma.event.findFirst({
@@ -63,14 +65,14 @@ const main = async (prisma: PrismaClient) => {
     })
 
     // Random recipes
-    const totalRecipesNb = maxRecipesPerWeek * shoppingWeeksInterval
+    const totalRecipesNb = maxRecipesPerWeek * (shoppingWeeksInterval - 1)
     const recipes: Recipe[] =
       await prisma.$queryRaw`SELECT * FROM recipes ORDER BY RANDOM() LIMIT ${totalRecipesNb};`
 
     // Events
     console.log('📆 Creating events')
 
-    const startPeriodDate = dayjs.utc().startOf('week').add(3, 'days').toDate()
+    const startPeriodDate = dayjs.utc().startOf('week').add(1, 'days').toDate()
     const events: Prisma.EventCreateInput[] = [
       {
         type: 'PERIOD_START',
@@ -98,27 +100,29 @@ const main = async (prisma: PrismaClient) => {
         user: { connect: { id: userId } },
         shoppingListEvents: { create: [{ shoppingListId: shoppingList.id }] },
       },
-      ...Array[shoppingWeeksInterval - 1].map(weekIndex => ({
-        type: 'PREPARATION',
-        date: dayjs
-          .utc(startPeriodDate)
-          .startOf('week')
-          .add(weekIndex + 1, 'week')
-          .set('hours', 12)
-          .set('minutes', 30)
-          .toDate(),
-        user: { connect: { id: userId } },
-        recipeEvents: {
-          createMany: {
-            data: recipes
-              .slice(
-                0 + weekIndex * maxRecipesPerWeek,
-                maxRecipesPerWeek + weekIndex * maxRecipesPerWeek,
-              )
-              .map(recipe => ({ recipeId: recipe.id })),
+      ...[...Array(shoppingWeeksInterval - 1).keys()].map(
+        (weekIndex: number): Prisma.EventCreateInput => ({
+          type: 'PREPARATION',
+          date: dayjs
+            .utc(startPeriodDate)
+            .startOf('week')
+            .add(weekIndex + 1, 'week')
+            .set('hours', 12)
+            .set('minutes', 30)
+            .toDate(),
+          user: { connect: { id: userId } },
+          recipeEvents: {
+            createMany: {
+              data: recipes
+                .slice(
+                  0 + weekIndex * maxRecipesPerWeek,
+                  maxRecipesPerWeek + weekIndex * maxRecipesPerWeek,
+                )
+                .map(recipe => ({ recipeId: recipe.id })),
+            },
           },
-        },
-      })),
+        }),
+      ),
     ]
 
     for (const event of events) {
@@ -154,8 +158,11 @@ const main = async (prisma: PrismaClient) => {
     })
 
     console.log('Succès ✅')
+    pushNotification({
+      message: `Un nouveau cycle a été créé ✅. ${totalRecipesNb} nouvelles recettes réparties sur ${shoppingWeeksInterval} semaines. Bon appétit ! 👨‍🍳`,
+    })
   } catch (err) {
-    console.log('Erreurs ❌')
+    console.log('Erreurs ❌', err)
   } finally {
     console.log('Fin 🏁')
   }
