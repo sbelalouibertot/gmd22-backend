@@ -45,5 +45,8 @@ export const replaceRecipe = async (
     data: { recipeId: availableRecipeId },
     where: { id: recipeEventId },
   })
+
+  //TODO: Recreate shopping list
+
   return { recipeEvent }
 }

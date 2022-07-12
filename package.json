@@ -71,7 +71,8 @@
     "graphql-iso-date": "^3.6.1",
     "graphql-type-json": "^0.3.2",
     "graphql-yoga": "1.18.3",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "node-cron": "^3.0.1"
   },
   "prisma": {
     "schema": "prisma/schema.prisma"

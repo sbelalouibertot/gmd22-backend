@@ -14,15 +14,18 @@ dayjs.locale('fr')
 
 // Round generator
 // Run by CRON every day
+// 55 5 * * *
 // npm run ts-node ./src/bin/round-generator/roundGenerator.ts
-const main = async (prisma: PrismaClient) => {
+export const main = async (prisma: PrismaClient) => {
   try {
+    console.log('🚀 Start rounds generation')
     const lastPeriodEndEvent = await prisma.event.findFirst({
       where: { type: 'PERIOD_END', date: { gte: new Date() } },
       orderBy: { date: 'desc' },
     })
 
     if (
+      !!lastPeriodEndEvent &&
       dayjs
         .utc(lastPeriodEndEvent?.date)
         .startOf('day')
@@ -33,45 +36,42 @@ const main = async (prisma: PrismaClient) => {
 
     // User preferences
     const user = await prisma.user.findFirst({ where: { username: 'samy' } })
-    const userId =
-      user?.id ?? (await prisma.user.create({ data: { firstName: 'Samy', username: 'samy' } })).id
+    if (!user) {
+      throw Error('❌ No user was found')
+    }
+    const userId = user.id
 
     const shoppingWeeksInterval = (
-      (await prisma.userPreference.findFirst({
+      await prisma.userPreference.findFirst({
         where: { type: 'SHOPPING_WEEKS_INTERVAL', userId },
-      })) ??
-      (await prisma.userPreference.create({
-        data: { value: 3, type: 'SHOPPING_WEEKS_INTERVAL', userId },
-      }))
-    ).value
-
+      })
+    )?.value
     const maxRecipesPerWeek = (
-      (await prisma.userPreference.findFirst({
+      await prisma.userPreference.findFirst({
         where: { type: 'MAX_RECIPES_PER_WEEK', userId },
-      })) ??
-      (await prisma.userPreference.create({
-        data: { value: 2, type: 'MAX_RECIPES_PER_WEEK', userId },
-      }))
-    ).value
+      })
+    )?.value
+
+    if (!shoppingWeeksInterval || !maxRecipesPerWeek) {
+      throw Error('❌ No user preferences were found')
+    }
 
     // Shopping list
-    console.log('📝 Creating shopping list')
-
     const shoppingListsCount = await prisma.shoppingList.count()
     const shoppingList = await prisma.shoppingList.create({
       data: {
         name: `Liste de courses #${shoppingListsCount + 1}`,
       },
     })
+    console.log(`📝 Created shopping list "Liste de courses #${shoppingListsCount + 1}"`)
 
     // Random recipes
-    const totalRecipesNb = maxRecipesPerWeek * (shoppingWeeksInterval - 1)
+    const totalRecipesNb = maxRecipesPerWeek * shoppingWeeksInterval
     const recipes: Recipe[] =
       await prisma.$queryRaw`SELECT * FROM recipes ORDER BY RANDOM() LIMIT ${totalRecipesNb};`
+    console.log(`👨‍🍳 Found ${totalRecipesNb} random recipes"`)
 
     // Events
-    console.log('📆 Creating events')
-
     const startPeriodDate = dayjs.utc().startOf('week').add(1, 'days').toDate()
     const events: Prisma.EventCreateInput[] = [
       {
@@ -100,7 +100,7 @@ const main = async (prisma: PrismaClient) => {
         user: { connect: { id: userId } },
         shoppingListEvents: { create: [{ shoppingListId: shoppingList.id }] },
       },
-      ...[...Array(shoppingWeeksInterval - 1).keys()].map(
+      ...[...Array(shoppingWeeksInterval).keys()].map(
         (weekIndex: number): Prisma.EventCreateInput => ({
           type: 'PREPARATION',
           date: dayjs
@@ -128,15 +128,15 @@ const main = async (prisma: PrismaClient) => {
     for (const event of events) {
       await prisma.event.create({ data: event })
     }
+    console.log(`📆 Created ${events.length} new events`)
 
     // Shopping list food items
     // TODO: Generate shopping list from recipes food
-    console.log('🛒 Creating shopping list food items')
-    const createdRecipeFoodItems = await prisma.recipeFood.findMany({
+    const recipeFoodItems = await prisma.recipeFood.findMany({
       where: {
         recipe: {
           recipeEvents: {
-            every: {
+            some: {
               event: {
                 date: {
                   gte: events.find(event => event.type === 'PERIOD_START')?.date,
@@ -149,22 +149,24 @@ const main = async (prisma: PrismaClient) => {
       },
     })
 
-    await prisma.shoppingListFood.createMany({
-      data: createdRecipeFoodItems.map(recipeFood => ({
+    const createdShoppingListFoodItems = await prisma.shoppingListFood.createMany({
+      data: recipeFoodItems.map(recipeFood => ({
         shoppingListId: shoppingList.id,
         isChecked: false,
         foodId: recipeFood.foodId,
       })),
     })
+    console.log(`🛒 Created ${createdShoppingListFoodItems.count} new shopping list food items`)
 
-    console.log('Succès ✅')
+    console.log('Success ✅')
     pushNotification({
       message: `Un nouveau cycle a été créé ✅. ${totalRecipesNb} nouvelles recettes réparties sur ${shoppingWeeksInterval} semaines. Bon appétit ! 👨‍🍳`,
     })
   } catch (err) {
-    console.log('Erreurs ❌', err)
+    console.log('Errors ❌', err)
+    console.log('Running populateNewDatabase script first may fix the issue.')
   } finally {
-    console.log('Fin 🏁')
+    console.log('End 🏁')
   }
 }
 

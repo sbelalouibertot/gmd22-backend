@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+
 import { ApolloServer } from 'apollo-server'
 import {
   ApolloServerPluginLandingPageDisabled,
@@ -7,6 +8,7 @@ import {
 
 import { makeExecutableSchema } from '@graphql-tools/schema'
 
+import { crons } from './bin/crons'
 import { PrismaClient } from './generated/prisma-client'
 import { getResolvers, getTypeDefs } from './schema'
 
@@ -31,6 +33,8 @@ const server = new ApolloServer({
       : ApolloServerPluginLandingPageGraphQLPlayground(),
   ],
 })
+
+crons()
 
 server
   .listen()
