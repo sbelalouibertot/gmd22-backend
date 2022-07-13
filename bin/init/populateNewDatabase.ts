@@ -5,8 +5,8 @@ import utc from 'dayjs/plugin/utc'
 
 import { Food, PrismaClient } from '../../src/generated/prisma-client'
 import { prismaInjector } from '../../src/utils/libs/prisma/prismaInjector'
-import { foodData } from './food.data'
-import { recipes } from './recipes.data'
+import { foodData } from './data/food.data'
+import { recipes } from './data/recipes.data'
 
 dayjs.extend(utc)
 dayjs.locale('fr')

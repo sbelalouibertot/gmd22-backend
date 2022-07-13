@@ -1,6 +1,6 @@
-import { Food, Recipe, RecipeFood, RecipeInstruction } from '../../src/generated/prisma-client'
+import { Food, Recipe, RecipeFood, RecipeInstruction } from '../../../src/generated/prisma-client'
 
-type InputCustomRecipeInstruction = (Pick<
+export type InputCustomRecipeInstruction = (Pick<
   Recipe,
   'name' | 'cookingDuration' | 'preparationDuration'
 > & {

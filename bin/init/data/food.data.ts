@@ -1,4 +1,4 @@
-import { FoodType } from '../../src/generated/prisma-client'
+import { FoodType } from '../../../src/generated/prisma-client'
 
 export const foodData: { name: string; type: FoodType }[] = [
   {

@@ -12,6 +12,8 @@ type Recipe {
   name: String!
   preparationDuration: Int!
   cookingDuration: Int!
+  image: String
+  numberOfPeople: Int
   recipeInstructions: [RecipeInstruction]
   recipeFoodItems: [RecipeFood]
 }

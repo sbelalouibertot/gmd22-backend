@@ -14,6 +14,8 @@ model Recipe {
   name                String              @db.VarChar(150)
   preparationDuration Int                 @map("preparation_duration")
   cookingDuration     Int                 @map("cooking_duration")
+  image               String
+  numberOfPeople      Int                 @map("number_of_people")
   recipeEvents        RecipeEvent[]
   recipeInstructions  RecipeInstruction[]
   recipeFood          RecipeFood[]
@@ -91,6 +93,7 @@ model ShoppingListFood {
 model Food {
   id                    String             @id @default(cuid()) @db.VarChar(30)
   name                  String             @db.VarChar(100)
+  image                 String
   type                  FoodType
   recipeFoodItems       RecipeFood[]
   shoppingListFoodItems ShoppingListFood[]
