@@ -40,7 +40,7 @@ type RecipeFood {
   id: ID
   recipeId: ID
   foodId: ID
-  quantity: Int
+  quantity: Float
   quantityUnit: String
   food: Food
   recipe: Recipe

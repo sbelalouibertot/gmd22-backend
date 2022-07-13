@@ -11,6 +11,8 @@ import { recipes } from './data/recipes.data'
 dayjs.extend(utc)
 dayjs.locale('fr')
 
+const CREATE_ONLY_USER = true
+
 // To use if need to populate a new database with data
 // npm run ts-node ./bin/init/populateNewDatabase.ts
 const main = async (prisma: PrismaClient) => {
@@ -37,6 +39,10 @@ const main = async (prisma: PrismaClient) => {
     ],
     skipDuplicates: true,
   })
+
+  if (CREATE_ONLY_USER) {
+    return
+  }
 
   // Food
   console.log('🍎 Creating food')

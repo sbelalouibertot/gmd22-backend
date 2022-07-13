@@ -21,6 +21,8 @@ export type Recipe = {
   name: string
   preparationDuration: number
   cookingDuration: number
+  image: string | null
+  numberOfPeople: number | null
 }
 
 /**
@@ -96,6 +98,7 @@ export type ShoppingListFood = {
 export type Food = {
   id: string
   name: string
+  image: string | null
   type: FoodType
 }
 
@@ -1323,11 +1326,13 @@ export namespace Prisma {
   export type RecipeAvgAggregateOutputType = {
     preparationDuration: number | null
     cookingDuration: number | null
+    numberOfPeople: number | null
   }
 
   export type RecipeSumAggregateOutputType = {
     preparationDuration: number | null
     cookingDuration: number | null
+    numberOfPeople: number | null
   }
 
   export type RecipeMinAggregateOutputType = {
@@ -1335,6 +1340,8 @@ export namespace Prisma {
     name: string | null
     preparationDuration: number | null
     cookingDuration: number | null
+    image: string | null
+    numberOfPeople: number | null
   }
 
   export type RecipeMaxAggregateOutputType = {
@@ -1342,6 +1349,8 @@ export namespace Prisma {
     name: string | null
     preparationDuration: number | null
     cookingDuration: number | null
+    image: string | null
+    numberOfPeople: number | null
   }
 
   export type RecipeCountAggregateOutputType = {
@@ -1349,6 +1358,8 @@ export namespace Prisma {
     name: number
     preparationDuration: number
     cookingDuration: number
+    image: number
+    numberOfPeople: number
     _all: number
   }
 
@@ -1356,11 +1367,13 @@ export namespace Prisma {
   export type RecipeAvgAggregateInputType = {
     preparationDuration?: true
     cookingDuration?: true
+    numberOfPeople?: true
   }
 
   export type RecipeSumAggregateInputType = {
     preparationDuration?: true
     cookingDuration?: true
+    numberOfPeople?: true
   }
 
   export type RecipeMinAggregateInputType = {
@@ -1368,6 +1381,8 @@ export namespace Prisma {
     name?: true
     preparationDuration?: true
     cookingDuration?: true
+    image?: true
+    numberOfPeople?: true
   }
 
   export type RecipeMaxAggregateInputType = {
@@ -1375,6 +1390,8 @@ export namespace Prisma {
     name?: true
     preparationDuration?: true
     cookingDuration?: true
+    image?: true
+    numberOfPeople?: true
   }
 
   export type RecipeCountAggregateInputType = {
@@ -1382,6 +1399,8 @@ export namespace Prisma {
     name?: true
     preparationDuration?: true
     cookingDuration?: true
+    image?: true
+    numberOfPeople?: true
     _all?: true
   }
 
@@ -1482,6 +1501,8 @@ export namespace Prisma {
     name: string
     preparationDuration: number
     cookingDuration: number
+    image: string | null
+    numberOfPeople: number | null
     _count: RecipeCountAggregateOutputType | null
     _avg: RecipeAvgAggregateOutputType | null
     _sum: RecipeSumAggregateOutputType | null
@@ -1508,6 +1529,8 @@ export namespace Prisma {
     name?: boolean
     preparationDuration?: boolean
     cookingDuration?: boolean
+    image?: boolean
+    numberOfPeople?: boolean
     recipeEvents?: boolean | RecipeEventFindManyArgs
     recipeInstructions?: boolean | RecipeInstructionFindManyArgs
     recipeFood?: boolean | RecipeFoodFindManyArgs
@@ -7469,18 +7492,21 @@ export namespace Prisma {
   export type FoodMinAggregateOutputType = {
     id: string | null
     name: string | null
+    image: string | null
     type: FoodType | null
   }
 
   export type FoodMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    image: string | null
     type: FoodType | null
   }
 
   export type FoodCountAggregateOutputType = {
     id: number
     name: number
+    image: number
     type: number
     _all: number
   }
@@ -7489,18 +7515,21 @@ export namespace Prisma {
   export type FoodMinAggregateInputType = {
     id?: true
     name?: true
+    image?: true
     type?: true
   }
 
   export type FoodMaxAggregateInputType = {
     id?: true
     name?: true
+    image?: true
     type?: true
   }
 
   export type FoodCountAggregateInputType = {
     id?: true
     name?: true
+    image?: true
     type?: true
     _all?: true
   }
@@ -7586,6 +7615,7 @@ export namespace Prisma {
   export type FoodGroupByOutputType = {
     id: string
     name: string
+    image: string | null
     type: FoodType
     _count: FoodCountAggregateOutputType | null
     _min: FoodMinAggregateOutputType | null
@@ -7609,6 +7639,7 @@ export namespace Prisma {
   export type FoodSelect = {
     id?: boolean
     name?: boolean
+    image?: boolean
     type?: boolean
     recipeFoodItems?: boolean | RecipeFoodFindManyArgs
     shoppingListFoodItems?: boolean | ShoppingListFoodFindManyArgs
@@ -11777,7 +11808,9 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     preparationDuration: 'preparationDuration',
-    cookingDuration: 'cookingDuration'
+    cookingDuration: 'cookingDuration',
+    image: 'image',
+    numberOfPeople: 'numberOfPeople'
   };
 
   export type RecipeScalarFieldEnum = (typeof RecipeScalarFieldEnum)[keyof typeof RecipeScalarFieldEnum]
@@ -11846,6 +11879,7 @@ export namespace Prisma {
   export const FoodScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    image: 'image',
     type: 'type'
   };
 
@@ -11919,6 +11953,8 @@ export namespace Prisma {
     name?: StringFilter | string
     preparationDuration?: IntFilter | number
     cookingDuration?: IntFilter | number
+    image?: StringNullableFilter | string | null
+    numberOfPeople?: IntNullableFilter | number | null
     recipeEvents?: RecipeEventListRelationFilter
     recipeInstructions?: RecipeInstructionListRelationFilter
     recipeFood?: RecipeFoodListRelationFilter
@@ -11929,6 +11965,8 @@ export namespace Prisma {
     name?: SortOrder
     preparationDuration?: SortOrder
     cookingDuration?: SortOrder
+    image?: SortOrder
+    numberOfPeople?: SortOrder
     recipeEvents?: RecipeEventOrderByRelationAggregateInput
     recipeInstructions?: RecipeInstructionOrderByRelationAggregateInput
     recipeFood?: RecipeFoodOrderByRelationAggregateInput
@@ -11943,6 +11981,8 @@ export namespace Prisma {
     name?: SortOrder
     preparationDuration?: SortOrder
     cookingDuration?: SortOrder
+    image?: SortOrder
+    numberOfPeople?: SortOrder
     _count?: RecipeCountOrderByAggregateInput
     _avg?: RecipeAvgOrderByAggregateInput
     _max?: RecipeMaxOrderByAggregateInput
@@ -11958,6 +11998,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter | string
     preparationDuration?: IntWithAggregatesFilter | number
     cookingDuration?: IntWithAggregatesFilter | number
+    image?: StringNullableWithAggregatesFilter | string | null
+    numberOfPeople?: IntNullableWithAggregatesFilter | number | null
   }
 
   export type RecipeFoodWhereInput = {
@@ -11967,7 +12009,7 @@ export namespace Prisma {
     id?: StringFilter | string
     recipeId?: StringFilter | string
     foodId?: StringFilter | string
-    quantity?: IntFilter | number
+    quantity?: FloatFilter | number
     quantityUnit?: StringNullableFilter | string | null
     recipe?: XOR<RecipeRelationFilter, RecipeWhereInput>
     food?: XOR<FoodRelationFilter, FoodWhereInput>
@@ -12007,7 +12049,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     recipeId?: StringWithAggregatesFilter | string
     foodId?: StringWithAggregatesFilter | string
-    quantity?: IntWithAggregatesFilter | number
+    quantity?: FloatWithAggregatesFilter | number
     quantityUnit?: StringNullableWithAggregatesFilter | string | null
   }
 
@@ -12238,6 +12280,7 @@ export namespace Prisma {
     NOT?: Enumerable<FoodWhereInput>
     id?: StringFilter | string
     name?: StringFilter | string
+    image?: StringNullableFilter | string | null
     type?: EnumFoodTypeFilter | FoodType
     recipeFoodItems?: RecipeFoodListRelationFilter
     shoppingListFoodItems?: ShoppingListFoodListRelationFilter
@@ -12246,6 +12289,7 @@ export namespace Prisma {
   export type FoodOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    image?: SortOrder
     type?: SortOrder
     recipeFoodItems?: RecipeFoodOrderByRelationAggregateInput
     shoppingListFoodItems?: ShoppingListFoodOrderByRelationAggregateInput
@@ -12258,6 +12302,7 @@ export namespace Prisma {
   export type FoodOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    image?: SortOrder
     type?: SortOrder
     _count?: FoodCountOrderByAggregateInput
     _max?: FoodMaxOrderByAggregateInput
@@ -12270,6 +12315,7 @@ export namespace Prisma {
     NOT?: Enumerable<FoodScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
+    image?: StringNullableWithAggregatesFilter | string | null
     type?: EnumFoodTypeWithAggregatesFilter | FoodType
   }
 
@@ -12450,6 +12496,8 @@ export namespace Prisma {
     name: string
     preparationDuration: number
     cookingDuration: number
+    image?: string | null
+    numberOfPeople?: number | null
     recipeEvents?: RecipeEventCreateNestedManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionCreateNestedManyWithoutRecipeInput
     recipeFood?: RecipeFoodCreateNestedManyWithoutRecipeInput
@@ -12460,6 +12508,8 @@ export namespace Prisma {
     name: string
     preparationDuration: number
     cookingDuration: number
+    image?: string | null
+    numberOfPeople?: number | null
     recipeEvents?: RecipeEventUncheckedCreateNestedManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionUncheckedCreateNestedManyWithoutRecipeInput
     recipeFood?: RecipeFoodUncheckedCreateNestedManyWithoutRecipeInput
@@ -12470,6 +12520,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfPeople?: NullableIntFieldUpdateOperationsInput | number | null
     recipeEvents?: RecipeEventUpdateManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionUpdateManyWithoutRecipeInput
     recipeFood?: RecipeFoodUpdateManyWithoutRecipeInput
@@ -12480,6 +12532,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfPeople?: NullableIntFieldUpdateOperationsInput | number | null
     recipeEvents?: RecipeEventUncheckedUpdateManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionUncheckedUpdateManyWithoutRecipeInput
     recipeFood?: RecipeFoodUncheckedUpdateManyWithoutRecipeInput
@@ -12490,6 +12544,8 @@ export namespace Prisma {
     name: string
     preparationDuration: number
     cookingDuration: number
+    image?: string | null
+    numberOfPeople?: number | null
   }
 
   export type RecipeUpdateManyMutationInput = {
@@ -12497,6 +12553,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfPeople?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type RecipeUncheckedUpdateManyInput = {
@@ -12504,6 +12562,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfPeople?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type RecipeFoodCreateInput = {
@@ -12524,7 +12584,7 @@ export namespace Prisma {
 
   export type RecipeFoodUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    quantity?: FloatFieldUpdateOperationsInput | number
     quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
     recipe?: RecipeUpdateOneRequiredWithoutRecipeFoodInput
     food?: FoodUpdateOneRequiredWithoutRecipeFoodItemsInput
@@ -12534,7 +12594,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     recipeId?: StringFieldUpdateOperationsInput | string
     foodId?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    quantity?: FloatFieldUpdateOperationsInput | number
     quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -12548,7 +12608,7 @@ export namespace Prisma {
 
   export type RecipeFoodUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    quantity?: FloatFieldUpdateOperationsInput | number
     quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -12556,7 +12616,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     recipeId?: StringFieldUpdateOperationsInput | string
     foodId?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    quantity?: FloatFieldUpdateOperationsInput | number
     quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -12802,6 +12862,7 @@ export namespace Prisma {
   export type FoodCreateInput = {
     id?: string
     name: string
+    image?: string | null
     type: FoodType
     recipeFoodItems?: RecipeFoodCreateNestedManyWithoutFoodInput
     shoppingListFoodItems?: ShoppingListFoodCreateNestedManyWithoutFoodInput
@@ -12810,6 +12871,7 @@ export namespace Prisma {
   export type FoodUncheckedCreateInput = {
     id?: string
     name: string
+    image?: string | null
     type: FoodType
     recipeFoodItems?: RecipeFoodUncheckedCreateNestedManyWithoutFoodInput
     shoppingListFoodItems?: ShoppingListFoodUncheckedCreateNestedManyWithoutFoodInput
@@ -12818,6 +12880,7 @@ export namespace Prisma {
   export type FoodUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
     recipeFoodItems?: RecipeFoodUpdateManyWithoutFoodInput
     shoppingListFoodItems?: ShoppingListFoodUpdateManyWithoutFoodInput
@@ -12826,6 +12889,7 @@ export namespace Prisma {
   export type FoodUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
     recipeFoodItems?: RecipeFoodUncheckedUpdateManyWithoutFoodInput
     shoppingListFoodItems?: ShoppingListFoodUncheckedUpdateManyWithoutFoodInput
@@ -12834,18 +12898,21 @@ export namespace Prisma {
   export type FoodCreateManyInput = {
     id?: string
     name: string
+    image?: string | null
     type: FoodType
   }
 
   export type FoodUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
   }
 
   export type FoodUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
   }
 
@@ -13071,6 +13138,32 @@ export namespace Prisma {
     not?: NestedIntFilter | number
   }
 
+  export type StringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type IntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
   export type RecipeEventListRelationFilter = {
     every?: RecipeEventWhereInput
     some?: RecipeEventWhereInput
@@ -13106,11 +13199,14 @@ export namespace Prisma {
     name?: SortOrder
     preparationDuration?: SortOrder
     cookingDuration?: SortOrder
+    image?: SortOrder
+    numberOfPeople?: SortOrder
   }
 
   export type RecipeAvgOrderByAggregateInput = {
     preparationDuration?: SortOrder
     cookingDuration?: SortOrder
+    numberOfPeople?: SortOrder
   }
 
   export type RecipeMaxOrderByAggregateInput = {
@@ -13118,6 +13214,8 @@ export namespace Prisma {
     name?: SortOrder
     preparationDuration?: SortOrder
     cookingDuration?: SortOrder
+    image?: SortOrder
+    numberOfPeople?: SortOrder
   }
 
   export type RecipeMinOrderByAggregateInput = {
@@ -13125,11 +13223,14 @@ export namespace Prisma {
     name?: SortOrder
     preparationDuration?: SortOrder
     cookingDuration?: SortOrder
+    image?: SortOrder
+    numberOfPeople?: SortOrder
   }
 
   export type RecipeSumOrderByAggregateInput = {
     preparationDuration?: SortOrder
     cookingDuration?: SortOrder
+    numberOfPeople?: SortOrder
   }
 
   export type StringWithAggregatesFilter = {
@@ -13166,7 +13267,7 @@ export namespace Prisma {
     _max?: NestedIntFilter
   }
 
-  export type StringNullableFilter = {
+  export type StringNullableWithAggregatesFilter = {
     equals?: string | null
     in?: Enumerable<string> | null
     notIn?: Enumerable<string> | null
@@ -13178,7 +13279,37 @@ export namespace Prisma {
     startsWith?: string
     endsWith?: string
     mode?: QueryMode
-    not?: NestedStringNullableFilter | string | null
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
+  }
+
+  export type IntNullableWithAggregatesFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedIntNullableFilter
+    _min?: NestedIntNullableFilter
+    _max?: NestedIntNullableFilter
+  }
+
+  export type FloatFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatFilter | number
   }
 
   export type RecipeRelationFilter = {
@@ -13223,22 +13354,20 @@ export namespace Prisma {
     quantity?: SortOrder
   }
 
-  export type StringNullableWithAggregatesFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | null
-    notIn?: Enumerable<string> | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedStringNullableFilter
-    _max?: NestedStringNullableFilter
+  export type FloatWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedFloatFilter
+    _min?: NestedFloatFilter
+    _max?: NestedFloatFilter
   }
 
   export type DateTimeNullableFilter = {
@@ -13454,18 +13583,21 @@ export namespace Prisma {
   export type FoodCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    image?: SortOrder
     type?: SortOrder
   }
 
   export type FoodMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    image?: SortOrder
     type?: SortOrder
   }
 
   export type FoodMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    image?: SortOrder
     type?: SortOrder
   }
 
@@ -13484,17 +13616,6 @@ export namespace Prisma {
     in?: Enumerable<StandardUnitType>
     notIn?: Enumerable<StandardUnitType>
     not?: NestedEnumStandardUnitTypeFilter | StandardUnitType
-  }
-
-  export type FloatFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatFilter | number
   }
 
   export type QuantityUnitCountOrderByAggregateInput = {
@@ -13531,22 +13652,6 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedEnumStandardUnitTypeFilter
     _max?: NestedEnumStandardUnitTypeFilter
-  }
-
-  export type FloatWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatWithAggregatesFilter | number
-    _count?: NestedIntFilter
-    _avg?: NestedFloatFilter
-    _sum?: NestedFloatFilter
-    _min?: NestedFloatFilter
-    _max?: NestedFloatFilter
   }
 
   export type EnumEventTypeFilter = {
@@ -13730,6 +13835,18 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type RecipeEventUpdateManyWithoutRecipeInput = {
     create?: XOR<Enumerable<RecipeEventCreateWithoutRecipeInput>, Enumerable<RecipeEventUncheckedCreateWithoutRecipeInput>>
     connectOrCreate?: Enumerable<RecipeEventCreateOrConnectWithoutRecipeInput>
@@ -13826,8 +13943,12 @@ export namespace Prisma {
     connect?: FoodWhereUniqueInput
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type RecipeUpdateOneRequiredWithoutRecipeFoodInput = {
@@ -14132,14 +14253,6 @@ export namespace Prisma {
     set?: StandardUnitType
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type UserCreateNestedOneWithoutEventsInput = {
     create?: XOR<UserCreateWithoutEventsInput, UserUncheckedCreateWithoutEventsInput>
     connectOrCreate?: UserCreateOrConnectWithoutEventsInput
@@ -14369,6 +14482,31 @@ export namespace Prisma {
     not?: NestedIntFilter | number
   }
 
+  export type NestedStringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
   export type NestedStringWithAggregatesFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -14413,20 +14551,6 @@ export namespace Prisma {
     not?: NestedFloatFilter | number
   }
 
-  export type NestedStringNullableFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | null
-    notIn?: Enumerable<string> | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringNullableFilter | string | null
-  }
-
   export type NestedStringNullableWithAggregatesFilter = {
     equals?: string | null
     in?: Enumerable<string> | null
@@ -14444,7 +14568,7 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter
   }
 
-  export type NestedIntNullableFilter = {
+  export type NestedIntNullableWithAggregatesFilter = {
     equals?: number | null
     in?: Enumerable<number> | null
     notIn?: Enumerable<number> | null
@@ -14452,7 +14576,39 @@ export namespace Prisma {
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedIntNullableFilter | number | null
+    not?: NestedIntNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedIntNullableFilter
+    _min?: NestedIntNullableFilter
+    _max?: NestedIntNullableFilter
+  }
+
+  export type NestedFloatNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatNullableFilter | number | null
+  }
+
+  export type NestedFloatWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedFloatFilter
+    _min?: NestedFloatFilter
+    _max?: NestedFloatFilter
   }
 
   export type NestedDateTimeNullableFilter = {
@@ -14550,22 +14706,6 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedEnumStandardUnitTypeFilter
     _max?: NestedEnumStandardUnitTypeFilter
-  }
-
-  export type NestedFloatWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatWithAggregatesFilter | number
-    _count?: NestedIntFilter
-    _avg?: NestedFloatFilter
-    _sum?: NestedFloatFilter
-    _min?: NestedFloatFilter
-    _max?: NestedFloatFilter
   }
 
   export type NestedEnumEventTypeFilter = {
@@ -14745,7 +14885,7 @@ export namespace Prisma {
     id?: StringFilter | string
     recipeId?: StringFilter | string
     foodId?: StringFilter | string
-    quantity?: IntFilter | number
+    quantity?: FloatFilter | number
     quantityUnit?: StringNullableFilter | string | null
   }
 
@@ -14754,6 +14894,8 @@ export namespace Prisma {
     name: string
     preparationDuration: number
     cookingDuration: number
+    image?: string | null
+    numberOfPeople?: number | null
     recipeEvents?: RecipeEventCreateNestedManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionCreateNestedManyWithoutRecipeInput
   }
@@ -14763,6 +14905,8 @@ export namespace Prisma {
     name: string
     preparationDuration: number
     cookingDuration: number
+    image?: string | null
+    numberOfPeople?: number | null
     recipeEvents?: RecipeEventUncheckedCreateNestedManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionUncheckedCreateNestedManyWithoutRecipeInput
   }
@@ -14775,6 +14919,7 @@ export namespace Prisma {
   export type FoodCreateWithoutRecipeFoodItemsInput = {
     id?: string
     name: string
+    image?: string | null
     type: FoodType
     shoppingListFoodItems?: ShoppingListFoodCreateNestedManyWithoutFoodInput
   }
@@ -14782,6 +14927,7 @@ export namespace Prisma {
   export type FoodUncheckedCreateWithoutRecipeFoodItemsInput = {
     id?: string
     name: string
+    image?: string | null
     type: FoodType
     shoppingListFoodItems?: ShoppingListFoodUncheckedCreateNestedManyWithoutFoodInput
   }
@@ -14801,6 +14947,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfPeople?: NullableIntFieldUpdateOperationsInput | number | null
     recipeEvents?: RecipeEventUpdateManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionUpdateManyWithoutRecipeInput
   }
@@ -14810,6 +14958,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfPeople?: NullableIntFieldUpdateOperationsInput | number | null
     recipeEvents?: RecipeEventUncheckedUpdateManyWithoutRecipeInput
     recipeInstructions?: RecipeInstructionUncheckedUpdateManyWithoutRecipeInput
   }
@@ -14822,6 +14972,7 @@ export namespace Prisma {
   export type FoodUpdateWithoutRecipeFoodItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
     shoppingListFoodItems?: ShoppingListFoodUpdateManyWithoutFoodInput
   }
@@ -14829,6 +14980,7 @@ export namespace Prisma {
   export type FoodUncheckedUpdateWithoutRecipeFoodItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
     shoppingListFoodItems?: ShoppingListFoodUncheckedUpdateManyWithoutFoodInput
   }
@@ -14838,6 +14990,8 @@ export namespace Prisma {
     name: string
     preparationDuration: number
     cookingDuration: number
+    image?: string | null
+    numberOfPeople?: number | null
     recipeInstructions?: RecipeInstructionCreateNestedManyWithoutRecipeInput
     recipeFood?: RecipeFoodCreateNestedManyWithoutRecipeInput
   }
@@ -14847,6 +15001,8 @@ export namespace Prisma {
     name: string
     preparationDuration: number
     cookingDuration: number
+    image?: string | null
+    numberOfPeople?: number | null
     recipeInstructions?: RecipeInstructionUncheckedCreateNestedManyWithoutRecipeInput
     recipeFood?: RecipeFoodUncheckedCreateNestedManyWithoutRecipeInput
   }
@@ -14887,6 +15043,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfPeople?: NullableIntFieldUpdateOperationsInput | number | null
     recipeInstructions?: RecipeInstructionUpdateManyWithoutRecipeInput
     recipeFood?: RecipeFoodUpdateManyWithoutRecipeInput
   }
@@ -14896,6 +15054,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfPeople?: NullableIntFieldUpdateOperationsInput | number | null
     recipeInstructions?: RecipeInstructionUncheckedUpdateManyWithoutRecipeInput
     recipeFood?: RecipeFoodUncheckedUpdateManyWithoutRecipeInput
   }
@@ -14926,6 +15086,8 @@ export namespace Prisma {
     name: string
     preparationDuration: number
     cookingDuration: number
+    image?: string | null
+    numberOfPeople?: number | null
     recipeEvents?: RecipeEventCreateNestedManyWithoutRecipeInput
     recipeFood?: RecipeFoodCreateNestedManyWithoutRecipeInput
   }
@@ -14935,6 +15097,8 @@ export namespace Prisma {
     name: string
     preparationDuration: number
     cookingDuration: number
+    image?: string | null
+    numberOfPeople?: number | null
     recipeEvents?: RecipeEventUncheckedCreateNestedManyWithoutRecipeInput
     recipeFood?: RecipeFoodUncheckedCreateNestedManyWithoutRecipeInput
   }
@@ -14954,6 +15118,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfPeople?: NullableIntFieldUpdateOperationsInput | number | null
     recipeEvents?: RecipeEventUpdateManyWithoutRecipeInput
     recipeFood?: RecipeFoodUpdateManyWithoutRecipeInput
   }
@@ -14963,6 +15129,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     preparationDuration?: IntFieldUpdateOperationsInput | number
     cookingDuration?: IntFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    numberOfPeople?: NullableIntFieldUpdateOperationsInput | number | null
     recipeEvents?: RecipeEventUncheckedUpdateManyWithoutRecipeInput
     recipeFood?: RecipeFoodUncheckedUpdateManyWithoutRecipeInput
   }
@@ -15165,6 +15333,7 @@ export namespace Prisma {
   export type FoodCreateWithoutShoppingListFoodItemsInput = {
     id?: string
     name: string
+    image?: string | null
     type: FoodType
     recipeFoodItems?: RecipeFoodCreateNestedManyWithoutFoodInput
   }
@@ -15172,6 +15341,7 @@ export namespace Prisma {
   export type FoodUncheckedCreateWithoutShoppingListFoodItemsInput = {
     id?: string
     name: string
+    image?: string | null
     type: FoodType
     recipeFoodItems?: RecipeFoodUncheckedCreateNestedManyWithoutFoodInput
   }
@@ -15208,6 +15378,7 @@ export namespace Prisma {
   export type FoodUpdateWithoutShoppingListFoodItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
     recipeFoodItems?: RecipeFoodUpdateManyWithoutFoodInput
   }
@@ -15215,6 +15386,7 @@ export namespace Prisma {
   export type FoodUncheckedUpdateWithoutShoppingListFoodItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumFoodTypeFieldUpdateOperationsInput | FoodType
     recipeFoodItems?: RecipeFoodUncheckedUpdateManyWithoutFoodInput
   }
@@ -15606,7 +15778,7 @@ export namespace Prisma {
 
   export type RecipeFoodUpdateWithoutRecipeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    quantity?: FloatFieldUpdateOperationsInput | number
     quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
     food?: FoodUpdateOneRequiredWithoutRecipeFoodItemsInput
   }
@@ -15614,14 +15786,14 @@ export namespace Prisma {
   export type RecipeFoodUncheckedUpdateWithoutRecipeInput = {
     id?: StringFieldUpdateOperationsInput | string
     foodId?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    quantity?: FloatFieldUpdateOperationsInput | number
     quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RecipeFoodUncheckedUpdateManyWithoutRecipeFoodInput = {
     id?: StringFieldUpdateOperationsInput | string
     foodId?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    quantity?: FloatFieldUpdateOperationsInput | number
     quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -15688,7 +15860,7 @@ export namespace Prisma {
 
   export type RecipeFoodUpdateWithoutFoodInput = {
     id?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    quantity?: FloatFieldUpdateOperationsInput | number
     quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
     recipe?: RecipeUpdateOneRequiredWithoutRecipeFoodInput
   }
@@ -15696,14 +15868,14 @@ export namespace Prisma {
   export type RecipeFoodUncheckedUpdateWithoutFoodInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipeId?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    quantity?: FloatFieldUpdateOperationsInput | number
     quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RecipeFoodUncheckedUpdateManyWithoutRecipeFoodItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipeId?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    quantity?: FloatFieldUpdateOperationsInput | number
     quantityUnit?: NullableStringFieldUpdateOperationsInput | string | null
   }
 

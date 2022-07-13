@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "recipes_food" ALTER COLUMN "quantity" SET DATA TYPE DOUBLE PRECISION;

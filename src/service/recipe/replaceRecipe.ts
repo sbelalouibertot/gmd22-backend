@@ -46,7 +46,48 @@ export const replaceRecipe = async (
     where: { id: recipeEventId },
   })
 
-  //TODO: Recreate shopping list
+  const recipeFoodItems = await prisma.recipeFood.findMany({
+    where: {
+      recipe: {
+        recipeEvents: {
+          some: {
+            event: {
+              date: {
+                gte: periodStartEvent.date,
+                lt: periodEndEvent.date,
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+
+  const currentShoppingList = await prisma.shoppingList.findFirst({
+    where: {
+      shoppingListEvents: {
+        some: {
+          event: {
+            date: {
+              gte: periodStartEvent.date,
+              lt: periodEndEvent.date,
+            },
+          },
+        },
+      },
+    },
+  })
+
+  if (!!currentShoppingList) {
+    await prisma.shoppingListFood.deleteMany({ where: { shoppingListId: currentShoppingList.id } })
+    await prisma.shoppingListFood.createMany({
+      data: recipeFoodItems.map(recipeFood => ({
+        shoppingListId: currentShoppingList.id,
+        isChecked: false,
+        foodId: recipeFood.foodId,
+      })),
+    })
+  }
 
   return { recipeEvent }
 }

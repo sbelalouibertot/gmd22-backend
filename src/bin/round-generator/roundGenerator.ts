@@ -4,10 +4,8 @@ import 'dayjs/locale/fr'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
-import { pushNotification } from 'utils/pushNotification'
-
 import { Prisma, PrismaClient, Recipe } from '../../../src/generated/prisma-client'
-import { prismaInjector } from '../../../src/utils/libs/prisma/prismaInjector'
+import { pushNotification } from '../../utils/pushNotification'
 
 dayjs.extend(utc)
 dayjs.locale('fr')
@@ -169,5 +167,3 @@ export const main = async (prisma: PrismaClient) => {
     console.log('End 🏁')
   }
 }
-
-prismaInjector(main)

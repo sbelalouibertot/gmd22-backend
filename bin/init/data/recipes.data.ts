@@ -1,16 +1,17 @@
-import { Food, Recipe, RecipeFood, RecipeInstruction } from '../../../src/generated/prisma-client'
+import pick from 'lodash/pick'
 
+import { Food, Recipe, RecipeFood, RecipeInstruction } from '../../../src/generated/prisma-client'
 export type InputCustomRecipeInstruction = (Pick<
   Recipe,
-  'name' | 'cookingDuration' | 'preparationDuration'
+  'name' | 'cookingDuration' | 'preparationDuration' | 'image' | 'numberOfPeople'
 > & {
   foodItems: [Food['name'], RecipeFood['quantity'], RecipeFood['quantityUnit']?][]
   instructions: [RecipeInstruction['description'], RecipeInstruction['duration']?][]
 })[]
 
-type OutputCustomRecipeInstruction = (Pick<
+export type OutputCustomRecipeInstruction = (Pick<
   Recipe,
-  'name' | 'cookingDuration' | 'preparationDuration'
+  'name' | 'cookingDuration' | 'preparationDuration' | 'image' | 'numberOfPeople'
 > & {
   foodItems: {
     name: Food['name']
@@ -46,6 +47,8 @@ const inputRecipes: InputCustomRecipeInstruction = [
       ['Ajoutez les graines et les fruits secs, salez, poivrez et remuez bien.'],
       ['Servez tiède ou froid selon votre convenance.'],
     ],
+    image: null,
+    numberOfPeople: null,
   },
   {
     name: 'Galettes de brocolis',
@@ -68,55 +71,14 @@ const inputRecipes: InputCustomRecipeInstruction = [
       ['Sur une plaque de cuisson sulfurisée, faites des petits tas de cette pâte.'],
       ['Enfournez en vérifiant la cuisson et en la prolongeant si nécessaire'],
     ],
-  },
-  {
-    name: 'Curry de chou-fleur et pois chiches',
-    cookingDuration: 20,
-    preparationDuration: 10,
-    foodItems: [],
-    instructions: [],
-  },
-  {
-    name: 'Lentilles aux épinards et au tofu',
-    cookingDuration: 30,
-    preparationDuration: 15,
-    foodItems: [],
-    instructions: [],
-  },
-  {
-    name: 'Salade de chou rouge et mâche au miel',
-    cookingDuration: 0,
-    preparationDuration: 10,
-    foodItems: [],
-    instructions: [],
-  },
-  {
-    name: 'Flan de poisson aux légumes',
-    cookingDuration: 30,
-    preparationDuration: 15,
-    foodItems: [],
-    instructions: [],
-  },
-  {
-    name: 'Tarte aux tomates cerise, aux épinards et à la ricotta',
-    cookingDuration: 30,
-    preparationDuration: 15,
-    foodItems: [],
-    instructions: [],
-  },
-  {
-    name: "Terrine de saumon à l'oseille",
-    cookingDuration: 60,
-    preparationDuration: 20,
-    foodItems: [],
-    instructions: [],
+
+    image: null,
+    numberOfPeople: null,
   },
 ]
 
 export const recipes: OutputCustomRecipeInstruction = inputRecipes.map(recipe => ({
-  name: recipe.name,
-  cookingDuration: recipe.cookingDuration,
-  preparationDuration: recipe.preparationDuration,
+  ...pick(recipe, ['name', 'cookingDuration', 'preparationDuration', 'image', 'numberOfPeople']),
   foodItems: recipe.foodItems.map(foodItem => ({
     name: foodItem[0],
     quantity: foodItem[1],

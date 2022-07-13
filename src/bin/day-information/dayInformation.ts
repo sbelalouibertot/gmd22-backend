@@ -7,7 +7,6 @@ import utc from 'dayjs/plugin/utc'
 import { EVENTS_LABELS, EVENTS_MESSAGE_DESCRIPTION } from '../../constants/events'
 import { PrismaClient } from '../../generated/prisma-client'
 import { truthy } from '../../utils/libs/other'
-import { prismaInjector } from '../../utils/libs/prisma/prismaInjector'
 import { pushNotification } from '../../utils/pushNotification'
 
 dayjs.extend(utc)
@@ -68,5 +67,3 @@ export const main = async (prisma: PrismaClient) => {
   }
   pushNotification({ message: [baseMessage, additionalMessage].filter(truthy).join(' ') })
 }
-
-prismaInjector(main)

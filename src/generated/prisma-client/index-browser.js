@@ -80,7 +80,9 @@ exports.Prisma.RecipeScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
   preparationDuration: 'preparationDuration',
-  cookingDuration: 'cookingDuration'
+  cookingDuration: 'cookingDuration',
+  image: 'image',
+  numberOfPeople: 'numberOfPeople'
 });
 
 exports.Prisma.RecipeFoodScalarFieldEnum = makeEnum({
@@ -128,6 +130,7 @@ exports.Prisma.ShoppingListFoodScalarFieldEnum = makeEnum({
 exports.Prisma.FoodScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
+  image: 'image',
   type: 'type'
 });
 
