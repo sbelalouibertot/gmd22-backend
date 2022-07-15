@@ -32,6 +32,7 @@ export const main = async (prisma: PrismaClient) => {
     },
     orderBy: { date: 'asc' },
   })
+  console.log(`${events.length} event(s) found.`)
 
   const dayEventsNb = events.length
   if (!dayEventsNb || dayEventsNb < 1) {
@@ -39,6 +40,7 @@ export const main = async (prisma: PrismaClient) => {
   }
 
   if (dayEventsNb > 1) {
+    console.log('Push notification - multiple day events')
     pushNotification({
       message: `Il y a ${dayEventsNb} évènements de prévus aujourd'hui : ${events
         .map(event => EVENTS_LABELS[event.type])
@@ -65,5 +67,6 @@ export const main = async (prisma: PrismaClient) => {
       .map(foodItem => foodItem.food.name)
       .join(', ')} 📝`
   }
+  console.log('Push notification - single day event')
   pushNotification({ message: [baseMessage, additionalMessage].filter(truthy).join(' ') })
 }
