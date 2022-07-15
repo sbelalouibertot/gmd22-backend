@@ -1,6 +1,14 @@
 import { Food, PrismaClient } from 'generated/prisma-client'
 
-export const getFoodItems = async (prisma: PrismaClient): Promise<{ foodItems: Food[] }> => {
-  const foodItems = await prisma.food.findMany()
-  return { foodItems }
+import { TPagination } from '../../schema/types'
+
+export const getFoodItems = async (
+  prisma: PrismaClient,
+  { skip, take }: TPagination,
+): Promise<{ foodItems: Food[]; total: number }> => {
+  const [foodItems, total] = await prisma.$transaction([
+    prisma.food.findMany({ orderBy: { name: 'asc' }, skip, take }),
+    prisma.food.count(),
+  ])
+  return { foodItems, total }
 }

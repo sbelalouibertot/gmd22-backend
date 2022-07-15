@@ -6,3 +6,8 @@ export type GraphqlContext = {
   prisma: PrismaClient
   request: Request
 }
+
+export type TPagination = {
+  skip: number
+  take: number
+}

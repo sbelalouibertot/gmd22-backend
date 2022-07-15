@@ -1,16 +1,10 @@
 input Pagination {
-  first: Int = 10
-  skip: Int = 0
-}
-
-type PaginationOutput {
-  first: Int
+  take: Int
   skip: Int
 }
 
-type PaginationInfos {
-  total: Int
-  first: Int
+type PaginationOutput {
+  take: Int
   skip: Int
 }
 

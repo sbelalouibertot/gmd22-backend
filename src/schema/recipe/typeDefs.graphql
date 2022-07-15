@@ -34,6 +34,7 @@ type RecipeOutput {
 
 type RecipesOutput {
   recipes: [Recipe]
+  total: Int
 }
 
 type RecipeFood {
@@ -60,7 +61,7 @@ type RecipeEventOutput {
 type Query {
   nextRecipe(userId: ID!): RecipeOutput
   recipe(id: ID!): RecipeOutput
-  recipes(filters: RecipeFiltersInput): RecipesOutput
+  recipes(filters: RecipeFiltersInput, pagination: Pagination): RecipesOutput
   foodRecipes(foodId: ID!): RecipesOutput
 }
 

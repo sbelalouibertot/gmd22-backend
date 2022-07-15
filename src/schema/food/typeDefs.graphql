@@ -31,13 +31,14 @@ enum FoodType {
 }
 
 type Query {  foodItem(id: ID!) : FoodItemOutput
-  foodItems: FoodItemsOutput
+  foodItems(pagination: Pagination): FoodItemsOutput
 }
 
 type FoodItemOutput {
   foodItem: Food
 }
 type FoodItemsOutput {
+  total: Int
   foodItems: [Food!]!
 }
 
