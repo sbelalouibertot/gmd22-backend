@@ -34,9 +34,13 @@ export const replaceRecipe = async (
   })
   const recipeIdsToSkip = recipeEventsToSkip.map(({ recipeId }) => recipeId)
 
-  const availableRecipeId = (
-    await prisma.recipe.findFirst({ where: { id: { notIn: recipeIdsToSkip } } })
-  )?.id
+  const availableRecipes: { id: string }[] = await prisma.$queryRaw`SELECT r.id FROM recipes r 
+  WHERE r.id NOT IN (${recipeIdsToSkip.join(',')})
+  ORDER BY RANDOM()
+  LIMIT 1`
+
+  const availableRecipeId = availableRecipes?.[0]['id']
+
   if (!availableRecipeId) {
     return { recipeEvent: null }
   }
