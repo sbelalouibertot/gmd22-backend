@@ -1,9 +1,19 @@
 
-# Données utilisateur
+## Run app
+```bash
+npm run start
+```
+## Build app
+```bash
+npm run build
+```
+
+## Deploy app
+```bash
+npm run deploy
+```
+## Populate database for the first time
 npm run ts-node ./bin/init/populateNewDatabase.ts
 
-# Données de recettes
+## Scrap external data
 npm run ts-node ./bin/init/scrap.ts
-
-# Générations des périodes, liste de courses
-# Lancé en CRON (gmd22-backend/src/bin/crons.ts)

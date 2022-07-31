@@ -8,3 +8,4 @@ Dockerfile
 deploy-out.sh
 Dockerfile-out
 coverage
+.DS_Store
