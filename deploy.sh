@@ -2,7 +2,7 @@ read -p "Press enter if production database URL is uncommented in .env ✅" -n 1
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
-    
+
 npm run build
 
 npx envsub --env-file .env Dockerfile Dockerfile-out --syntax dollar-basic

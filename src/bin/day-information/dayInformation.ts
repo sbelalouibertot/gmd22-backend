@@ -19,7 +19,11 @@ dayjs.locale('fr')
 
 export const main = async (prisma: PrismaClient) => {
   console.log('🚀 Start day information')
-  const startOfDay = dayjs.utc(new Date()).startOf('day').toDate()
+  const startOfDay = dayjs
+    .utc(new Date())
+    .startOf('day')
+    .subtract(2, 'hours') // Local time
+    .toDate()
   const startOfTomorrow = dayjs.utc(startOfDay).add(1, 'day').toDate()
 
   const events = await prisma.event.findMany({
@@ -48,7 +52,7 @@ export const main = async (prisma: PrismaClient) => {
     })
   }
   const event = events[0]
-  const baseMessage = `⏰ ${dayjs.utc(event.date).format('hh[h]mm')} - ${
+  const baseMessage = `⏰ ${dayjs.utc(event.date).add(2, 'hours').format('hh[h]mm')} - ${
     EVENTS_MESSAGE_DESCRIPTION[event.type]
   }`
 

@@ -23,12 +23,12 @@ const Prisma = {}
 exports.Prisma = Prisma
 
 /**
- * Prisma Client JS version: 3.15.1
- * Query Engine version: 22b822189f46ef0dc5c5b503368d1bee01213980
+ * Prisma Client JS version: 3.15.2
+ * Query Engine version: 461d6a05159055555eb7dfb337c9fb271cbd4d7e
  */
 Prisma.prismaVersion = {
-  client: "3.15.1",
-  engine: "22b822189f46ef0dc5c5b503368d1bee01213980"
+  client: "3.15.2",
+  engine: "461d6a05159055555eb7dfb337c9fb271cbd4d7e"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -244,7 +244,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/samybelaloui-bertot/Documents/Dev/private/gmd22-backend/src/generated/prisma-client",
+      "value": "/Users/samybelaloui-bertot/Documents/Dev/private/gmd22/gmd22-backend/src/generated/prisma-client",
       "fromEnvVar": null
     },
     "config": {
@@ -255,16 +255,16 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../../prisma",
-  "clientVersion": "3.15.1",
-  "engineVersion": "22b822189f46ef0dc5c5b503368d1bee01213980",
+  "clientVersion": "3.15.2",
+  "engineVersion": "461d6a05159055555eb7dfb337c9fb271cbd4d7e",
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "postgresql"
+  "activeProvider": "postgresql",
+  "dataProxy": false
 }
 config.document = dmmf
 config.dirname = dirname

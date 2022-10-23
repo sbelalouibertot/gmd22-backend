@@ -26,6 +26,7 @@ export const main = async (prisma: PrismaClient) => {
       !!lastPeriodEndEvent &&
       dayjs
         .utc(lastPeriodEndEvent?.date)
+        .add(2, 'hours') // Local time
         .startOf('day')
         .isAfter(dayjs.utc(new Date()).startOf('day'))
     ) {
@@ -70,7 +71,13 @@ export const main = async (prisma: PrismaClient) => {
     console.log(`👨‍🍳 Found ${totalRecipesNb} random recipes"`)
 
     // Events
-    const startPeriodDate = dayjs.utc().startOf('week').add(1, 'days').toDate()
+    const startPeriodDate = dayjs
+      .utc()
+      .startOf('week')
+      .subtract(2, 'hours') // Local time
+      .add(3, 'days')
+      .toDate()
+
     const events: Prisma.EventCreateInput[] = [
       {
         type: 'PERIOD_START',
@@ -82,7 +89,7 @@ export const main = async (prisma: PrismaClient) => {
         date: dayjs
           .utc(startPeriodDate)
           .add(shoppingWeeksInterval, 'weeks')
-          .startOf('day')
+          .subtract(1, 's')
           .toDate(),
         user: { connect: { id: userId } },
       },
@@ -93,6 +100,7 @@ export const main = async (prisma: PrismaClient) => {
           .startOf('week')
           .add(4, 'days')
           .set('hours', 12)
+          .subtract(2, 'hours') // Local time
           .set('minutes', 45)
           .toDate(),
         user: { connect: { id: userId } },
@@ -106,6 +114,7 @@ export const main = async (prisma: PrismaClient) => {
             .startOf('week')
             .add(weekIndex + 1, 'week')
             .set('hours', 12)
+            .subtract(2, 'hours') // Local time
             .set('minutes', 30)
             .toDate(),
           user: { connect: { id: userId } },

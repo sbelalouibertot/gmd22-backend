@@ -495,8 +495,8 @@ export namespace Prisma {
   export type DecimalJsLike = runtime.DecimalJsLike
 
   /**
-   * Prisma Client JS version: 3.15.1
-   * Query Engine version: 22b822189f46ef0dc5c5b503368d1bee01213980
+   * Prisma Client JS version: 3.15.2
+   * Query Engine version: 461d6a05159055555eb7dfb337c9fb271cbd4d7e
    */
   export type PrismaVersion = {
     client: string
