@@ -75,6 +75,37 @@ const inputRecipes: InputCustomRecipeInstruction = [
     image: null,
     numberOfPeople: null,
   },
+  {
+    name: 'Salade de lentilles corail, sauce au curry, miel et citron',
+    cookingDuration: 10,
+    preparationDuration: 10,
+    foodItems: [
+      ['Lentilles corail', 200, 'g'],
+      ['Oignon', 1],
+      ["Huile d'olive", 3, 'cl'],
+      ['Citron', 0.5],
+      ['Miel', 1, 'cuillère à café'],
+      ['Curry', 1, 'cuillère à café'],
+      ['Coriandre', 1, 'cuillère à café'],
+      ['Graines de sésame', 1],
+      ['Sel fin', 1],
+      ['Moulin à poivre', 1],
+    ],
+    instructions: [
+      ["Verser 200g de lentilles corail dans une casserole d'eau froide et les faire cuire pendant 10 min environ.", 10],
+      [
+        "Égoutter-les",
+      ],
+      ["Faire revenir un oignon émincé dans une poêle avec un peu d’huile."],
+      ["Préparer la sauce : dans un saladier, mélanger à l’aide d’un fouet le jus d'un demi citron, 1 cuillère à café de miel, 1 cuillère à café de curry, un peu de poivre, et l’huile d’olive."],
+      ["Verser les lentilles et les oignons."],
+      ["Saupoudrer d’un peu de graines de sésame."],
+      ["Mélanger et servir frais."],
+    ],
+
+    image: "https://carnetsgourmands.com/wp-content/uploads/2021/01/dhal-de-lentilles-corail.jpg",
+    numberOfPeople: 4,
+  },
 ]
 
 export const recipes: OutputCustomRecipeInstruction = inputRecipes.map(recipe => ({
