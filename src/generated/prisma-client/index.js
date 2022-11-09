@@ -244,7 +244,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/samybelaloui-bertot/Documents/Dev/private/gmd22/gmd22-backend/src/generated/prisma-client",
+      "value": "/Users/samy/Documents/Coding/gmd22/gmd22-backend/src/generated/prisma-client",
       "fromEnvVar": null
     },
     "config": {
