@@ -92,18 +92,47 @@ const inputRecipes: InputCustomRecipeInstruction = [
       ['Moulin à poivre', 1],
     ],
     instructions: [
-      ["Verser 200g de lentilles corail dans une casserole d'eau froide et les faire cuire pendant 10 min environ.", 10],
       [
-        "Égoutter-les",
+        "Verser 200g de lentilles corail dans une casserole d'eau froide et les faire cuire pendant 10 min environ.",
+        10,
       ],
-      ["Faire revenir un oignon émincé dans une poêle avec un peu d’huile."],
-      ["Préparer la sauce : dans un saladier, mélanger à l’aide d’un fouet le jus d'un demi citron, 1 cuillère à café de miel, 1 cuillère à café de curry, un peu de poivre, et l’huile d’olive."],
-      ["Verser les lentilles et les oignons."],
-      ["Saupoudrer d’un peu de graines de sésame."],
-      ["Mélanger et servir frais."],
+      ['Égoutter-les'],
+      ['Faire revenir un oignon émincé dans une poêle avec un peu d’huile.'],
+      [
+        "Préparer la sauce : dans un saladier, mélanger à l’aide d’un fouet le jus d'un demi citron, 1 cuillère à café de miel, 1 cuillère à café de curry, un peu de poivre, et l’huile d’olive.",
+      ],
+      ['Verser les lentilles et les oignons.'],
+      ['Saupoudrer d’un peu de graines de sésame.'],
+      ['Mélanger et servir frais.'],
     ],
 
-    image: "https://carnetsgourmands.com/wp-content/uploads/2021/01/dhal-de-lentilles-corail.jpg",
+    image: 'https://carnetsgourmands.com/wp-content/uploads/2021/01/dhal-de-lentilles-corail.jpg',
+    numberOfPeople: 2,
+  },
+  {
+    name: 'Pancakes protéinés à la whey',
+    cookingDuration: 10,
+    preparationDuration: 10,
+    foodItems: [
+      ['Banane', 1],
+      ["Flocons d'avoine", 50, 'g'],
+      ['Oeuf', 1],
+      ["Blanc d'oeuf", 1],
+      ['Whey', 30, 'g'],
+      ['Lait végétal', 20, 'ml'],
+    ],
+    instructions: [
+      [
+        "Dans un mixeur ou blender, ajoutez les flocons d'avoine, le lait, le blanc d'oeuf et l'oeuf et la whey si vous en ajoutez.",
+      ],
+      ['Coupez la banane en rondelles'],
+      ['Mixez puis ajoutez la banane coupée en rondelles.'],
+      [
+        "Versez vos pancakes sur une poêle chaude, faites-les cuire recto-verso et agrémentez selon votre goût (sirop d'érable, miel, chocolat, fruit..).",
+      ],
+    ],
+
+    image: 'https://img.cuisineaz.com/660x660/2019/07/12/i147980-pancake-proteine.jpeg',
     numberOfPeople: 4,
   },
 ]
